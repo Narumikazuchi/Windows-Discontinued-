@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWpf>true</UseWpf>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RepositoryUrl>https://github.com/Narumikazuchi/CSharp-Utilities</RepositoryUrl>
+    <Authors>Narumikazuchi</Authors>
+    <Copyright>©2021 Narumikazuchi</Copyright>
+    <Description>
+      A small framework containing some windows functionality I frequently use for my work.
+
+      Contents:
+      - Utility class
+      - HsvColor struct
+      - Wpf BorderlessWindow Maximize Fix
+      - Font and FontPicker
+      - ColorPicker
+      - ThemeManger, ITheme for visual Themes
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>Implemented the HslColor to represent the HSL color space.</PackageReleaseNotes>
+    <Version>2.1.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Narumikazuchi.Windows.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\..\..\Managed Code Libraries\Custom\net5.0-windows\Narumikazuchi.Windows.xml</DocumentationFile>
+    <OutputPath>..\..\..\Managed Code Libraries\Custom\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Narumikazuchi.Common" Version="3.*" />
+  </ItemGroup>
+
+</Project>

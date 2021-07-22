@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RepositoryUrl>https://github.com/Narumikazuchi/CSharp-Utilities</RepositoryUrl>
+    <Authors>Narumikazuchi</Authors>
+    <Copyright>©2021 Narumikazuchi</Copyright>
+    <Description>
+      A small framework containing a pre-written pipe server-client model for immediate use.
+
+      Contents:
+      - NamedPipe abstract class
+      - NamedPipeClient and NamedPipeServer classes
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>2.0.0</Version>
+    <PackageReleaseNotes>Updated event delegate to be convertable to bytes.</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Narumikazuchi.Windows.Pipes.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>..\..\..\Managed Code Libraries\Custom\net5.0-windows\Narumikazuchi.Windows.Pipes.xml</DocumentationFile>
+    <OutputPath>..\..\..\Managed Code Libraries\Custom\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Narumikazuchi.Common" Version="3.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
