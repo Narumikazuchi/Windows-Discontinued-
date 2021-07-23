@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Narumikazuchi.Serialization.Bytes;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -8,7 +9,7 @@ namespace Narumikazuchi.Windows.Pipes
     /// Represents a client that handles named pipe connections with a server.
     /// </summary>
     [DebuggerDisplay("Guid = {Guid}")]
-    public sealed partial class NamedPipeClient<T> : IPipeSubscriber<T> where T : IByteConvertable<T>
+    public sealed partial class NamedPipeClient<TMessage> : IPipeSubscriber<TMessage> where TMessage : class, IByteSerializable
     {
         #region Constructor
 
@@ -33,7 +34,15 @@ namespace Narumikazuchi.Windows.Pipes
 
         #endregion
 
-        #region Start/Stop
+        #region Data Processing
+
+        private void ProcessIncomingData(Byte[] data) => this.DataReceived?.Invoke(this._serializer.Deserialize(data, 0));
+
+        private Byte[] ProcessOutgoingData(TMessage data) => this._serializer.Serialize(data);
+
+        #endregion
+
+        #region IPipeSubscriber
 
         /// <summary>
         /// Initiates the connection to the server.
@@ -43,10 +52,10 @@ namespace Narumikazuchi.Windows.Pipes
             this._pipe = new ClientPipe(this._server, this._pipeName);
             this._pipe.PipeConnected += (id) => {
                 this._id = id;
-                this.Connected?.Invoke();
+                this.Connected?.Invoke(this, EventArgs.Empty);
                 this._isConnected = true;
             };
-            this._pipe.PipeClosed += () => this.Disconnected?.Invoke();
+            this._pipe.PipeClosed += () => this.Disconnected?.Invoke(this, EventArgs.Empty);
             this._pipe.DataReceived += (b) => this.ProcessIncomingData(b);
             this._pipe.Connect();
         }
@@ -60,10 +69,6 @@ namespace Narumikazuchi.Windows.Pipes
             this._isConnected = false;
         }
 
-        #endregion
-
-        #region Sending Data
-
         /// <summary>
         /// Sends the specified data to the server.
         /// </summary>
@@ -71,7 +76,7 @@ namespace Narumikazuchi.Windows.Pipes
         /// <exception cref="ArgumentException"/>
         /// <exception cref="ArgumentNullException"/>
         /// <exception cref="NotSupportedException"/>
-        public void Send([DisallowNull] in T data)
+        public void Send([DisallowNull] in TMessage data)
         {
             if (data is null)
             {
@@ -86,21 +91,9 @@ namespace Narumikazuchi.Windows.Pipes
                 throw new ArgumentException("The pipe couldn't be created or was null.");
             }
 
-            Byte[] result = ProcessOutgoingData(data);
+            Byte[] result = this.ProcessOutgoingData(data);
             this._pipe.WriteBytes(result);
         }
-
-        #endregion
-
-        #region Data Processing
-
-        private void ProcessIncomingData(Byte[] data)
-        {
-            Int32 temp = 0;
-            this.DataReceived?.Invoke(IByteConvertable<T>.ConvertFromBytes(data, ref temp));
-        }
-
-        private static Byte[] ProcessOutgoingData(T data) => data.ConvertToBytes();
 
         #endregion
 
@@ -109,15 +102,15 @@ namespace Narumikazuchi.Windows.Pipes
         /// <summary>
         /// Occurs when the client received data from the server.
         /// </summary>
-        public event DataReceivedEventHandler<T>? DataReceived;
+        public event DataReceivedEventHandler<TMessage>? DataReceived;
         /// <summary>
         /// Occurs when the client connected to the server.
         /// </summary>
-        public event Action? Connected;
+        public event EventHandler<NamedPipeClient<TMessage>>? Connected;
         /// <summary>
         /// Occurs when the client disconnected from the server or when the client couldn't connect at all.
         /// </summary>
-        public event Action? Disconnected;
+        public event EventHandler<NamedPipeClient<TMessage>>? Disconnected;
 
         #endregion
 
@@ -138,6 +131,8 @@ namespace Narumikazuchi.Windows.Pipes
 
         #region Fields
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly ByteSerializer<TMessage> _serializer = new();
         [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
         private String _server;
         [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]

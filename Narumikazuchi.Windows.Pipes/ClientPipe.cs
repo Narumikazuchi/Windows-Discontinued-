@@ -4,7 +4,7 @@ using System.IO.Pipes;
 
 namespace Narumikazuchi.Windows.Pipes
 {
-    partial class NamedPipeClient<T>
+    partial class NamedPipeClient<TMessage>
     {
         private sealed class ClientPipe : NamedPipe
         {

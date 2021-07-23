@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a generic named pipe wrapper.
     /// </summary>
-    public interface IPipeSubscriber<T> where T : IByteConvertable<T>
+    public interface IPipeSubscriber<TMessage> where TMessage : class, Serialization.Bytes.IByteSerializable
     {
         #region Start/Stop
 
@@ -24,7 +24,7 @@
         /// Sends the specified data over the named pipe.
         /// </summary>
         /// <param name="data">The data to send over the named pipe.</param>
-        void Send([System.Diagnostics.CodeAnalysis.DisallowNull] in T data);
+        void Send([System.Diagnostics.CodeAnalysis.DisallowNull] in TMessage data);
 
         #endregion
     }
