@@ -9,11 +9,19 @@ namespace Narumikazuchi.Windows
     {
         #region Constructor
 
-        internal ThemeChangedEventArgs(TTheme theme) => this.NewTheme = theme;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThemeChangedEventArgs{TTheme}"/> class.
+        /// </summary>
+        public ThemeChangedEventArgs(TTheme theme) => this.NewTheme = theme;
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the <see cref="ThemeChangedEventArgs{TTheme}"/> for the current theme.
+        /// </summary>
+        public static ThemeChangedEventArgs<TTheme> Current => new(ISingleton<ThemeManager<TTheme>>.Instance.SelectedTheme);
 
         /// <summary>
         /// Gets the new <see cref="ThemeManager{TTheme}.SelectedTheme"/>.
