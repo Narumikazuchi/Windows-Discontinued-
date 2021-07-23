@@ -8,20 +8,19 @@
     <RepositoryUrl>https://github.com/Narumikazuchi/CSharp-Utilities</RepositoryUrl>
     <Authors>Narumikazuchi</Authors>
     <Copyright>©2021 Narumikazuchi</Copyright>
-    <Description>
-      A small framework containing some windows functionality I frequently use for my work.
+    <Description>A small framework containing some windows functionality I frequently use for my work.
 
-      Contents:
-      - Utility class
-      - HsvColor struct
-      - Wpf BorderlessWindow Maximize Fix
-      - Font and FontPicker
-      - ColorPicker
-      - ThemeManger, ITheme for visual Themes
-    </Description>
+Contents:
+- Utility class
+- HsvColor struct
+- HslColor struct
+- Wpf BorderlessWindow Maximize Fix
+- Font and FontPicker
+- ColorPicker
+- ThemeManger, ITheme for visual Themes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Implemented the HslColor to represent the HSL color space.</PackageReleaseNotes>
-    <Version>2.1.0</Version>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <Version>2.2.0</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
@@ -43,7 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Narumikazuchi.Common" Version="3.*" />
+    <PackageReference Include="Narumikazuchi" Version="[1,2)" />
   </ItemGroup>
 
 </Project>

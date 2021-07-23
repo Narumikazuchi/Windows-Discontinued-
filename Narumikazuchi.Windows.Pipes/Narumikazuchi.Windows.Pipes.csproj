@@ -6,16 +6,14 @@
     <RepositoryUrl>https://github.com/Narumikazuchi/CSharp-Utilities</RepositoryUrl>
     <Authors>Narumikazuchi</Authors>
     <Copyright>©2021 Narumikazuchi</Copyright>
-    <Description>
-      A small framework containing a pre-written pipe server-client model for immediate use.
+    <Description>A small framework containing a pre-written pipe server-client model for immediate use.
 
-      Contents:
-      - NamedPipe abstract class
-      - NamedPipeClient and NamedPipeServer classes
-    </Description>
+Contents:
+- NamedPipe abstract class
+- NamedPipeClient and NamedPipeServer classes</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0</Version>
-    <PackageReleaseNotes>Updated event delegate to be convertable to bytes.</PackageReleaseNotes>
+    <Version>3.0.0</Version>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
@@ -29,7 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Narumikazuchi.Common" Version="3.*" />
+    <PackageReference Include="Narumikazuchi" Version="[1,2)" />
+    <PackageReference Include="Narumikazuchi.Serialization.Bytes" Version="[1,2)" />
   </ItemGroup>
 
   <ItemGroup>
