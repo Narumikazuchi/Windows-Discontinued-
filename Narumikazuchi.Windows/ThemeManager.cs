@@ -7,10 +7,10 @@ namespace Narumikazuchi.Windows
     /// The <see cref="ThemeManager{TTheme}"/> singleton loads and handles visual themes for windowed applications.
     /// </summary>
     /// <remarks>
-    /// This class is an <see cref="ISingleton{T}"/> and can therefore only be accessed by <see cref="ISingleton{T}.Instance"/>.
+    /// This class is an <see cref="Singleton"/> and can therefore only be accessed by <see cref="Singleton{T}.Instance"/>.
     /// </remarks>
     [DebuggerDisplay("{SelectedTheme.Name}")]
-    public sealed class ThemeManager<TTheme> : ISingleton<ThemeManager<TTheme>> where TTheme : struct, IEquatable<TTheme>, ITheme
+    public sealed class ThemeManager<TTheme> : Singleton where TTheme : struct, IEquatable<TTheme>, ITheme
     {
         #region Constructor
 

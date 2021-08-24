@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Narumikazuchi.Windows.Pipes</name>
+    </assembly>
+    <members>
+        <member name="T:Narumikazuchi.Windows.Pipes.NamedPipeClient`1">
+            <summary>
+            Represents a client that handles named pipe connections with a server.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.#ctor(System.String,System.String)">
+            <summary>
+            Instantiates a new client that can only connect to the sepcified server and specified named pipe.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Start">
+            <summary>
+            Initiates the connection to the server.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Stop">
+            <summary>
+            Closes the connection to the server.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Send(`0@)">
+            <summary>
+            Sends the specified data to the server.
+            </summary>
+            <param name="data">The data to send.</param>
+            <exception cref="T:System.ArgumentException"/>
+            <exception cref="T:System.ArgumentNullException"/>
+            <exception cref="T:System.NotSupportedException"/>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.DataReceived">
+            <summary>
+            Occurs when the client received data from the server.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Connected">
+            <summary>
+            Occurs when the client connected to the server.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Disconnected">
+            <summary>
+            Occurs when the client disconnected from the server or when the client couldn't connect at all.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.IsConnected">
+            <summary>
+            Gets if the client is currently connected to the server.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Pipes.NamedPipeClient`1.Id">
+            <summary>
+            Gets the unique <see cref="T:System.Guid"/> of this client.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Pipes.DataReceivedEventHandler`1">
+            <summary>
+            Represents the method which will handle a data received event.
+            </summary>
+            <param name="data">The received data.</param>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Pipes.MappedDataReceivedEventHandler`2">
+            <summary>
+            Represents the method which will handle a data received event, included the mapped key for the pipe that send it.
+            </summary>
+            <param name="key">The key of the mapped sender pipe.</param>
+            <param name="data">The received data.</param>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Pipes.IPipeSubscriber`1">
+            <summary>
+            Describes a generic named pipe wrapper.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.IPipeSubscriber`1.Start">
+            <summary>
+            Starts the wrapper and initiates the connection.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.IPipeSubscriber`1.Stop">
+            <summary>
+            Stops the wrapper and closes the connection.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.IPipeSubscriber`1.Send(`0@)">
+            <summary>
+            Sends the specified data over the named pipe.
+            </summary>
+            <param name="data">The data to send over the named pipe.</param>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Pipes.NamedPipe">
+            <summary>
+            Implements the basic functionality of a named pipe.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.#ctor">
+            <summary>
+            Generates a <see cref="T:System.Guid"/> for this named pipe.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.Flush">
+            <summary>
+            Clears the buffer for the named pipe and writes any data to the other end of the connection.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.StartByteReaderAsync(System.Action{System.Byte[]})">
+            <summary>
+            Performs a read operation for the underlying stream.
+            </summary>
+            <param name="onReceivedPacket">The method which handles the processing of the received bytes.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.WriteBytes(System.Byte[])">
+            <summary>
+            Writes the specified data to the pipe.
+            </summary>
+            <param name="bytes">The data to write.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.StartReaderAsync">
+            <summary>
+            Initiates the read process for the named pipe. The read process will only stop once the pipe was closed.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.Close">
+            <summary>
+            Closes the pipe connection.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.Dispose">
+            <summary>
+            Closes the pipe connection and disposes any unmanged resouces used by this object.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipe.PipeConnected">
+            <summary>
+            Occurs when the pipe connected.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipe.PipeClosed">
+            <summary>
+            Occurs when the pipe disconnected or couldn't connect at all.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipe.DataReceived">
+            <summary>
+            Occurs when the pipe received data over it's connection.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipe.OnConnected">
+            <summary>
+            Triggers the <see cref="E:Narumikazuchi.Windows.Pipes.NamedPipe.PipeConnected"/> event for this pipe.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Pipes.NamedPipe.Id">
+            <summary>
+            Gets the unique <see cref="T:System.Guid"/> of this pipe.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Pipes.NamedPipe.Pipe">
+            <summary>
+            The underlying <see cref="T:System.IO.Pipes.PipeStream"/> for this named pipe.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Pipes.NamedPipeServer`1">
+            <summary>
+            Represents a server that handles named pipe connections with clients.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.#ctor(System.String)">
+            <summary>
+            Instantiates a new server with the specified pipe name.
+            </summary>
+            <param name="pipeName">The name for the named pipe connection.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.#ctor(System.String,System.Int32)">
+             <summary>
+            Instantiates a new server with the specified pipe name and the specified amount of max simultanous pipe instances.
+             </summary>
+             <param name="pipeName">The name for the named pipe connection.</param>
+             <param name="maxInstances">The max amount of simultanous pipe instances.</param>
+             <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.Send(System.Guid,`0@)">
+            <summary>
+            Sends the specified data to the client with the specified id.
+            </summary>
+            <param name="clientId">The <see cref="T:System.Guid"/> of the client to send the data to.</param>
+            <param name="data">The data to send.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.Start">
+            <summary>
+            Starts the server and begins waiting for connections.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.Stop">
+            <summary>
+            Closes any open pipe and stops the server.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.Send(`0@)">
+            <summary>
+            Broadcasts the specified data to all connected clients.
+            </summary>
+            <param name="data">The data to send.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.DataReceived">
+            <summary>
+            Occurs when the server received data from the client with the given <see cref="T:System.Guid"/>.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.ClientConnected">
+            <summary>
+            Occurs when a new client has connected to the server.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.ClientDisconnected">
+            <summary>
+            Occurs when a client disconnected from the server.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Pipes.NamedPipeServer`1.IsRunning">
+            <summary>
+            Gets if the server is currently running and actively handling or waiting for connections.
+            </summary>
+        </member>
+    </members>
+</doc>

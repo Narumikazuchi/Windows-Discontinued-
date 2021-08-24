@@ -21,7 +21,7 @@ namespace Narumikazuchi.Windows
         /// <summary>
         /// Gets the <see cref="ThemeChangedEventArgs{TTheme}"/> for the current theme.
         /// </summary>
-        public static ThemeChangedEventArgs<TTheme> Current => new(ISingleton<ThemeManager<TTheme>>.Instance.SelectedTheme);
+        public static ThemeChangedEventArgs<TTheme> Current => new(Singleton<ThemeManager<TTheme>>.Instance.SelectedTheme);
 
         /// <summary>
         /// Gets the new <see cref="ThemeManager{TTheme}.SelectedTheme"/>.
