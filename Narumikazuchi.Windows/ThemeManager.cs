@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace Narumikazuchi.Windows
 {
@@ -10,29 +11,13 @@ namespace Narumikazuchi.Windows
     /// This class is an <see cref="Singleton"/> and can therefore only be accessed by <see cref="Singleton{T}.Instance"/>.
     /// </remarks>
     [DebuggerDisplay("{SelectedTheme.Name}")]
-    public sealed class ThemeManager<TTheme> : Singleton where TTheme : struct, IEquatable<TTheme>, ITheme
+    public sealed partial class ThemeManager<TTheme> : Singleton 
+        where TTheme : struct, IEquatable<TTheme>, ITheme
     {
-        #region Constructor
-
-        private ThemeManager() { }
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Occurs after the applications visual theme has changed.
-        /// </summary>
-        public event EventHandler<ThemeManager<TTheme>, ThemeChangedEventArgs<TTheme>>? ThemeChanged;
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets or sets the currently selected <typeparamref name="TTheme"/>.
         /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
+        [Pure]
         public TTheme SelectedTheme
         {
             get => this._theme;
@@ -44,17 +29,23 @@ namespace Narumikazuchi.Windows
                     return;
                 }
                 this._theme = value;
-                this.ThemeChanged?.Invoke(this, new(this._theme));
+                this.ThemeChanged?.Invoke(this, 
+                                          new(this._theme));
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Occurs after the applications visual theme has changed.
+        /// </summary>
+        public event EventHandler<ThemeManager<TTheme>, ThemeChangedEventArgs<TTheme>>? ThemeChanged;
+    }
 
-        #region Fields
+    // Non-Public
+    partial class ThemeManager<TTheme>
+    {
+        private ThemeManager() { }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private TTheme _theme = default;
-
-        #endregion
     }
 }

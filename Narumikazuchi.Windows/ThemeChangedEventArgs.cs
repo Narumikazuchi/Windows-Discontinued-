@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 
 namespace Narumikazuchi.Windows
 {
@@ -7,27 +9,24 @@ namespace Narumikazuchi.Windows
     /// </summary>
     public sealed class ThemeChangedEventArgs<TTheme> : EventArgs where TTheme : struct, IEquatable<TTheme>, ITheme
     {
-        #region Constructor
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ThemeChangedEventArgs{TTheme}"/> class.
         /// </summary>
-        public ThemeChangedEventArgs(TTheme theme) => this.NewTheme = theme;
-
-        #endregion
-
-        #region Properties
+        public ThemeChangedEventArgs(TTheme theme) => 
+            this.NewTheme = theme;
 
         /// <summary>
         /// Gets the <see cref="ThemeChangedEventArgs{TTheme}"/> for the current theme.
         /// </summary>
-        public static ThemeChangedEventArgs<TTheme> Current => new(Singleton<ThemeManager<TTheme>>.Instance.SelectedTheme);
+        [Pure]
+        [NotNull]
+        public static ThemeChangedEventArgs<TTheme> Current => 
+            new(Singleton<ThemeManager<TTheme>>.Instance.SelectedTheme);
 
         /// <summary>
         /// Gets the new <see cref="ThemeManager{TTheme}.SelectedTheme"/>.
         /// </summary>
+        [Pure]
         public TTheme NewTheme { get; }
-
-        #endregion
     }
 }

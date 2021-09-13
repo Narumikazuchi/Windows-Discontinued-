@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -12,10 +13,47 @@ namespace Narumikazuchi.Windows
     /// <summary>
     /// Fixes the maximize issue with <see cref="WindowStyle.None"/> covering the taskbar.
     /// </summary>
-    public sealed class BorderlessWindowResizer
+    public sealed partial class BorderlessWindowResizer
     {
-        #region Constructor
+#pragma warning disable
+        /// <summary>
+        /// Attaches a new instance of <see cref="BorderlessWindowResizer"/> to the <see cref="Window"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"/>
+        public static void AttachTo([DisallowNull] Window window) => 
+            _attached.Add(window, 
+                          new(window));
+#pragma warning restore
 
+        /// <summary>
+        /// Gets the <see cref="BorderlessWindowResizer"/> attached to the specified <see cref="Window"/>.
+        /// </summary>
+        /// <param name="window">The <see cref="Window"/> to look up.</param>
+        /// <returns>The <see cref="BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
+        [Pure]
+        [return: MaybeNull]
+        public static BorderlessWindowResizer? GetResizerForWindow([DisallowNull] Window window)
+        {
+            if (window is null)
+            {
+                throw new ArgumentNullException(nameof(window));
+            }
+            if (!_attached.ContainsKey(window))
+            {
+                return null;
+            }
+            return _attached[window];
+        }
+
+        /// <summary>
+        /// Occurs when the dock of the <see cref="Window"/> changed.
+        /// </summary>
+        public event EventHandler<BorderlessWindowResizer, WindowDockEventArgs>? WindowDockChanged;
+    }
+
+    // Non-Public
+    partial class BorderlessWindowResizer
+    {
         private BorderlessWindowResizer(Window window)
         {
             if (window is null)
@@ -31,34 +69,6 @@ namespace Narumikazuchi.Windows
             this._window.SizeChanged += this.Window_SizeChanged;
         }
 
-#pragma warning disable
-        /// <summary>
-        /// Attaches a new instance of <see cref="BorderlessWindowResizer"/> to the <see cref="Window"/>.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"/>
-        public static void AttachTo([DisallowNull] Window window) => _attached.Add(window, new(window));
-#pragma warning restore
-
-        #endregion
-
-        #region Get Resizer
-
-        /// <summary>
-        /// Gets the <see cref="BorderlessWindowResizer"/> attached to the specified <see cref="Window"/>.
-        /// </summary>
-        /// <param name="window">The <see cref="Window"/> to look up.</param>
-        /// <returns>The <see cref="BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
-        public static BorderlessWindowResizer? GetResizerForWindow([DisallowNull] Window window) => 
-            window is null 
-                ? throw new ArgumentNullException(nameof(window)) 
-                : !_attached.ContainsKey(window) 
-                    ? null 
-                    : _attached[window];
-
-        #endregion
-
-        #region Transform
-
         private void GetTransfrom()
         {
             PresentationSource source = PresentationSource.FromVisual(this._window);
@@ -70,11 +80,11 @@ namespace Narumikazuchi.Windows
             this._transform = source.CompositionTarget.TransformToDevice;
         }
 
-        #endregion
-
-        #region WndProc
-
-        private IntPtr WindowProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, ref Boolean handled)
+        private IntPtr WindowProc(IntPtr hwnd, 
+                                  Int32 msg, 
+                                  IntPtr wParam, 
+                                  IntPtr lParam, 
+                                  ref Boolean handled)
         {
             // WM_GETMINMAXINFO
             if (msg == 0x0024)
@@ -87,15 +97,20 @@ namespace Narumikazuchi.Windows
 
         private void WmGetMinMaxInfo(in IntPtr lParam)
         {
+#nullable disable
             GetCursorPos(out __Point lpMouseLocation);
-            IntPtr lpPrimaryScreen = MonitorFromPoint(new __Point(0, 0), __MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
+            IntPtr lpPrimaryScreen = MonitorFromPoint(new __Point(0, 
+                                                                  0), 
+                                                      __MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
             __MonitorInfo primaryScreenInfo = new();
-            if (!GetMonitorInfo(lpPrimaryScreen, primaryScreenInfo))
+            if (!GetMonitorInfo(lpPrimaryScreen, 
+                                primaryScreenInfo))
             {
                 return;
             }
 
-            IntPtr lpCurrentScreen = MonitorFromPoint(lpMouseLocation, __MonitorOptions.MONITOR_DEFAULTTONEAREST);
+            IntPtr lpCurrentScreen = MonitorFromPoint(lpMouseLocation, 
+                                                      __MonitorOptions.MONITOR_DEFAULTTONEAREST);
             if (lpCurrentScreen != this._lastScreen ||
                 this._transform == default)
             {
@@ -103,9 +118,8 @@ namespace Narumikazuchi.Windows
             }
             this._lastScreen = lpCurrentScreen;
 
-#nullable disable
-            __MinMaxInfo info = (__MinMaxInfo)Marshal.PtrToStructure(lParam, typeof(__MinMaxInfo));
-#nullable enable
+            __MinMaxInfo info = (__MinMaxInfo)Marshal.PtrToStructure(lParam, 
+                                                                     typeof(__MinMaxInfo));
             if (lpPrimaryScreen == lpCurrentScreen)
             {
                 info.ptMaxPosition.X = primaryScreenInfo.rcWork.Left;
@@ -121,19 +135,23 @@ namespace Narumikazuchi.Windows
                 info.ptMaxSize.Y = primaryScreenInfo.rcMonitor.Bottom - primaryScreenInfo.rcMonitor.Top;
             }
 
-            Point minSize = this._transform.Transform(new Point(this._window.MinWidth, this._window.MinHeight));
+            Point minSize = this._transform.Transform(new Point(this._window.MinWidth, 
+                                                                this._window.MinHeight));
             info.ptMinTrackSize.X = (Int32)minSize.X;
             info.ptMinTrackSize.Y = (Int32)minSize.Y;
 
-            this._screenSize = new Rect(info.ptMaxPosition.X, info.ptMaxPosition.Y, info.ptMaxSize.X, info.ptMaxSize.Y);
-            Marshal.StructureToPtr(info, lParam, true);
+            this._screenSize = new Rect(info.ptMaxPosition.X, 
+                                        info.ptMaxPosition.Y, 
+                                        info.ptMaxSize.X, 
+                                        info.ptMaxSize.Y);
+            Marshal.StructureToPtr(info, 
+                                   lParam, 
+                                   true);
+#nullable enable
         }
 
-        #endregion
-
-        #region Event Handlers
-
-        private void Window_SourceInitialized(Object? sender, EventArgs e)
+        private void Window_SourceInitialized(Object? sender, 
+                                              EventArgs e)
         {
             IntPtr handle = new WindowInteropHelper(this._window).Handle;
             HwndSource source = HwndSource.FromHwnd(handle);
@@ -145,7 +163,8 @@ namespace Narumikazuchi.Windows
             source.AddHook(this.WindowProc);
         }
 
-        private void Window_SizeChanged(Object? sender, SizeChangedEventArgs e)
+        private void Window_SizeChanged(Object? sender, 
+                                        SizeChangedEventArgs e)
         {
             if (this._transform == default)
             {
@@ -159,25 +178,37 @@ namespace Narumikazuchi.Windows
             Double right = left + this._window.Width;
             Double bottom = top + this._window.Height;
 
-            Point topLeft = this._transform.Transform(new Point(left, top));
-            Point bottomRight = this._transform.Transform(new Point(right, bottom));
+            Point topLeft = this._transform.Transform(new Point(left, 
+                                                                top));
+            Point bottomRight = this._transform.Transform(new Point(right, 
+                                                                    bottom));
 
             Boolean edgedLeft = topLeft.X <= this._screenSize.Left + EDGETOLERANCE;
             Boolean edgedTop = topLeft.Y <= this._screenSize.Top + EDGETOLERANCE;
             Boolean edgedRight = bottomRight.X >= this._screenSize.Right - EDGETOLERANCE;
             Boolean edgedBottom = bottomRight.Y >= this._screenSize.Bottom - EDGETOLERANCE;
 
-            WindowDockPosition dock = edgedTop && edgedBottom && edgedLeft ? WindowDockPosition.Left : edgedTop && edgedBottom && edgedRight ? WindowDockPosition.Right : WindowDockPosition.Undocked;
+            WindowDockPosition dock = WindowDockPosition.Undocked;
+            if (edgedTop &&
+                edgedBottom && 
+                edgedLeft)
+            {
+                dock = WindowDockPosition.Left;
+            }
+            else if (edgedTop &&
+                     edgedBottom &&
+                     edgedRight)
+            {
+                dock = WindowDockPosition.Right;
+            }
+
             if (dock != this._lastDock)
             {
-                this.WindowDockChanged?.Invoke(dock);
+                this.WindowDockChanged?.Invoke(this,
+                                               new(dock));
                 this._lastDock = dock;
             }
         }
-
-        #endregion
-
-        #region Interop
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -185,23 +216,12 @@ namespace Narumikazuchi.Windows
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern Boolean GetMonitorInfo(IntPtr hMonitor, __MonitorInfo lpmi);
+        private static extern Boolean GetMonitorInfo(IntPtr hMonitor, 
+                                                     __MonitorInfo lpmi);
 
         [DllImport("user32.dll")]
-        private static extern IntPtr MonitorFromPoint(__Point pt, __MonitorOptions dwFlags);
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Occurs when the dock of the <see cref="Window"/> changed.
-        /// </summary>
-        public event Action<WindowDockPosition>? WindowDockChanged;
-
-        #endregion
-
-        #region Fields
+        private static extern IntPtr MonitorFromPoint(__Point pt, 
+                                                      __MonitorOptions dwFlags);
 
         private static Dictionary<Window, BorderlessWindowResizer> _attached = new();
         private readonly Window _window;
@@ -210,12 +230,6 @@ namespace Narumikazuchi.Windows
         private Rect _screenSize = new();
         private Matrix _transform = default;
 
-        #endregion
-
-        #region Constants
-
         private const Int32 EDGETOLERANCE = 2;
-
-        #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using DColor = System.Drawing.Color;
 using MColor = System.Windows.Media.Color;
@@ -10,27 +11,42 @@ namespace Narumikazuchi.Windows
     /// Represents a color on the HSL color space.
     /// </summary>
     [DebuggerDisplay("{ToString()}")]
-    public readonly struct HslColor : IEquatable<HslColor>
+    public readonly partial struct HslColor : IEquatable<HslColor>
     {
-        #region Constructor
-
         /// <summary>
         /// Creates a new <see cref="HslColor"/> from the specified values.
         /// </summary>
         /// <param name="h">The hue-component of the color.</param>
         /// <param name="s">The saturation-component of the color.</param>
         /// <param name="l">The light-component of the color.</param>
-        public static HslColor FromHsl(in Double h, in Double s, in Double l) => new() { H = h, S = s, L = l };
+        public static HslColor FromHsl(in Double h, 
+                                       in Double s, 
+                                       in Double l) => 
+            new() 
+            { 
+                H = h, 
+                S = s, 
+                L = l 
+            };
         /// <summary>
         /// Creates a new <see cref="HslColor"/> from the specified values.
         /// </summary>
         /// <param name="r">The red-component of the RGB color space.</param>
         /// <param name="g">The green-component of the RGB color space.</param>
         /// <param name="b">The blue-component of the RGB color space.</param>
-        public static HslColor FromRgb(in Byte r, in Byte g, in Byte b)
+        public static HslColor FromRgb(in Byte r, 
+                                       in Byte g, 
+                                       in Byte b)
         {
-            (Double, Double, Double) hsl = RgbToHsl(r, g, b);
-            return new() { H = hsl.Item1, S = hsl.Item2, L = hsl.Item3 };
+            (Double, Double, Double) hsl = RgbToHsl(r, 
+                                                    g, 
+                                                    b);
+            return new() 
+            { 
+                H = hsl.Item1, 
+                S = hsl.Item2, 
+                L = hsl.Item3 
+            };
         }
         /// <summary>
         /// Creates a new <see cref="HslColor"/> from the specified values.
@@ -38,18 +54,117 @@ namespace Narumikazuchi.Windows
         /// <param name="h">The hue-component of the color.</param>
         /// <param name="s">The saturation-component of the color.</param>
         /// <param name="v">The value-component of the color.</param>
-        public static HslColor FromHsv(in Double h, in Double s, in Double v)
+        public static HslColor FromHsv(in Double h, 
+                                       in Double s, 
+                                       in Double v)
         {
-            HsvColor hsv = HsvColor.FromHsv(h, s, v);
+            HsvColor hsv = HsvColor.FromHsv(h, 
+                                            s, 
+                                            v);
             MColor rgb = (MColor)hsv;
-            (Double, Double, Double) hsl = RgbToHsl(rgb.R, rgb.G, rgb.B);
-            return new() { H = hsl.Item1, S = hsl.Item2, L = hsl.Item3 };
+            (Double, Double, Double) hsl = RgbToHsl(rgb.R, 
+                                                    rgb.G, 
+                                                    rgb.B);
+            return new() 
+            { 
+                H = hsl.Item1, 
+                S = hsl.Item2, 
+                L = hsl.Item3 
+            };
         }
 
-        #endregion
+        /// <inheritdoc/>
+        [Pure]
+        [return: MaybeNull]
+        public override String? ToString()
+        {
+            (Byte r, Byte g, Byte b) rgb = HslToRgb(this.H, 
+                                                    this.S, 
+                                                    this.L);
+            MColor color = MColor.FromArgb(255, 
+                                           rgb.r, 
+                                           rgb.g, 
+                                           rgb.b);
+            return color.ToString();
+        }
 
-        #region Conversion
+#pragma warning disable
+        public static explicit operator DColor(in HslColor color)
+        {
+            (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H, 
+                                                    color.S, 
+                                                    color.L);
+            return DColor.FromArgb(255, 
+                                   rgb.r, 
+                                   rgb.g, 
+                                   rgb.b);
+        }
+        public static explicit operator MColor(in HslColor color)
+        {
+            (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H,    
+                                                    color.S, 
+                                                    color.L);
+            return MColor.FromArgb(255, 
+                                   rgb.r, 
+                                   rgb.g, 
+                                   rgb.b);
+        }
+        public static explicit operator HsvColor(in HslColor color)
+        {
+            MColor temp = (MColor)color;
+            return (HsvColor)temp;
+        }
+        public static explicit operator HslColor(in DColor color)
+        {
+            (Double h, Double s, Double l) hsl = RgbToHsl(color.R, 
+                                                          color.G, 
+                                                          color.B);
+            return new() 
+            { 
+                H = hsl.h, 
+                S = hsl.s, 
+                L = hsl.l 
+            };
+        }
+        public static explicit operator HslColor(in MColor color)
+        {
+            (Double h, Double s, Double l) hsl = RgbToHsl(color.R, 
+                                                          color.G, 
+                                                          color.B);
+            return new() 
+            { 
+                H = hsl.h, 
+                S = hsl.s, 
+                L = hsl.l 
+            };
+        }
+        public static explicit operator HslColor(in HsvColor color)
+        {
+            MColor temp = (MColor)color;
+            return (HslColor)temp;
+        }
+#pragma warning restore
 
+        /// <summary>
+        /// Gets or sets the hue-component of this color.
+        /// </summary>
+        [Pure]
+        public Double H { get; init; }
+        /// <summary>
+        /// Gets or sets the saturation-component of this color.
+        /// </summary>
+        [Pure]
+        public Double S { get; init; }
+        /// <summary>
+        /// Gets or sets the light-component of this color.
+        /// </summary>
+        [Pure]
+        public Double L { get; init; }
+    }
+
+    // Non-Public
+    partial struct HslColor
+    {
         private static (Byte r, Byte g, Byte b) HslToRgb(Double h, in Double s, in Double l)
         {
             Double c = (1 - Math.Abs(2 * l - 1)) * s;
@@ -59,7 +174,7 @@ namespace Narumikazuchi.Windows
             Double r2 = 0d;
             Double g2 = 0d;
             Double b2 = 0d;
-            if (h is >= 0d 
+            if (h is >= 0d
                   and < 60d)
             {
                 r2 = c;
@@ -146,97 +261,36 @@ namespace Narumikazuchi.Windows
 
             return (h, s, l);
         }
+    }
 
-        #endregion
-
-        #region Object
-
-        /// <inheritdoc/>
-        [Pure]
-        public override Int32 GetHashCode() => this.H.GetHashCode() ^ this.S.GetHashCode() ^ this.L.GetHashCode();
-
-        /// <inheritdoc/>
-        [Pure]
-        public override Boolean Equals(Object? obj) => obj is HslColor other && this.Equals(other);
-
-        /// <inheritdoc/>
-        [Pure]
-        public override String ToString()
-        {
-            (Byte r, Byte g, Byte b) rgb = HslToRgb(this.H, this.S, this.L);
-            MColor color = MColor.FromArgb(255, rgb.r, rgb.g, rgb.b);
-            return color.ToString();
-        }
-
-        #endregion
-
-        #region IEquatable
-
+    // IEquatable<HslColor>
+    partial struct HslColor : IEquatable<HslColor>
+    {
         /// <inheritdoc/>
         [Pure]
         public Boolean Equals(HslColor other) =>
-            this.H == other.H && this.S == other.S && this.L == other.L;
+            this.H == other.H && 
+            this.S == other.S && 
+            this.L == other.L;
 
-        #endregion
+        /// <inheritdoc/>
+        [Pure]
+        public override Boolean Equals([AllowNull] Object? obj) => 
+            obj is HslColor other && 
+            this.Equals(other);
 
-        #region Operators
+        /// <inheritdoc/>
+        [Pure]
+        public override Int32 GetHashCode() => 
+            this.H.GetHashCode() ^ 
+            this.S.GetHashCode() ^ 
+            this.L.GetHashCode();
 
 #pragma warning disable
-        public static explicit operator DColor(in HslColor color)
-        {
-            (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H, color.S, color.L);
-            return DColor.FromArgb(255, rgb.r, rgb.g, rgb.b);
-        }
-        public static explicit operator MColor(in HslColor color)
-        {
-            (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H, color.S, color.L);
-            return MColor.FromArgb(255, rgb.r, rgb.g, rgb.b);
-        }
-        public static explicit operator HsvColor(in HslColor color)
-        {
-            MColor temp = (MColor)color;
-            return (HsvColor)temp;
-        }
-        public static explicit operator HslColor(in DColor color)
-        {
-            (Double h, Double s, Double l) hsl = RgbToHsl(color.R, color.G, color.B);
-            return new() { H = hsl.h, S = hsl.s, L = hsl.l };
-        }
-        public static explicit operator HslColor(in MColor color)
-        {
-            (Double h, Double s, Double l) hsl = RgbToHsl(color.R, color.G, color.B);
-            return new() { H = hsl.h, S = hsl.s, L = hsl.l };
-        }
-        public static explicit operator HslColor(in HsvColor color)
-        {
-            MColor temp = (MColor)color;
-            return (HslColor)temp;
-        }
-
-        public static Boolean operator ==(in HslColor left, in HslColor right) => left.Equals(right);
-        public static Boolean operator !=(in HslColor left, in HslColor right) => !left.Equals(right);
+        public static Boolean operator ==(in HslColor left, in HslColor right) => 
+            left.Equals(right);
+        public static Boolean operator !=(in HslColor left, in HslColor right) => 
+            !left.Equals(right);
 #pragma warning restore
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the hue-component of this color.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
-        public Double H { get; init; }
-        /// <summary>
-        /// Gets or sets the saturation-component of this color.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
-        public Double S { get; init; }
-        /// <summary>
-        /// Gets or sets the light-component of this color.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
-        public Double L { get; init; }
-
-        #endregion
     }
 }

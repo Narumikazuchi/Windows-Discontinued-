@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,10 +15,192 @@ namespace Narumikazuchi.Windows
     /// <summary>
     /// Represents a window which can select a <see cref="Font"/>.
     /// </summary>
-    public sealed class FontPicker : Window
+    public sealed partial class FontPicker : Window
     {
-        #region Constructor
+        /// <summary>
+        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
+        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Font? Show([DisallowNull] Window owner)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
 
+            FontPicker picker = new(owner)
+            {
+                SelectedFont = Font.Default
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                    ? picker.SelectedFont
+                    : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
+        /// <param name="initial">The initally selected <see cref="Font"/>.</param>
+        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Font? Show([DisallowNull] Window owner, 
+                                 in Font initial)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+
+            FontPicker picker = new(owner)
+            {
+                SelectedFont = initial
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                    ? picker.SelectedFont
+                    : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
+        /// <param name="withStyle">The style to apply to the <see cref="FontPicker"/>.</param>
+        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Font? Show([DisallowNull] Window owner, 
+                                 [DisallowNull] Style withStyle)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+            if (withStyle is null)
+            {
+                throw new ArgumentNullException(nameof(withStyle));
+            }
+
+            FontPicker picker = new(owner)
+            {
+                SelectedFont = Font.Default,
+                Style = withStyle
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                    ? picker.SelectedFont
+                    : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
+        /// <param name="initial">The initally selected <see cref="Font"/>.</param>
+        /// <param name="withStyle">The style to apply to the <see cref="FontPicker"/>.</param>
+        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Font? Show([DisallowNull] Window owner, 
+                                 in Font initial, 
+                                 [DisallowNull] Style withStyle)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+            if (withStyle is null)
+            {
+                throw new ArgumentNullException(nameof(withStyle));
+            }
+
+            FontPicker picker = new(owner)
+            {
+                SelectedFont = initial,
+                Style = withStyle
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                    ? picker.SelectedFont
+                    : null;
+        }
+
+        /// <inheritdoc/>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (this._lstFamily is not null)
+            {
+                this._lstFamily.SelectionChanged -= this.Family_SelectionChanged;
+            }
+            this._lstFamily = this.GetTemplateChild<ListBox>(nameof(this._lstFamily));
+            this._lstFamily.SelectionChanged += this.Family_SelectionChanged;
+
+            if (this._lstTypefaces is not null)
+            {
+                this._lstTypefaces.SelectionChanged -= this.Typefaces_SelectionChanged;
+            }
+            this._lstTypefaces = this.GetTemplateChild<ListBox>(nameof(this._lstTypefaces));
+            this._lstTypefaces.SelectionChanged += this.Typefaces_SelectionChanged;
+
+            this._sampleText = this.GetTemplateChild<TextBox>(nameof(this._sampleText));
+
+            if (this._fontSizeSlider is not null)
+            {
+                this._fontSizeSlider.ValueChanged -= this.SizeSlider_ValueChanged;
+            }
+            this._fontSizeSlider = this.GetTemplateChild<Slider>(nameof(this._fontSizeSlider));
+            this._fontSizeSlider.ValueChanged += this.SizeSlider_ValueChanged;
+
+            if (this._btnOk is not null)
+            {
+                this._btnOk.Click -= this.Ok_Click;
+            }
+            this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
+            this._btnOk.Click += this.Ok_Click;
+
+            this._lstFamily.ItemsSource = Fonts.SystemFontFamilies;
+            this._lstTypefaces.ItemsSource = this.SelectedFont.Family.GetTypefaces();
+            this._lstFamily.SelectedItem = this.SelectedFont.Family;
+            this._lstFamily.ScrollIntoView(this._lstFamily.SelectedItem);
+            this._lstTypefaces.SelectedItem = this.SelectedFont.Typeface;
+            this._fontSizeSlider.Value = this.SelectedFont.Size;
+            this._sampleText.DataContext = this.SelectedFont;
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedFont"/> property.
+        /// </summary>
+        [Pure]
+        [NotNull]
+        public static readonly DependencyProperty SelectedFontProperty =
+            DependencyProperty.Register(
+                nameof(SelectedFont),
+                typeof(Font),
+                typeof(FontPicker),
+                new PropertyMetadata(Font.Default));
+        /// <summary>
+        /// Gets or sets the <see cref="Font"/> that this picker has currently selected.
+        /// </summary>
+        public Font SelectedFont
+        {
+            get => (Font)this.GetValue(SelectedFontProperty);
+            set => this.SetValue(SelectedFontProperty, 
+                                 value);
+        }
+    }
+
+    // Non-Public
+    partial class FontPicker
+    {
 #nullable disable
         private FontPicker(Window owner)
         {
@@ -31,10 +214,6 @@ namespace Narumikazuchi.Windows
         }
 #nullable enable
 
-        #endregion
-
-        #region Initialize
-
         private void InitializeComponent()
         {
             if (this._contentLoaded)
@@ -43,18 +222,17 @@ namespace Narumikazuchi.Windows
             }
 
             this._contentLoaded = true;
-            #region Window
             this.Width = 592;
             this.Height = 380;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStyle = WindowStyle.None;
             this.ShowInTaskbar = false;
-            #endregion
-            #region Contents
             ParserContext context = new();
-            context.XmlnsDictionary.Add("", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            context.XmlnsDictionary.Add("x", "http://schemas.microsoft.com/winfx/2006/xaml");
+            context.XmlnsDictionary.Add("", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add("x", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml");
             const String xaml =
                 "<ControlTemplate TargetType=\"{x:Type Window}\">" +
                     "<Border BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
@@ -113,109 +291,13 @@ namespace Narumikazuchi.Windows
                     "</Border>" +
                 "</ControlTemplate>";
             using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, context);
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, 
+                                                                        context);
             this.Template = template;
-            #endregion
         }
 
-        #endregion
-
-        #region Show
-
-        /// <summary>
-        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
-        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Font? Show([DisallowNull] Window owner)
-        {
-            FontPicker picker = new(owner)
-            {
-                SelectedFont = Font.Default
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedFont
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
-        /// <param name="initial">The initally selected <see cref="Font"/>.</param>
-        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Font? Show([DisallowNull] Window owner, in Font initial)
-        {
-            FontPicker picker = new(owner)
-            {
-                SelectedFont = initial
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedFont
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
-        /// <param name="withStyle">The style to apply to the <see cref="FontPicker"/>.</param>
-        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Font? Show([DisallowNull] Window owner, [DisallowNull] Style withStyle)
-        {
-            if (withStyle is null)
-            {
-                throw new ArgumentNullException(nameof(withStyle));
-            }
-
-            FontPicker picker = new(owner)
-            {
-                SelectedFont = Font.Default,
-                Style = withStyle
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedFont
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="FontPicker"/> window and returns the <see cref="Font"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="FontPicker"/>.</param>
-        /// <param name="initial">The initally selected <see cref="Font"/>.</param>
-        /// <param name="withStyle">The style to apply to the <see cref="FontPicker"/>.</param>
-        /// <returns>The <see cref="Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Font? Show([DisallowNull] Window owner, in Font initial, [DisallowNull] Style withStyle)
-        {
-            if (withStyle is null)
-            {
-                throw new ArgumentNullException(nameof(withStyle));
-            }
-
-            FontPicker picker = new(owner)
-            {
-                SelectedFont = initial,
-                Style = withStyle
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedFont
-                    : null;
-        }
-
-        #endregion
-
-        #region Event Handlers
-
-        private void Family_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private void Family_SelectionChanged(Object sender, 
+                                             SelectionChangedEventArgs e)
         {
             FontFamily family = (FontFamily)this._lstFamily.SelectedItem;
             if (family == this.SelectedFont.Family ||
@@ -225,14 +307,19 @@ namespace Narumikazuchi.Windows
             }
             ICollection<Typeface> typefaces = family.GetTypefaces();
             this._lstTypefaces.ItemsSource = typefaces;
-            Font font = new(family, this.SelectedFont.Size.Clamp(8, 24), typefaces.First());
+            Font font = new(family, 
+                            this.SelectedFont.Size.Clamp(8, 
+                                                         24), 
+                            typefaces.First());
             this.SelectedFont = font;
             this._lstTypefaces.SelectedItem = font.Typeface;
-            this._fontSizeSlider.Value = font.Size.Clamp(8, 24);
+            this._fontSizeSlider.Value = font.Size.Clamp(8, 
+                                                         24);
             this._sampleText.DataContext = font;
         }
 
-        private void Typefaces_SelectionChanged(Object sender, SelectionChangedEventArgs e)
+        private void Typefaces_SelectionChanged(Object sender, 
+                                                SelectionChangedEventArgs e)
         {
             Typeface typeface = (Typeface)this._lstTypefaces.SelectedItem;
             if (typeface == this.SelectedFont.Typeface ||
@@ -240,103 +327,42 @@ namespace Narumikazuchi.Windows
             {
                 return;
             }
-            Font font = new(this.SelectedFont.Family, this.SelectedFont.Size.Clamp(8, 24), typeface);
+            Font font = new(this.SelectedFont.Family, 
+                            this.SelectedFont.Size.Clamp(8, 
+                                                         24), 
+                            typeface);
             this.SelectedFont = font;
             this._lstFamily.SelectedItem = font.Family;
-            this._fontSizeSlider.Value = font.Size.Clamp(8, 24);
+            this._fontSizeSlider.Value = font.Size.Clamp(8, 
+                                                         24);
             this._sampleText.DataContext = font;
         }
 
-        private void SizeSlider_ValueChanged(Object sender, RoutedPropertyChangedEventArgs<Double> e)
+        private void SizeSlider_ValueChanged(Object sender, 
+                                             RoutedPropertyChangedEventArgs<Double> e)
         {
             if (e.NewValue == this.SelectedFont.Size)
             {
                 return;
             }
-            Font font = new(this.SelectedFont.Family, e.NewValue, this.SelectedFont.Typeface);
+            Font font = new(this.SelectedFont.Family, 
+                            e.NewValue, 
+                            this.SelectedFont.Typeface);
             this.SelectedFont = font;
             this._lstFamily.SelectedItem = font.Family;
             this._lstTypefaces.SelectedItem = font.Typeface;
             this._sampleText.DataContext = font;
         }
 
-        private void Ok_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
+        private void Ok_Click(Object sender, 
+                              RoutedEventArgs e) => 
+            this.DialogResult = true;
 
-        #endregion
-
-        #region Window
-
-        private T GetTemplateChild<T>(String childName) where T : DependencyObject => this.GetTemplateChild(childName) is T result ? result : throw new InvalidCastException();
-
-        /// <inheritdoc/>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (this._lstFamily is not null)
-            {
-                this._lstFamily.SelectionChanged -= this.Family_SelectionChanged;
-            }
-            this._lstFamily = this.GetTemplateChild<ListBox>(nameof(this._lstFamily));
-            this._lstFamily.SelectionChanged += this.Family_SelectionChanged;
-
-            if (this._lstTypefaces is not null)
-            {
-                this._lstTypefaces.SelectionChanged -= this.Typefaces_SelectionChanged;
-            }
-            this._lstTypefaces = this.GetTemplateChild<ListBox>(nameof(this._lstTypefaces));
-            this._lstTypefaces.SelectionChanged += this.Typefaces_SelectionChanged;
-
-            this._sampleText = this.GetTemplateChild<TextBox>(nameof(this._sampleText));
-
-            if (this._fontSizeSlider is not null)
-            {
-                this._fontSizeSlider.ValueChanged -= this.SizeSlider_ValueChanged;
-            }
-            this._fontSizeSlider = this.GetTemplateChild<Slider>(nameof(this._fontSizeSlider));
-            this._fontSizeSlider.ValueChanged += this.SizeSlider_ValueChanged;
-
-            if (this._btnOk is not null)
-            {
-                this._btnOk.Click -= this.Ok_Click;
-            }
-            this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
-            this._btnOk.Click += this.Ok_Click;
-
-            this._lstFamily.ItemsSource = Fonts.SystemFontFamilies;
-            this._lstTypefaces.ItemsSource = this.SelectedFont.Family.GetTypefaces();
-            this._lstFamily.SelectedItem = this.SelectedFont.Family;
-            this._lstFamily.ScrollIntoView(this._lstFamily.SelectedItem);
-            this._lstTypefaces.SelectedItem = this.SelectedFont.Typeface;
-            this._fontSizeSlider.Value = this.SelectedFont.Size;
-            this._sampleText.DataContext = this.SelectedFont;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Identifies the <see cref="SelectedFont"/> property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedFontProperty =
-            DependencyProperty.Register(
-                nameof(SelectedFont),
-                typeof(Font),
-                typeof(FontPicker),
-                new PropertyMetadata(Font.Default));
-        /// <summary>
-        /// Gets or sets the <see cref="Font"/> that this picker has currently selected.
-        /// </summary>
-        public Font SelectedFont
-        {
-            get => (Font)this.GetValue(SelectedFontProperty);
-            set => this.SetValue(SelectedFontProperty, value);
-        }
-
-        #endregion
-
-        #region Fields
+        private T GetTemplateChild<T>(String childName) 
+            where T : DependencyObject => 
+                this.GetTemplateChild(childName) is T result 
+                    ? result 
+                    : throw new InvalidCastException();
 
         private ListBox _lstFamily;
         private ListBox _lstTypefaces;
@@ -344,7 +370,5 @@ namespace Narumikazuchi.Windows
         private Slider _fontSizeSlider;
         private Button _btnOk;
         private Boolean _contentLoaded = false;
-
-        #endregion
     }
 }

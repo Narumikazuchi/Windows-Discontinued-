@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -11,24 +11,26 @@ namespace Narumikazuchi.Windows
     /// </summary>
     public sealed class ColorToSolidColorBrushConverter : IValueConverter
     {
-        #region IValueConverter
-
         /// <inheritdoc/>
-        [Pure]
-        public Object? Convert(Object value, Type targetType, Object parameter, CultureInfo culture) => 
+        [return: MaybeNull]
+        public Object? Convert([AllowNull] Object? value, 
+                               [DisallowNull] Type targetType,
+                               [DisallowNull] Object parameter,
+                               [DisallowNull] CultureInfo culture) => 
             value is null ||
             value is not Color color
                 ? null
                 : new SolidColorBrush(color);
 
         /// <inheritdoc/>
-        [Pure]
-        public Object? ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture) =>
+        [return: MaybeNull]
+        public Object? ConvertBack([AllowNull] Object? value,
+                                   [DisallowNull] Type targetType,
+                                   [DisallowNull] Object parameter,
+                                   [DisallowNull] CultureInfo culture) =>
             value is null ||
             value is not SolidColorBrush brush
                 ? null
                 : brush.Color;
-
-        #endregion
     }
 }

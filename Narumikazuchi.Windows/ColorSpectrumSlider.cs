@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -14,18 +16,63 @@ namespace Narumikazuchi.Windows
     /// Represents the spectrum slider next to the color canvas on a <see cref="ColorPicker"/> object.
     /// </summary>
     [TemplatePart(Name = PART_SpectrumDisplay, Type = typeof(Rectangle))]
-    public sealed class ColorSpectrumSlider : Slider
+    public sealed partial class ColorSpectrumSlider : Slider
     {
-        #region Constructor
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorSpectrumSlider"/> class.
         /// </summary>
-        public ColorSpectrumSlider() => this.InitializeComponent();
+        public ColorSpectrumSlider() => 
+            this.InitializeComponent();
 
-        #endregion
+        /// <inheritdoc/>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
 
-        #region Initialize
+            this._spectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SpectrumDisplay);
+            this.CreateSpectrum();
+            this.OnValueChanged(Double.NaN, 
+                                this.Value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedColor"/> property.
+        /// </summary>
+        [Pure]
+        [NotNull]
+        public static readonly DependencyProperty SelectedColorProperty =
+            DependencyProperty.Register(
+                nameof(SelectedColor),
+                typeof(Color),
+                typeof(ColorSpectrumSlider),
+                new FrameworkPropertyMetadata(Colors.White));
+        /// <summary>
+        /// Gets or sets the currently selected <see cref="Color"/>.
+        /// </summary>
+        public Color SelectedColor
+        {
+            get => (Color)this.GetValue(SelectedColorProperty);
+            set => this.SetValue(SelectedColorProperty, 
+                                 value);
+        }
+    }
+
+    // Non-Public
+    partial class ColorSpectrumSlider
+    {
+        /// <inheritdoc/>
+        protected override void OnValueChanged(Double oldValue, 
+                                               Double newValue)
+        {
+            base.OnValueChanged(oldValue, 
+                                newValue);
+
+            HsvColor hsv = HsvColor.FromHsv(360 - newValue, 
+                                            1, 
+                                            1);
+            Color color = (Color)hsv;
+            this.SelectedColor = color;
+        }
 
         private void InitializeComponent()
         {
@@ -35,7 +82,6 @@ namespace Narumikazuchi.Windows
             }
             this._contentLoaded = true;
 
-            #region Slider
             this.BorderBrush = Brushes.DarkGray;
             this.BorderThickness = new(1);
             this.SmallChange = 10;
@@ -48,12 +94,13 @@ namespace Narumikazuchi.Windows
             this.IsDirectionReversed = false;
             this.IsMoveToPointEnabled = true;
             this.Value = 0;
-            #endregion
-            #region Template
             ParserContext context = new();
-            context.XmlnsDictionary.Add("", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            context.XmlnsDictionary.Add("x", "http://schemas.microsoft.com/winfx/2006/xaml");
-            context.XmlnsDictionary.Add("w", "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
+            context.XmlnsDictionary.Add("", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add("x", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml");
+            context.XmlnsDictionary.Add("w", 
+                                        "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
             const String xaml =
                 "<ControlTemplate TargetType=\"{x:Type w:ColorSpectrumSlider}\">" +
                     "<Grid>" +
@@ -124,17 +171,19 @@ namespace Narumikazuchi.Windows
                     "</Grid>" +
                 "</ControlTemplate>";
             using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, context);
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, 
+                                                                        context);
             this.Template = template;
-            #endregion
         }
 
         private void CreateSpectrum()
         {
             this._pickerBrush = new()
             {
-                StartPoint = new(0.5, 0),
-                EndPoint = new(0.5, 1),
+                StartPoint = new(0.5, 
+                                 0),
+                EndPoint = new(0.5, 
+                               1),
                 ColorInterpolationMode = ColorInterpolationMode.SRgbLinearInterpolation
             };
 
@@ -143,7 +192,8 @@ namespace Narumikazuchi.Windows
             Int32 i;
             for (i = 0; i < HsvSpectrum.Count; i++)
             {
-                this._pickerBrush.GradientStops.Add(new(HsvSpectrum[i], i * increment));
+                this._pickerBrush.GradientStops.Add(new(HsvSpectrum[i], 
+                                                        i * increment));
             }
             this._pickerBrush.GradientStops[i - 1].Offset = 1.0;
 
@@ -153,80 +203,44 @@ namespace Narumikazuchi.Windows
             }
         }
 
-        #endregion
-
-        #region Slider
-
-        private T GetTemplateChild<T>(String childName) where T : DependencyObject => this.GetTemplateChild(childName) is T result ? result : throw new InvalidCastException();
-
-        /// <inheritdoc/>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            this._spectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SpectrumDisplay);
-            this.CreateSpectrum();
-            this.OnValueChanged(Double.NaN, this.Value);
-        }
-
-        /// <inheritdoc/>
-        protected override void OnValueChanged(Double oldValue, Double newValue)
-        {
-            base.OnValueChanged(oldValue, newValue);
-
-            HsvColor hsv = HsvColor.FromHsv(360 - newValue, 1, 1);
-            Color color = (Color)hsv;
-            this.SelectedColor = color;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Identifies the <see cref="SelectedColor"/> property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register(
-                nameof(SelectedColor),
-                typeof(Color),
-                typeof(ColorSpectrumSlider),
-                new FrameworkPropertyMetadata(Colors.White));
-        /// <summary>
-        /// Gets or sets the currently selected <see cref="Color"/>.
-        /// </summary>
-        public Color SelectedColor
-        {
-            get => (Color)this.GetValue(SelectedColorProperty);
-            set => this.SetValue(SelectedColorProperty, value);
-        }
+        private T GetTemplateChild<T>(String childName) 
+            where T : DependencyObject => 
+                this.GetTemplateChild(childName) is T result 
+                    ? result 
+                    : throw new InvalidCastException();
 
         private static IReadOnlyList<Color> HsvSpectrum { get; } = new List<Color>()
         {
-            (Color)HsvColor.FromHsv(0, 1, 1),
-            (Color)HsvColor.FromHsv(60, 1, 1),
-            (Color)HsvColor.FromHsv(120, 1, 1),
-            (Color)HsvColor.FromHsv(180, 1, 1),
-            (Color)HsvColor.FromHsv(240, 1, 1),
-            (Color)HsvColor.FromHsv(300, 1, 1),
-            (Color)HsvColor.FromHsv(360, 1, 1),
-            (Color)HsvColor.FromHsv(0, 1, 1)
+            (Color)HsvColor.FromHsv(0, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(60, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(120, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(180, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(240, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(300, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(360, 
+                                    1, 
+                                    1),
+            (Color)HsvColor.FromHsv(0,  
+                                    1, 
+                                    1)
         };
-
-        #endregion
-
-        #region Fields
 
         private Boolean _contentLoaded = false;
         private Rectangle? _spectrumDisplay;
         private LinearGradientBrush? _pickerBrush;
 
-        #endregion
-
-        #region Constants
-
         private const String PART_SpectrumDisplay = "PART_SpectrumDisplay";
-
-        #endregion
     }
 }

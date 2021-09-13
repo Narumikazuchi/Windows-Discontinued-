@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -16,8 +17,320 @@ namespace Narumikazuchi.Windows
     /// </summary>
     public sealed partial class ColorPicker : Window
     {
-        #region Constructor
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner) => 
+            Show(owner, 
+                 true);
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner, 
+                                  in Boolean allowAlhpaChannel)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
 
+            ColorPicker picker = new(owner)
+            {
+                SelectedColor = Color.FromArgb(255, 
+                                               0, 
+                                               0, 
+                                               0),
+                AllowAlpha = allowAlhpaChannel
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                        ? picker.SelectedColor
+                        : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+        /// <param name="withStyle">The style to apply to the <see cref="ColorPicker"/>.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner, 
+                                  in Boolean allowAlhpaChannel, 
+                                  [DisallowNull] Style withStyle)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+            if (withStyle is null)
+            {
+                throw new ArgumentNullException(nameof(withStyle));
+            }
+
+            ColorPicker picker = new(owner)
+            {
+                SelectedColor = Color.FromArgb(255, 
+                                               0, 
+                                               0, 
+                                               0),
+                AllowAlpha = allowAlhpaChannel,
+                Style = withStyle
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                        ? picker.SelectedColor
+                        : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner, 
+                                  in Color initial) => 
+            Show(owner, 
+                 initial, 
+                 true);
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner, 
+                                  in Color initial, 
+                                  in Boolean allowAlhpaChannel)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+
+            ColorPicker picker = new(owner)
+            {
+                SelectedColor = initial,
+                AllowAlpha = allowAlhpaChannel
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                        ? picker.SelectedColor
+                        : null;
+        }
+        /// <summary>
+        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
+        /// </summary>
+        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
+        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
+        /// <param name="withStyle">The style to apply to the <see cref="ColorPicker"/>.</param>
+        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+        /// <exception cref="ArgumentNullException"/>
+        [return: MaybeNull]
+        public static Color? Show([DisallowNull] Window owner, 
+                                  in Color initial, 
+                                  in Boolean allowAlhpaChannel, 
+                                  [DisallowNull] Style withStyle)
+        {
+            if (owner is null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+            if (withStyle is null)
+            {
+                throw new ArgumentNullException(nameof(withStyle));
+            }
+
+            ColorPicker picker = new(owner)
+            {
+                SelectedColor = initial,
+                AllowAlpha = allowAlhpaChannel,
+                Style = withStyle
+            };
+            Boolean? result = picker.ShowDialog();
+            return result.HasValue &&
+                   result.Value
+                        ? picker.SelectedColor
+                        : null;
+        }
+
+        /// <inheritdoc/>
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (this._colorShadingCanvas is not null)
+            {
+                this._colorShadingCanvas.MouseLeftButtonDown -= this.ColorShadingCanvas_MouseLeftButtonDown;
+                this._colorShadingCanvas.MouseLeftButtonUp -= this.ColorShadingCanvas_MouseLeftButtonUp;
+                this._colorShadingCanvas.MouseMove -= this.ColorShadingCanvas_MouseMove;
+                this._colorShadingCanvas.SizeChanged -= this.ColorShadingCanvas_SizeChanged;
+            }
+
+            this._colorShadingCanvas = this.GetTemplateChild<Canvas>(nameof(this._colorShadingCanvas));
+
+            if (this._colorShadingCanvas is not null)
+            {
+                this._colorShadingCanvas.MouseLeftButtonDown += this.ColorShadingCanvas_MouseLeftButtonDown;
+                this._colorShadingCanvas.MouseLeftButtonUp += this.ColorShadingCanvas_MouseLeftButtonUp;
+                this._colorShadingCanvas.MouseMove += this.ColorShadingCanvas_MouseMove;
+                this._colorShadingCanvas.SizeChanged += this.ColorShadingCanvas_SizeChanged;
+            }
+
+            this._colorShadeSelector = this.GetTemplateChild<Canvas>(nameof(this._colorShadeSelector));
+
+            if (this._colorShadeSelector is not null)
+            {
+                this._colorShadeSelector.RenderTransform = this._colorShadeSelectorTransform;
+            }
+
+            if (this._spectrumSlider is not null)
+            {
+                this._spectrumSlider.ValueChanged -= this.SpectrumSlider_ValueChanged;
+            }
+
+            this._spectrumSlider = this.GetTemplateChild<ColorSpectrumSlider>(nameof(this._spectrumSlider));
+
+            if (this._spectrumSlider is not null)
+            {
+                this._spectrumSlider.ValueChanged += this.SpectrumSlider_ValueChanged;
+            }
+
+            if (this._hexadecimalText is not null)
+            {
+                this._hexadecimalText.LostFocus -= this.HexadecimalText_LostFocus;
+            }
+
+            this._hexadecimalText = this.GetTemplateChild<TextBox>(nameof(this._hexadecimalText));
+
+            if (this._hexadecimalText is not null)
+            {
+                this._hexadecimalText.LostFocus += this.HexadecimalText_LostFocus;
+            }
+
+            if (this._rSlider is not null)
+            {
+                this._rSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            }
+
+            this._rSlider = this.GetTemplateChild<Slider>(nameof(this._rSlider));
+
+            if (this._rSlider is not null)
+            {
+                this._rSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            }
+
+            if (this._gSlider is not null)
+            {
+                this._gSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            }
+
+            this._gSlider = this.GetTemplateChild<Slider>(nameof(this._gSlider));
+
+            if (this._gSlider is not null)
+            {
+                this._gSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            }
+
+            if (this._bSlider is not null)
+            {
+                this._bSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            }
+
+            this._bSlider = this.GetTemplateChild<Slider>(nameof(this._bSlider));
+
+            if (this._bSlider is not null)
+            {
+                this._bSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            }
+
+            if (this._aSlider is not null)
+            {
+                this._aSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            }
+
+            this._aSlider = this.GetTemplateChild<Slider>(nameof(this._aSlider));
+
+            if (this._aSlider is not null)
+            {
+                this._aSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+                this._aSlider.Visibility = this._allowAlpha ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            if (this._btnOk is not null)
+            {
+                this._btnOk.Click -= this.Ok_Click;
+            }
+            this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
+            this._btnOk.Click += this.Ok_Click;
+
+            this.UpdateColorShadeSelectorPosition(this.SelectedColor);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedColor"/> property.
+        /// </summary>
+        [Pure]
+        [NotNull]
+        public static readonly DependencyProperty SelectedColorProperty =
+            DependencyProperty.Register(
+                nameof(SelectedColor),
+                typeof(Color),
+                typeof(ColorPicker),
+                new FrameworkPropertyMetadata(default(Color)));
+        /// <summary>
+        /// Gets or sets the <see cref="Color"/> that this picker has currently selected.
+        /// </summary>
+        public Color SelectedColor
+        {
+            get => (Color)this.GetValue(SelectedColorProperty);
+            set => this.SetValue(SelectedColorProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets if the <see cref="Color.A"/> alpha values should be editable.
+        /// </summary>
+        public Boolean AllowAlpha
+        {
+            get => this._allowAlpha && 
+                   this._aSlider is not null && 
+                this._aSlider.Visibility == Visibility.Visible;
+            set
+            {
+                this._allowAlpha = value;
+                if (this._aSlider is null)
+                {
+                    return;
+                }
+                this._aSlider.Visibility = value 
+                                              ? Visibility.Visible 
+                                              : Visibility.Collapsed;
+            }
+        }
+    }
+
+    // Non-Public
+    partial class ColorPicker
+    {
 #nullable disable
         private ColorPicker(Window owner)
         {
@@ -31,9 +344,18 @@ namespace Narumikazuchi.Windows
         }
 #nullable enable
 
-        #endregion
+        /// <inheritdoc/>
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
 
-        #region Initialize
+            if (e.Key is Key.Enter &&
+                e.OriginalSource is TextBox box &&
+                box == this._hexadecimalText)
+            {
+                this.SetHexadecimalString(box.Text);
+            }
+        }
 
         private void InitializeComponent()
         {
@@ -43,19 +365,19 @@ namespace Narumikazuchi.Windows
             }
 
             this._contentLoaded = true;
-            #region Window
             this.Width = 256;
             this.Height = 284;
             this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStyle = WindowStyle.None;
             this.ShowInTaskbar = false;
-            #endregion
-            #region Contents
             ParserContext context = new();
-            context.XmlnsDictionary.Add("", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            context.XmlnsDictionary.Add("x", "http://schemas.microsoft.com/winfx/2006/xaml");
-            context.XmlnsDictionary.Add("w", "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
+            context.XmlnsDictionary.Add("", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add("x", 
+                                        "http://schemas.microsoft.com/winfx/2006/xaml");
+            context.XmlnsDictionary.Add("w", 
+                                        "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
             const String xaml =
                 "<ControlTemplate TargetType=\"{x:Type w:ColorPicker}\">" +
                     "<Border Padding=\"3\" BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
@@ -247,135 +569,16 @@ namespace Narumikazuchi.Windows
                                 "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
                             "</StackPanel>" +
                         "</Grid>" +
-                    "</Border>" + 
+                    "</Border>" +
                 "</ControlTemplate>";
             using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, context);
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream, 
+                                                                        context);
             this.Template = template;
-            #endregion
         }
 
-        #endregion
-
-        #region Show
-
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner) => Show(owner, true);
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner, in Boolean allowAlhpaChannel)
-        {
-            ColorPicker picker = new(owner)
-            {
-                SelectedColor = Color.FromArgb(255, 0, 0, 0),
-                AllowAlpha = allowAlhpaChannel
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedColor
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-        /// <param name="withStyle">The style to apply to the <see cref="ColorPicker"/>.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner, in Boolean allowAlhpaChannel, [DisallowNull] Style withStyle)
-        {
-            if (withStyle is null)
-            {
-                throw new ArgumentNullException(nameof(withStyle));
-            }
-
-            ColorPicker picker = new(owner)
-            {
-                SelectedColor = Color.FromArgb(255, 0, 0, 0),
-                AllowAlpha = allowAlhpaChannel,
-                Style = withStyle
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedColor
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner, in Color initial) => Show(owner, initial, true);
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner, in Color initial, in Boolean allowAlhpaChannel)
-        {
-            ColorPicker picker = new(owner)
-            {
-                SelectedColor = initial,
-                AllowAlpha = allowAlhpaChannel
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedColor
-                    : null;
-        }
-        /// <summary>
-        /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
-        /// </summary>
-        /// <param name="owner">The owning window of the <see cref="ColorPicker"/>.</param>
-        /// <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-        /// <param name="initial">The initial <see cref="Color"/> selected by the <see cref="ColorPicker"/>.</param>
-        /// <param name="withStyle">The style to apply to the <see cref="ColorPicker"/>.</param>
-        /// <returns>The <see cref="Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-        /// <exception cref="ArgumentNullException"/>
-        public static Color? Show([DisallowNull] Window owner, in Color initial, in Boolean allowAlhpaChannel, [DisallowNull] Style withStyle)
-        {
-            if (withStyle is null)
-            {
-                throw new ArgumentNullException(nameof(withStyle));
-            }
-
-            ColorPicker picker = new(owner)
-            {
-                SelectedColor = initial,
-                AllowAlpha = allowAlhpaChannel,
-                Style = withStyle
-            };
-            Boolean? result = picker.ShowDialog();
-            return result.HasValue &&
-                   result.Value
-                    ? picker.SelectedColor
-                    : null;
-        }
-
-        #endregion
-
-        #region ShadeSelector Update
-
-        private void UpdateColorShadeSelectorPosition(Point p, in Boolean calculateColor)
+        private void UpdateColorShadeSelectorPosition(Point p, 
+                                                      in Boolean calculateColor)
         {
             if (this._colorShadingCanvas is null ||
                 this._colorShadeSelector is null)
@@ -383,8 +586,10 @@ namespace Narumikazuchi.Windows
                 return;
             }
 
-            p.X = p.X < 0 ? 0 : p.X > this._colorShadingCanvas.ActualWidth ? this._colorShadingCanvas.ActualWidth : p.X;
-            p.Y = p.Y < 0 ? 0 : p.Y > this._colorShadingCanvas.ActualHeight ? this._colorShadingCanvas.ActualHeight : p.Y;
+            p.X = p.X.Clamp(0, 
+                            this._colorShadingCanvas.ActualWidth);
+            p.Y = p.Y.Clamp(0, 
+                            this._colorShadingCanvas.ActualHeight);
 
             this._colorShadeSelectorTransform.X = p.X - (this._colorShadeSelector.Width / 2);
             this._colorShadeSelectorTransform.Y = p.Y - (this._colorShadeSelector.Height / 2);
@@ -409,23 +614,22 @@ namespace Narumikazuchi.Windows
 
             this._currentColorPosition = null;
 
-            HsvColor hsv = HsvColor.FromRgb(color.R, color.G, color.B);
+            HsvColor hsv = HsvColor.FromRgb(color.R, 
+                                            color.G, 
+                                            color.B);
 
             if (this._updateSpectrumSliderValue)
             {
                 this._spectrumSlider.Value = 360 - hsv.H;
             }
 
-            Point p = new(hsv.S, 1 - hsv.V);
+            Point p = new(hsv.S, 
+                          1 - hsv.V);
             this._currentColorPosition = p;
 
             this._colorShadeSelectorTransform.X = (p.X * this._colorShadingCanvas.Width) - 5;
             this._colorShadeSelectorTransform.Y = (p.Y * this._colorShadingCanvas.Height) - 5;
         }
-
-        #endregion
-
-        #region Calculate Color
 
         private void CalculateColor(in Point p)
         {
@@ -434,7 +638,9 @@ namespace Narumikazuchi.Windows
                 return;
             }
 
-            HsvColor hsv = HsvColor.FromHsv(360 - this._spectrumSlider.Value, p.X, 1 - p.Y);
+            HsvColor hsv = HsvColor.FromHsv(360 - this._spectrumSlider.Value, 
+                                            p.X, 
+                                            1 - p.Y);
             Color color = (Color)hsv;
 
             this.SelectedColor = color;
@@ -448,10 +654,6 @@ namespace Narumikazuchi.Windows
             }
         }
 
-        #endregion
-
-        #region HexString
-
         private void SetHexadecimalString(String newValue)
         {
             if (String.IsNullOrWhiteSpace(newValue))
@@ -462,7 +664,10 @@ namespace Narumikazuchi.Windows
 
             try
             {
-                if (Int32.TryParse(newValue, NumberStyles.HexNumber, null, out Int32 _))
+                if (Int32.TryParse(newValue, 
+                                   NumberStyles.HexNumber, 
+                                   null, 
+                                   out Int32 _))
                 {
                     newValue = "#" + newValue;
                 }
@@ -479,16 +684,16 @@ namespace Narumikazuchi.Windows
         {
             if (this._hexadecimalText is not null)
             {
-                String? value = this.AllowAlpha ? color.ToString() : color.ToString().Remove(1, 2);
+                String? value = this.AllowAlpha 
+                                        ? color.ToString() 
+                                        : color.ToString()
+                                               .Remove(1, 2);
                 this._hexadecimalText.Text = value;
             }
         }
 
-        #endregion
-
-        #region Event Handlers
-
-        private void ColorShadingCanvas_MouseLeftButtonDown(Object? sender, MouseButtonEventArgs e)
+        private void ColorShadingCanvas_MouseLeftButtonDown(Object? sender, 
+                                                            MouseButtonEventArgs e)
         {
             if (this._colorShadingCanvas is null)
             {
@@ -496,11 +701,13 @@ namespace Narumikazuchi.Windows
             }
 
             Point p = e.GetPosition(this._colorShadingCanvas);
-            this.UpdateColorShadeSelectorPosition(p, true);
+            this.UpdateColorShadeSelectorPosition(p, 
+                                                  true);
             e.Handled = true;
         }
 
-        private void ColorShadingCanvas_MouseLeftButtonUp(Object? sender, MouseButtonEventArgs e)
+        private void ColorShadingCanvas_MouseLeftButtonUp(Object? sender, 
+                                                          MouseButtonEventArgs e)
         {
             if (this._colorShadingCanvas is null)
             {
@@ -509,7 +716,8 @@ namespace Narumikazuchi.Windows
             this._colorShadingCanvas.ReleaseMouseCapture();
         }
 
-        private void ColorShadingCanvas_MouseMove(Object? sender, MouseEventArgs e)
+        private void ColorShadingCanvas_MouseMove(Object? sender, 
+                                                  MouseEventArgs e)
         {
             if (this._colorShadingCanvas is null ||
                 e.LeftButton is not MouseButtonState.Pressed)
@@ -517,11 +725,13 @@ namespace Narumikazuchi.Windows
                 return;
             }
             Point p = e.GetPosition(this._colorShadingCanvas);
-            this.UpdateColorShadeSelectorPosition(p, true);
+            this.UpdateColorShadeSelectorPosition(p, 
+                                                  true);
             Mouse.Synchronize();
         }
 
-        private void ColorShadingCanvas_SizeChanged(Object? sender, SizeChangedEventArgs e)
+        private void ColorShadingCanvas_SizeChanged(Object? sender, 
+                                                    SizeChangedEventArgs e)
         {
             if (this._currentColorPosition is null)
             {
@@ -533,10 +743,12 @@ namespace Narumikazuchi.Windows
                 Y = ((Point)this._currentColorPosition).Y * e.NewSize.Height
             };
 
-            this.UpdateColorShadeSelectorPosition(newPoint, false);
+            this.UpdateColorShadeSelectorPosition(newPoint, 
+                                                  false);
         }
 
-        private void SpectrumSlider_ValueChanged(Object? sender, RoutedPropertyChangedEventArgs<Double> e)
+        private void SpectrumSlider_ValueChanged(Object? sender, 
+                                                 RoutedPropertyChangedEventArgs<Double> e)
         {
             if (this._currentColorPosition is null)
             {
@@ -545,7 +757,8 @@ namespace Narumikazuchi.Windows
             this.CalculateColor((Point)this._currentColorPosition);
         }
 
-        private void HexadecimalText_LostFocus(Object? sender, RoutedEventArgs e)
+        private void HexadecimalText_LostFocus(Object? sender, 
+                                               RoutedEventArgs e)
         {
             if (sender is null ||
                 sender is not TextBox textbox)
@@ -556,7 +769,8 @@ namespace Narumikazuchi.Windows
             this.SetHexadecimalString(textbox.Text);
         }
 
-        private void RgbaSlider_ValueChanged(Object? sender, RoutedPropertyChangedEventArgs<Double> e)
+        private void RgbaSlider_ValueChanged(Object? sender, 
+                                             RoutedPropertyChangedEventArgs<Double> e)
         {
             if (sender is not Slider slider)
             {
@@ -565,210 +779,59 @@ namespace Narumikazuchi.Windows
 
             if (slider == this._rSlider)
             {
-                Color color = Color.FromArgb(this.SelectedColor.A, (Byte)this._rSlider.Value.Clamp(0.0d, 255.0d), this.SelectedColor.G, this.SelectedColor.B);
+                Color color = Color.FromArgb(this.SelectedColor.A, 
+                                             (Byte)this._rSlider.Value.Clamp(0.0d, 
+                                                                             255.0d), 
+                                             this.SelectedColor.G, 
+                                             this.SelectedColor.B);
                 this.UpdateColorShadeSelectorPosition(color);
                 this.SetHexadecimalStringTextBox(color);
                 this.SelectedColor = color;
             }
             else if (slider == this._gSlider)
             {
-                Color color = Color.FromArgb(this.SelectedColor.A, this.SelectedColor.R, (Byte)this._gSlider.Value.Clamp(0.0d, 255.0d), this.SelectedColor.B);
+                Color color = Color.FromArgb(this.SelectedColor.A, 
+                                             this.SelectedColor.R, 
+                                             (Byte)this._gSlider.Value.Clamp(0.0d, 
+                                                                             255.0d), 
+                                             this.SelectedColor.B);
                 this.UpdateColorShadeSelectorPosition(color);
                 this.SetHexadecimalStringTextBox(color);
                 this.SelectedColor = color;
             }
             else if (slider == this._bSlider)
             {
-                Color color = Color.FromArgb(this.SelectedColor.A, this.SelectedColor.R, this.SelectedColor.G, (Byte)this._bSlider.Value.Clamp(0.0d, 255.0d));
+                Color color = Color.FromArgb(this.SelectedColor.A, 
+                                             this.SelectedColor.R, 
+                                             this.SelectedColor.G, 
+                                             (Byte)this._bSlider.Value.Clamp(0.0d, 
+                                                                             255.0d));
                 this.UpdateColorShadeSelectorPosition(color);
                 this.SetHexadecimalStringTextBox(color);
                 this.SelectedColor = color;
             }
             else if (slider == this._aSlider)
             {
-                Color color = Color.FromArgb((Byte)this._aSlider.Value.Clamp(0.0d, 255.0d), this.SelectedColor.R, this.SelectedColor.G, this.SelectedColor.B);
+                Color color = Color.FromArgb((Byte)this._aSlider.Value.Clamp(0.0d, 
+                                                                             255.0d), 
+                                             this.SelectedColor.R, 
+                                             this.SelectedColor.G, 
+                                             this.SelectedColor.B);
                 this.UpdateColorShadeSelectorPosition(color);
                 this.SetHexadecimalStringTextBox(color);
                 this.SelectedColor = color;
             }
         }
 
-        private void Ok_Click(Object sender, RoutedEventArgs e) => this.DialogResult = true;
+        private void Ok_Click(Object sender, 
+                              RoutedEventArgs e) => 
+            this.DialogResult = true;
 
-        #endregion
-
-        #region Window
-
-        private T GetTemplateChild<T>(String childName) where T : DependencyObject => this.GetTemplateChild(childName) is T result ? result : throw new InvalidCastException();
-
-        /// <inheritdoc/>
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (this._colorShadingCanvas is not null)
-            {
-                this._colorShadingCanvas.MouseLeftButtonDown -= this.ColorShadingCanvas_MouseLeftButtonDown;
-                this._colorShadingCanvas.MouseLeftButtonUp -= this.ColorShadingCanvas_MouseLeftButtonUp;
-                this._colorShadingCanvas.MouseMove -= this.ColorShadingCanvas_MouseMove;
-                this._colorShadingCanvas.SizeChanged -= this.ColorShadingCanvas_SizeChanged;
-            }
-
-            this._colorShadingCanvas = this.GetTemplateChild<Canvas>(nameof(this._colorShadingCanvas));
-
-            if (this._colorShadingCanvas is not null)
-            {
-                this._colorShadingCanvas.MouseLeftButtonDown += this.ColorShadingCanvas_MouseLeftButtonDown;
-                this._colorShadingCanvas.MouseLeftButtonUp += this.ColorShadingCanvas_MouseLeftButtonUp;
-                this._colorShadingCanvas.MouseMove += this.ColorShadingCanvas_MouseMove;
-                this._colorShadingCanvas.SizeChanged += this.ColorShadingCanvas_SizeChanged;
-            }
-
-            this._colorShadeSelector = this.GetTemplateChild<Canvas>(nameof(this._colorShadeSelector));
-
-            if (this._colorShadeSelector is not null)
-            {
-                this._colorShadeSelector.RenderTransform = this._colorShadeSelectorTransform;
-            }
-
-            if (this._spectrumSlider is not null)
-            {
-                this._spectrumSlider.ValueChanged -= this.SpectrumSlider_ValueChanged;
-            }
-
-            this._spectrumSlider = this.GetTemplateChild<ColorSpectrumSlider>(nameof(this._spectrumSlider));
-
-            if (this._spectrumSlider is not null)
-            {
-                this._spectrumSlider.ValueChanged += this.SpectrumSlider_ValueChanged;
-            }
-
-            if (this._hexadecimalText is not null)
-            {
-                this._hexadecimalText.LostFocus -= this.HexadecimalText_LostFocus;
-            }
-
-            this._hexadecimalText = this.GetTemplateChild<TextBox>(nameof(this._hexadecimalText));
-
-            if (this._hexadecimalText is not null)
-            {
-                this._hexadecimalText.LostFocus += this.HexadecimalText_LostFocus;
-            }
-
-            if (this._rSlider is not null)
-            {
-                this._rSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
-            }
-
-            this._rSlider = this.GetTemplateChild<Slider>(nameof(this._rSlider));
-
-            if (this._rSlider is not null)
-            {
-                this._rSlider.ValueChanged += this.RgbaSlider_ValueChanged;
-            }
-
-            if (this._gSlider is not null)
-            {
-                this._gSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
-            }
-
-            this._gSlider = this.GetTemplateChild<Slider>(nameof(this._gSlider));
-
-            if (this._gSlider is not null)
-            {
-                this._gSlider.ValueChanged += this.RgbaSlider_ValueChanged;
-            }
-
-            if (this._bSlider is not null)
-            {
-                this._bSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
-            }
-
-            this._bSlider = this.GetTemplateChild<Slider>(nameof(this._bSlider));
-
-            if (this._bSlider is not null)
-            {
-                this._bSlider.ValueChanged += this.RgbaSlider_ValueChanged;
-            }
-
-            if (this._aSlider is not null)
-            {
-                this._aSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
-            }
-
-            this._aSlider = this.GetTemplateChild<Slider>(nameof(this._aSlider));
-
-            if (this._aSlider is not null)
-            {
-                this._aSlider.ValueChanged += this.RgbaSlider_ValueChanged;
-                this._aSlider.Visibility = this._allowAlpha ? Visibility.Visible : Visibility.Collapsed;
-            }
-
-            if (this._btnOk is not null)
-            {
-                this._btnOk.Click -= this.Ok_Click;
-            }
-            this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
-            this._btnOk.Click += this.Ok_Click;
-
-            this.UpdateColorShadeSelectorPosition(this.SelectedColor);
-        }
-
-        /// <inheritdoc/>
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-
-            if (e.Key is Key.Enter &&
-                e.OriginalSource is TextBox box &&
-                box == this._hexadecimalText)
-            {
-                this.SetHexadecimalString(box.Text);
-            }
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Identifies the <see cref="SelectedColor"/> property.
-        /// </summary>
-        public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register(
-                nameof(SelectedColor),
-                typeof(Color),
-                typeof(ColorPicker),
-                new FrameworkPropertyMetadata(default(Color)));
-        /// <summary>
-        /// Gets or sets the <see cref="Color"/> that this picker has currently selected.
-        /// </summary>
-        public Color SelectedColor
-        {
-            get => (Color)this.GetValue(SelectedColorProperty);
-            set => this.SetValue(SelectedColorProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets if the <see cref="Color.A"/> alpha values should be editable.
-        /// </summary>
-        public Boolean AllowAlpha
-        {
-            get => this._allowAlpha && this._aSlider is not null && this._aSlider.Visibility == Visibility.Visible;
-            set
-            {
-                this._allowAlpha = value;
-                if (this._aSlider is null)
-                {
-                    return;
-                }
-                this._aSlider.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
-        #endregion
-
-        #region Fields
+        private T GetTemplateChild<T>(String childName) 
+            where T : DependencyObject => 
+                this.GetTemplateChild(childName) is T result 
+                    ? result 
+                    : throw new InvalidCastException();
 
         private Boolean _contentLoaded = false;
         private Boolean _allowAlpha = true;
@@ -784,7 +847,5 @@ namespace Narumikazuchi.Windows
         private Slider _aSlider;
         private Button _btnOk;
         private Point? _currentColorPosition;
-
-        #endregion
     }
 }
