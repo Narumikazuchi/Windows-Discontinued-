@@ -289,7 +289,6 @@ namespace Narumikazuchi.Windows
         /// <summary>
         /// Identifies the <see cref="SelectedColor"/> property.
         /// </summary>
-        [Pure]
         [NotNull]
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(

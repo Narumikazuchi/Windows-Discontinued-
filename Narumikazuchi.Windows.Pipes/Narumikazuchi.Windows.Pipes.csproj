@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <RepositoryUrl>https://github.com/Narumikazuchi/CSharp-Utilities</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Narumikazuchi/Windows</RepositoryUrl>
     <Authors>Narumikazuchi</Authors>
     <Copyright>©2021 Narumikazuchi</Copyright>
-    <Description>A small framework containing a pre-written pipe server-client model for immediate use.
-
-Contents:
-- NamedPipe abstract class
-- NamedPipeClient and NamedPipeServer classes</Description>
+    <Description>Provides Client and Server classes to communicate over a windows pipe connection.
+For more information visit https://github.com/Narumikazuchi/Windows/wiki.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>3.0.0</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/Narumikazuchi/Windows/wiki</PackageProjectUrl>
+    <PackageIcon>Narumikazuchi nuget.png</PackageIcon>
+    <PackageTags>Client; Server; Pipes; Interprocess Connection</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,6 +34,10 @@ Contents:
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\Narumikazuchi nuget.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

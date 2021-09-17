@@ -179,7 +179,6 @@ namespace Narumikazuchi.Windows
         /// <summary>
         /// Identifies the <see cref="SelectedFont"/> property.
         /// </summary>
-        [Pure]
         [NotNull]
         public static readonly DependencyProperty SelectedFontProperty =
             DependencyProperty.Register(

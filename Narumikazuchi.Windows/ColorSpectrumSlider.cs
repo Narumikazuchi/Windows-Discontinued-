@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -38,7 +37,6 @@ namespace Narumikazuchi.Windows
         /// <summary>
         /// Identifies the <see cref="SelectedColor"/> property.
         /// </summary>
-        [Pure]
         [NotNull]
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(
