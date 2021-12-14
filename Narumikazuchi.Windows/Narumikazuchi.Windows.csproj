@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
@@ -17,6 +17,7 @@ For more information about the contained functionality visit https://github.com/
     <PackageProjectUrl>https://github.com/Narumikazuchi/Windows/wiki</PackageProjectUrl>
     <PackageIcon>Narumikazuchi nuget.png</PackageIcon>
     <PackageTags>WPF; Windows Presentation Framework; Color; HSL; HSV; Font; Borderless; Themes; OS Version</PackageTags>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

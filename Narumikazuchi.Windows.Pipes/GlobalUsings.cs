@@ -1,0 +1,9 @@
+﻿global using System;
+global using System.ComponentModel;
+global using System.Diagnostics;
+global using System.Diagnostics.CodeAnalysis;
+global using System.IO.Pipes;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using Narumikazuchi.Serialization.Bytes;

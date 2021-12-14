@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/Narumikazuchi/Windows</RepositoryUrl>
     <Authors>Narumikazuchi</Authors>
@@ -15,6 +15,7 @@ For more information visit https://github.com/Narumikazuchi/Windows/wiki.</Descr
     <PackageProjectUrl>https://github.com/Narumikazuchi/Windows/wiki</PackageProjectUrl>
     <PackageIcon>Narumikazuchi nuget.png</PackageIcon>
     <PackageTags>Client; Server; Pipes; Interprocess Connection</PackageTags>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

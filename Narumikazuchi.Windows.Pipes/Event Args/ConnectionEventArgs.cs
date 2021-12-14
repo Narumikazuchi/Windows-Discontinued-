@@ -1,42 +1,39 @@
-﻿using System;
-using System.Diagnostics;
+﻿namespace Narumikazuchi.Windows.Pipes;
 
-namespace Narumikazuchi.Windows.Pipes
+/// <summary>
+/// Contains the connected or disconnected client.
+/// </summary>
+public sealed partial class ConnectionEventArgs : EventArgs
 {
     /// <summary>
-    /// Contains the connected or disconnected client.
+    /// Initializes a new instance of the <see cref="ConnectionEventArgs"/> class.
     /// </summary>
-    public sealed partial class ConnectionEventArgs : EventArgs
+    /// <exception cref="ArgumentNullException"/>
+    public ConnectionEventArgs(Guid whichClient,
+                               in ConnectionType type)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionEventArgs"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"/>
-        public ConnectionEventArgs(Guid whichClient,
-                                   in ConnectionType type)
-        {
-            this._client = whichClient;
-            this.EventType = type;
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="IClient{TData}"/> that connected/disconnected.
-        /// </summary>
-        public Guid Client
-        {
-            get => _client;
-            set => this._client = value;
-        }
-        /// <summary>
-        /// Gets or sets if the connection was established, closed or lost.
-        /// </summary>
-        public ConnectionType EventType { get; set; }
+        this._client = whichClient;
+        this.EventType = type;
     }
 
-    // Non-Public
-    partial class ConnectionEventArgs
+    /// <summary>
+    /// Gets or sets the <see cref="IClient{TData}"/> that connected/disconnected.
+    /// </summary>
+    public Guid Client
     {
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private Guid _client;
+        get => _client;
+        set => this._client = value;
     }
+
+    /// <summary>
+    /// Gets or sets if the connection was established, closed or lost.
+    /// </summary>
+    public ConnectionType EventType { get; set; }
+}
+
+// Non-Public
+partial class ConnectionEventArgs
+{
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private Guid _client;
 }

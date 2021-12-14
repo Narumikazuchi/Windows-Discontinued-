@@ -1,21 +1,22 @@
-﻿namespace Narumikazuchi.Windows.Pipes
+﻿namespace Narumikazuchi.Windows.Pipes;
+
+/// <summary>
+/// Specifies the <see cref="ConnectionType"/> that occurred.
+/// </summary>
+public enum ConnectionType
 {
     /// <summary>
-    /// Specifies the <see cref="ConnectionType"/> that occurred.
+    /// A connection was established.
     /// </summary>
-    public enum ConnectionType
-    {
-        /// <summary>
-        /// A connection was established.
-        /// </summary>
-        ConnectionEstablished = 1,
-        /// <summary>
-        /// A connection was closed.
-        /// </summary>
-        ConnectionClosed = 2,
-        /// <summary>
-        /// A connection was lost.
-        /// </summary>
-        ConnectionLost = 3
-    }
+    ConnectionEstablished = 1,
+
+    /// <summary>
+    /// A connection was closed.
+    /// </summary>
+    ConnectionClosed = 2,
+
+    /// <summary>
+    /// A connection was lost.
+    /// </summary>
+    ConnectionLost = 3
 }
