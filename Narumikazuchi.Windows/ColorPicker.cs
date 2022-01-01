@@ -1,4 +1,12 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Button = System.Windows.Controls.Button;
+using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
+using Point = System.Windows.Point;
+using TextBox = System.Windows.Controls.TextBox;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Represents a window which can select a <see cref="Color"/>.

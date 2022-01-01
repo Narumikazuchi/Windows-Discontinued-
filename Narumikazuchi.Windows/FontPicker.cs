@@ -1,4 +1,9 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Button = System.Windows.Controls.Button;
+using FontFamily = System.Windows.Media.FontFamily;
+using ListBox = System.Windows.Controls.ListBox;
+using TextBox = System.Windows.Controls.TextBox;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Represents a window which can select a <see cref="Font"/>.

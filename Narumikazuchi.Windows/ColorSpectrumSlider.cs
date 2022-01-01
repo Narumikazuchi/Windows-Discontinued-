@@ -1,4 +1,9 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
+using Orientation = System.Windows.Controls.Orientation;
+using Rectangle = System.Windows.Shapes.Rectangle;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Represents the spectrum slider next to the color canvas on a <see cref="ColorPicker"/> object.

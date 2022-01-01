@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <UseWpf>true</UseWpf>
     <UseWindowsForms>true</UseWindowsForms>
     <RepositoryUrl>https://github.com/Narumikazuchi/Windows</RepositoryUrl>
@@ -12,7 +15,7 @@
 For more information about the contained functionality visit https://github.com/Narumikazuchi/Windows/wiki.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <Version>2.1.0</Version>
+    <Version>3.0.0</Version>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/Narumikazuchi/Windows/wiki</PackageProjectUrl>
     <PackageIcon>Narumikazuchi nuget.png</PackageIcon>
@@ -44,7 +47,7 @@ For more information about the contained functionality visit https://github.com/
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Narumikazuchi" Version="[1,2)" />
+    <PackageReference Include="Narumikazuchi" Version="[2,3)" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,8 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Control = System.Windows.Controls.Control;
+using FontFamily = System.Windows.Media.FontFamily;
+using FontStyle = System.Windows.FontStyle;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Represents a font.

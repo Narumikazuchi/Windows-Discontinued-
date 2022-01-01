@@ -1,4 +1,7 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Point = System.Windows.Point;
+using Size = System.Windows.Size;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Fixes the maximize issue with <see cref="WindowStyle.None"/> covering the taskbar.

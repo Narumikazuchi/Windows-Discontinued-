@@ -1,4 +1,6 @@
-﻿namespace Narumikazuchi.Windows;
+﻿using Color = System.Windows.Media.Color;
+
+namespace Narumikazuchi.Windows;
 
 /// <summary>
 /// Converts between <see cref="Color"/> and <see cref="SolidColorBrush"/>.
