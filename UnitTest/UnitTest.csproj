@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Narumikazuchi.Windows.Pipes\Narumikazuchi.Windows.Pipes.csproj" />
     <ProjectReference Include="..\Narumikazuchi.Windows\Narumikazuchi.Windows.csproj" />
   </ItemGroup>
 

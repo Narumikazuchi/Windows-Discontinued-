@@ -179,110 +179,110 @@ public sealed partial class ColorPicker : Window
     {
         base.OnApplyTemplate();
 
-        if (this._colorShadingCanvas is not null)
+        if (m_ColorShadingCanvas is not null)
         {
-            this._colorShadingCanvas.MouseLeftButtonDown -= this.ColorShadingCanvas_MouseLeftButtonDown;
-            this._colorShadingCanvas.MouseLeftButtonUp -= this.ColorShadingCanvas_MouseLeftButtonUp;
-            this._colorShadingCanvas.MouseMove -= this.ColorShadingCanvas_MouseMove;
-            this._colorShadingCanvas.SizeChanged -= this.ColorShadingCanvas_SizeChanged;
+            m_ColorShadingCanvas.MouseLeftButtonDown -= this.ColorShadingCanvas_MouseLeftButtonDown;
+            m_ColorShadingCanvas.MouseLeftButtonUp -= this.ColorShadingCanvas_MouseLeftButtonUp;
+            m_ColorShadingCanvas.MouseMove -= this.ColorShadingCanvas_MouseMove;
+            m_ColorShadingCanvas.SizeChanged -= this.ColorShadingCanvas_SizeChanged;
         }
 
-        this._colorShadingCanvas = this.GetTemplateChild<Canvas>(nameof(this._colorShadingCanvas));
+        m_ColorShadingCanvas = this.GetTemplateChild<Canvas>(nameof(m_ColorShadingCanvas));
 
-        if (this._colorShadingCanvas is not null)
+        if (m_ColorShadingCanvas is not null)
         {
-            this._colorShadingCanvas.MouseLeftButtonDown += this.ColorShadingCanvas_MouseLeftButtonDown;
-            this._colorShadingCanvas.MouseLeftButtonUp += this.ColorShadingCanvas_MouseLeftButtonUp;
-            this._colorShadingCanvas.MouseMove += this.ColorShadingCanvas_MouseMove;
-            this._colorShadingCanvas.SizeChanged += this.ColorShadingCanvas_SizeChanged;
+            m_ColorShadingCanvas.MouseLeftButtonDown += this.ColorShadingCanvas_MouseLeftButtonDown;
+            m_ColorShadingCanvas.MouseLeftButtonUp += this.ColorShadingCanvas_MouseLeftButtonUp;
+            m_ColorShadingCanvas.MouseMove += this.ColorShadingCanvas_MouseMove;
+            m_ColorShadingCanvas.SizeChanged += this.ColorShadingCanvas_SizeChanged;
         }
 
-        this._colorShadeSelector = this.GetTemplateChild<Canvas>(nameof(this._colorShadeSelector));
+        m_ColorShadeSelector = this.GetTemplateChild<Canvas>(nameof(m_ColorShadeSelector));
 
-        if (this._colorShadeSelector is not null)
+        if (m_ColorShadeSelector is not null)
         {
-            this._colorShadeSelector.RenderTransform = this._colorShadeSelectorTransform;
+            m_ColorShadeSelector.RenderTransform = m_ColorShadeSelectorTransform;
         }
 
-        if (this._spectrumSlider is not null)
+        if (m_SpectrumSlider is not null)
         {
-            this._spectrumSlider.ValueChanged -= this.SpectrumSlider_ValueChanged;
+            m_SpectrumSlider.ValueChanged -= this.SpectrumSlider_ValueChanged;
         }
 
-        this._spectrumSlider = this.GetTemplateChild<ColorSpectrumSlider>(nameof(this._spectrumSlider));
+        m_SpectrumSlider = this.GetTemplateChild<ColorSpectrumSlider>(nameof(m_SpectrumSlider));
 
-        if (this._spectrumSlider is not null)
+        if (m_SpectrumSlider is not null)
         {
-            this._spectrumSlider.ValueChanged += this.SpectrumSlider_ValueChanged;
+            m_SpectrumSlider.ValueChanged += this.SpectrumSlider_ValueChanged;
         }
 
-        if (this._hexadecimalText is not null)
+        if (m_HexadecimalText is not null)
         {
-            this._hexadecimalText.LostFocus -= this.HexadecimalText_LostFocus;
+            m_HexadecimalText.LostFocus -= this.HexadecimalText_LostFocus;
         }
 
-        this._hexadecimalText = this.GetTemplateChild<TextBox>(nameof(this._hexadecimalText));
+        m_HexadecimalText = this.GetTemplateChild<TextBox>(nameof(m_HexadecimalText));
 
-        if (this._hexadecimalText is not null)
+        if (m_HexadecimalText is not null)
         {
-            this._hexadecimalText.LostFocus += this.HexadecimalText_LostFocus;
+            m_HexadecimalText.LostFocus += this.HexadecimalText_LostFocus;
         }
 
-        if (this._rSlider is not null)
+        if (m_RSlider is not null)
         {
-            this._rSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            m_RSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
         }
 
-        this._rSlider = this.GetTemplateChild<Slider>(nameof(this._rSlider));
+        m_RSlider = this.GetTemplateChild<Slider>(nameof(m_RSlider));
 
-        if (this._rSlider is not null)
+        if (m_RSlider is not null)
         {
-            this._rSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            m_RSlider.ValueChanged += this.RgbaSlider_ValueChanged;
         }
 
-        if (this._gSlider is not null)
+        if (m_GSlider is not null)
         {
-            this._gSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            m_GSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
         }
 
-        this._gSlider = this.GetTemplateChild<Slider>(nameof(this._gSlider));
+        m_GSlider = this.GetTemplateChild<Slider>(nameof(m_GSlider));
 
-        if (this._gSlider is not null)
+        if (m_GSlider is not null)
         {
-            this._gSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            m_GSlider.ValueChanged += this.RgbaSlider_ValueChanged;
         }
 
-        if (this._bSlider is not null)
+        if (m_BSlider is not null)
         {
-            this._bSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            m_BSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
         }
 
-        this._bSlider = this.GetTemplateChild<Slider>(nameof(this._bSlider));
+        m_BSlider = this.GetTemplateChild<Slider>(nameof(m_BSlider));
 
-        if (this._bSlider is not null)
+        if (m_BSlider is not null)
         {
-            this._bSlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            m_BSlider.ValueChanged += this.RgbaSlider_ValueChanged;
         }
 
-        if (this._aSlider is not null)
+        if (m_ASlider is not null)
         {
-            this._aSlider.ValueChanged -= this.RgbaSlider_ValueChanged;
+            m_ASlider.ValueChanged -= this.RgbaSlider_ValueChanged;
         }
 
-        this._aSlider = this.GetTemplateChild<Slider>(nameof(this._aSlider));
+        m_ASlider = this.GetTemplateChild<Slider>(nameof(m_ASlider));
 
-        if (this._aSlider is not null)
+        if (m_ASlider is not null)
         {
-            this._aSlider.ValueChanged += this.RgbaSlider_ValueChanged;
-            this._aSlider.Visibility = this._allowAlpha ? Visibility.Visible : Visibility.Collapsed;
+            m_ASlider.ValueChanged += this.RgbaSlider_ValueChanged;
+            m_ASlider.Visibility = m_AllowAlpha ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        if (this._btnOk is not null)
+        if (m_BtnOk is not null)
         {
-            this._btnOk.Click -= this.Ok_Click;
+            m_BtnOk.Click -= this.Ok_Click;
         }
-        this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
-        this._btnOk.Click += this.Ok_Click;
+        m_BtnOk = this.GetTemplateChild<Button>(nameof(m_BtnOk));
+        m_BtnOk.Click += this.Ok_Click;
 
         this.UpdateColorShadeSelectorPosition(this.SelectedColor);
     }
@@ -312,17 +312,17 @@ public sealed partial class ColorPicker : Window
     /// </summary>
     public Boolean AllowAlpha
     {
-        get => this._allowAlpha &&
-               this._aSlider is not null &&
-            this._aSlider.Visibility == Visibility.Visible;
+        get => m_AllowAlpha &&
+               m_ASlider is not null &&
+            m_ASlider.Visibility == Visibility.Visible;
         set
         {
-            this._allowAlpha = value;
-            if (this._aSlider is null)
+            m_AllowAlpha = value;
+            if (m_ASlider is null)
             {
                 return;
             }
-            this._aSlider.Visibility = value
+            m_ASlider.Visibility = value
                                           ? Visibility.Visible
                                           : Visibility.Collapsed;
         }
@@ -354,7 +354,7 @@ partial class ColorPicker
 
         if (e.Key is Key.Enter &&
             e.OriginalSource is TextBox box &&
-            box == this._hexadecimalText)
+            box == m_HexadecimalText)
         {
             this.SetHexadecimalString(box.Text);
         }
@@ -362,12 +362,12 @@ partial class ColorPicker
 
     private void InitializeComponent()
     {
-        if (this._contentLoaded)
+        if (m_ContentLoaded)
         {
             return;
         }
 
-        this._contentLoaded = true;
+        m_ContentLoaded = true;
         this.Width = 256;
         this.Height = 284;
         this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -487,8 +487,8 @@ partial class ColorPicker
                                     "<RowDefinition Height=\"Auto\"/>" +
                                 "</Grid.RowDefinitions>" +
                                 "<Border Grid.Row=\"0\" BorderThickness=\"1\" BorderBrush=\"DarkGray\" ClipToBounds=\"True\">" +
-                                    "<Canvas x:Name=\"" + nameof(this._colorShadingCanvas) + "\" Width=\"200\" Height=\"100\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\">" +
-                                        "<Rectangle Width=\"200\" Height=\"100\" Fill=\"{Binding SelectedColor, ElementName=" + nameof(this._spectrumSlider) + ", Converter={StaticResource Converter}}\" />" +
+                                    "<Canvas x:Name=\"" + nameof(m_ColorShadingCanvas) + "\" Width=\"200\" Height=\"100\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\">" +
+                                        "<Rectangle Width=\"200\" Height=\"100\" Fill=\"{Binding SelectedColor, ElementName=" + nameof(m_SpectrumSlider) + ", Converter={StaticResource Converter}}\" />" +
                                         "<Rectangle Width=\"200\" Height=\"100\">" +
                                             "<Rectangle.Fill>" +
                                                 "<LinearGradientBrush StartPoint=\"0,0\" EndPoint=\"1,0\">" +
@@ -505,7 +505,7 @@ partial class ColorPicker
                                                 "</LinearGradientBrush>" +
                                             "</Rectangle.Fill>" +
                                         "</Rectangle>" +
-                                        "<Canvas x:Name=\"" + nameof(this._colorShadeSelector) + "\" Width=\"10\" Height=\"10\" IsHitTestVisible=\"False\">" +
+                                        "<Canvas x:Name=\"" + nameof(m_ColorShadeSelector) + "\" Width=\"10\" Height=\"10\" IsHitTestVisible=\"False\">" +
                                             "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FFFFFFFF\" StrokeThickness=\"3\" IsHitTestVisible=\"False\"/>" +
                                             "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FF000000\" StrokeThickness=\"1\" IsHitTestVisible=\"False\"/>" +
                                         "</Canvas>" +
@@ -520,11 +520,11 @@ partial class ColorPicker
                                         "<Border Grid.Column=\"0\" Height=\"22\" Margin=\"2 0\" BorderThickness=\"1\" BorderBrush=\"#FFC9CACA\">" +
                                             "<Rectangle Fill=\"{TemplateBinding SelectedColor, Converter={StaticResource Converter}}\"/>" +
                                         "</Border>" +
-                                        "<TextBox x:Name=\"" + nameof(this._hexadecimalText) + "\" Grid.Column=\"1\" Margin=\"2 0\" Foreground=\"{TemplateBinding Foreground}\" Background=\"Transparent\" BorderBrush=\"{TemplateBinding Foreground}\" VerticalAlignment=\"Center\" />" +
+                                        "<TextBox x:Name=\"" + nameof(m_HexadecimalText) + "\" Grid.Column=\"1\" Margin=\"2 0\" Foreground=\"{TemplateBinding Foreground}\" Background=\"Transparent\" BorderBrush=\"{TemplateBinding Foreground}\" VerticalAlignment=\"Center\" />" +
                                     "</Grid>" +
                                 "</Border>" +
                                 "<Border Grid.Column=\"1\" Grid.Row=\"0\" Grid.RowSpan=\"2\" Margin=\"4 -8 0 0\" ClipToBounds=\"False\">" +
-                                    "<w:ColorSpectrumSlider x:Name=\"" + nameof(this._spectrumSlider) + "\" VerticalAlignment=\"Stretch\"/>" +
+                                    "<w:ColorSpectrumSlider x:Name=\"" + nameof(m_SpectrumSlider) + "\" VerticalAlignment=\"Stretch\"/>" +
                                 "</Border>" +
                             "</Grid>" +
                             "<Border Grid.Column=\"0\" Grid.Row=\"1\" BorderThickness=\"1\" Margin=\"0 10 0 0\" MinWidth=\"180\" ClipToBounds=\"True\">" +
@@ -535,10 +535,10 @@ partial class ColorPicker
                                         "<RowDefinition Height=\"19\"/>" +
                                         "<RowDefinition Height=\"19\"/>" +
                                     "</Grid.RowDefinitions>" +
-                                    "<Slider x:Name=\"" + nameof(this._rSlider) + "\" Grid.Row=\"0\" Background=\"#FFFF0000\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(this._gSlider) + "\" Grid.Row=\"1\" Background=\"#FF00FF00\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(this._bSlider) + "\" Grid.Row=\"2\" Background=\"#FF0000FF\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(this._aSlider) + "\" Grid.Row=\"3\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\">" +
+                                    "<Slider x:Name=\"" + nameof(m_RSlider) + "\" Grid.Row=\"0\" Background=\"#FFFF0000\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                    "<Slider x:Name=\"" + nameof(m_GSlider) + "\" Grid.Row=\"1\" Background=\"#FF00FF00\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                    "<Slider x:Name=\"" + nameof(m_BSlider) + "\" Grid.Row=\"2\" Background=\"#FF0000FF\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                    "<Slider x:Name=\"" + nameof(m_ASlider) + "\" Grid.Row=\"3\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\">" +
                                         "<Slider.Background>" +
                                             "<DrawingBrush Viewport=\"0 0 0.05 0.2\" TileMode=\"Tile\">" +
                                                 "<DrawingBrush.Drawing>" +
@@ -583,24 +583,24 @@ partial class ColorPicker
     private void UpdateColorShadeSelectorPosition(Point p,
                                                   in Boolean calculateColor)
     {
-        if (this._colorShadingCanvas is null ||
-            this._colorShadeSelector is null)
+        if (m_ColorShadingCanvas is null ||
+            m_ColorShadeSelector is null)
         {
             return;
         }
 
         p.X = p.X.Clamp(0,
-                        this._colorShadingCanvas.ActualWidth);
+                        m_ColorShadingCanvas.ActualWidth);
         p.Y = p.Y.Clamp(0,
-                        this._colorShadingCanvas.ActualHeight);
+                        m_ColorShadingCanvas.ActualHeight);
 
-        this._colorShadeSelectorTransform.X = p.X - (this._colorShadeSelector.Width / 2);
-        this._colorShadeSelectorTransform.Y = p.Y - (this._colorShadeSelector.Height / 2);
+        m_ColorShadeSelectorTransform.X = p.X - m_ColorShadeSelector.Width / 2;
+        m_ColorShadeSelectorTransform.Y = p.Y - m_ColorShadeSelector.Height / 2;
 
-        p.X /= this._colorShadingCanvas.ActualWidth;
-        p.Y /= this._colorShadingCanvas.ActualHeight;
+        p.X /= m_ColorShadingCanvas.ActualWidth;
+        p.Y /= m_ColorShadingCanvas.ActualHeight;
 
-        this._currentColorPosition = p;
+        m_CurrentColorPosition = p;
 
         if (calculateColor)
         {
@@ -610,51 +610,51 @@ partial class ColorPicker
 
     private void UpdateColorShadeSelectorPosition(in Color color)
     {
-        if (this._spectrumSlider is null ||
-            this._colorShadingCanvas is null)
+        if (m_SpectrumSlider is null ||
+            m_ColorShadingCanvas is null)
         {
             return;
         }
 
-        this._currentColorPosition = null;
+        m_CurrentColorPosition = null;
 
         HsvColor hsv = HsvColor.FromRgb(color.R,
                                         color.G,
                                         color.B);
 
-        if (this._updateSpectrumSliderValue)
+        if (m_UpdateSpectrumSliderValue)
         {
-            this._spectrumSlider.Value = 360 - hsv.H;
+            m_SpectrumSlider.Value = 360 - hsv.H;
         }
 
         Point p = new(hsv.S,
                       1 - hsv.V);
-        this._currentColorPosition = p;
+        m_CurrentColorPosition = p;
 
-        this._colorShadeSelectorTransform.X = (p.X * this._colorShadingCanvas.Width) - 5;
-        this._colorShadeSelectorTransform.Y = (p.Y * this._colorShadingCanvas.Height) - 5;
+        m_ColorShadeSelectorTransform.X = p.X * m_ColorShadingCanvas.Width - 5;
+        m_ColorShadeSelectorTransform.Y = p.Y * m_ColorShadingCanvas.Height - 5;
     }
 
     private void CalculateColor(in Point p)
     {
-        if (this._spectrumSlider is null)
+        if (m_SpectrumSlider is null)
         {
             return;
         }
 
-        HsvColor hsv = HsvColor.FromHsv(360 - this._spectrumSlider.Value,
+        HsvColor hsv = HsvColor.FromHsv(360 - m_SpectrumSlider.Value,
                                         p.X,
                                         1 - p.Y);
         Color color = (Color)hsv;
 
         this.SelectedColor = color;
         this.SetHexadecimalStringTextBox(color);
-        this._rSlider.Value = color.R;
-        this._gSlider.Value = color.G;
-        this._bSlider.Value = color.B;
+        m_RSlider.Value = color.R;
+        m_GSlider.Value = color.G;
+        m_BSlider.Value = color.B;
         if (this.AllowAlpha)
         {
-            this._aSlider.Value = color.A;
+            m_ASlider.Value = color.A;
         }
     }
 
@@ -686,25 +686,25 @@ partial class ColorPicker
 
     private void SetHexadecimalStringTextBox(in Color color)
     {
-        if (this._hexadecimalText is not null)
+        if (m_HexadecimalText is not null)
         {
             String? value = this.AllowAlpha
                                     ? color.ToString()
                                     : color.ToString()
                                            .Remove(1, 2);
-            this._hexadecimalText.Text = value;
+            m_HexadecimalText.Text = value;
         }
     }
 
     private void ColorShadingCanvas_MouseLeftButtonDown(Object? sender,
                                                         MouseButtonEventArgs e)
     {
-        if (this._colorShadingCanvas is null)
+        if (m_ColorShadingCanvas is null)
         {
             return;
         }
 
-        Point p = e.GetPosition(this._colorShadingCanvas);
+        Point p = e.GetPosition(m_ColorShadingCanvas);
         this.UpdateColorShadeSelectorPosition(p,
                                               true);
         e.Handled = true;
@@ -713,22 +713,22 @@ partial class ColorPicker
     private void ColorShadingCanvas_MouseLeftButtonUp(Object? sender,
                                                       MouseButtonEventArgs e)
     {
-        if (this._colorShadingCanvas is null)
+        if (m_ColorShadingCanvas is null)
         {
             return;
         }
-        this._colorShadingCanvas.ReleaseMouseCapture();
+        m_ColorShadingCanvas.ReleaseMouseCapture();
     }
 
     private void ColorShadingCanvas_MouseMove(Object? sender,
                                               MouseEventArgs e)
     {
-        if (this._colorShadingCanvas is null ||
+        if (m_ColorShadingCanvas is null ||
             e.LeftButton is not MouseButtonState.Pressed)
         {
             return;
         }
-        Point p = e.GetPosition(this._colorShadingCanvas);
+        Point p = e.GetPosition(m_ColorShadingCanvas);
         this.UpdateColorShadeSelectorPosition(p,
                                               true);
         Mouse.Synchronize();
@@ -737,14 +737,14 @@ partial class ColorPicker
     private void ColorShadingCanvas_SizeChanged(Object? sender,
                                                 SizeChangedEventArgs e)
     {
-        if (this._currentColorPosition is null)
+        if (m_CurrentColorPosition is null)
         {
             return;
         }
         Point newPoint = new()
         {
-            X = ((Point)this._currentColorPosition).X * e.NewSize.Width,
-            Y = ((Point)this._currentColorPosition).Y * e.NewSize.Height
+            X = ((Point)m_CurrentColorPosition).X * e.NewSize.Width,
+            Y = ((Point)m_CurrentColorPosition).Y * e.NewSize.Height
         };
 
         this.UpdateColorShadeSelectorPosition(newPoint,
@@ -754,11 +754,11 @@ partial class ColorPicker
     private void SpectrumSlider_ValueChanged(Object? sender,
                                              RoutedPropertyChangedEventArgs<Double> e)
     {
-        if (this._currentColorPosition is null)
+        if (m_CurrentColorPosition is null)
         {
             return;
         }
-        this.CalculateColor((Point)this._currentColorPosition);
+        this.CalculateColor((Point)m_CurrentColorPosition);
     }
 
     private void HexadecimalText_LostFocus(Object? sender,
@@ -781,43 +781,43 @@ partial class ColorPicker
             return;
         }
 
-        if (slider == this._rSlider)
+        if (slider == m_RSlider)
         {
             Color color = Color.FromArgb(this.SelectedColor.A,
-                                         (Byte)this._rSlider.Value.Clamp(0.0d,
-                                                                         255.0d),
+                                         (Byte)m_RSlider.Value.Clamp(0.0d,
+                                                                     255.0d),
                                          this.SelectedColor.G,
                                          this.SelectedColor.B);
             this.UpdateColorShadeSelectorPosition(color);
             this.SetHexadecimalStringTextBox(color);
             this.SelectedColor = color;
         }
-        else if (slider == this._gSlider)
+        else if (slider == m_GSlider)
         {
             Color color = Color.FromArgb(this.SelectedColor.A,
                                          this.SelectedColor.R,
-                                         (Byte)this._gSlider.Value.Clamp(0.0d,
-                                                                         255.0d),
+                                         (Byte)m_GSlider.Value.Clamp(0.0d,
+                                                                     255.0d),
                                          this.SelectedColor.B);
             this.UpdateColorShadeSelectorPosition(color);
             this.SetHexadecimalStringTextBox(color);
             this.SelectedColor = color;
         }
-        else if (slider == this._bSlider)
+        else if (slider == m_BSlider)
         {
             Color color = Color.FromArgb(this.SelectedColor.A,
                                          this.SelectedColor.R,
                                          this.SelectedColor.G,
-                                         (Byte)this._bSlider.Value.Clamp(0.0d,
-                                                                         255.0d));
+                                         (Byte)m_BSlider.Value.Clamp(0.0d,
+                                                                     255.0d));
             this.UpdateColorShadeSelectorPosition(color);
             this.SetHexadecimalStringTextBox(color);
             this.SelectedColor = color;
         }
-        else if (slider == this._aSlider)
+        else if (slider == m_ASlider)
         {
-            Color color = Color.FromArgb((Byte)this._aSlider.Value.Clamp(0.0d,
-                                                                         255.0d),
+            Color color = Color.FromArgb((Byte)m_ASlider.Value.Clamp(0.0d,
+                                                                     255.0d),
                                          this.SelectedColor.R,
                                          this.SelectedColor.G,
                                          this.SelectedColor.B);
@@ -837,18 +837,18 @@ partial class ColorPicker
                 ? result
                 : throw new InvalidCastException();
 
-    private Boolean _contentLoaded = false;
-    private Boolean _allowAlpha = true;
-    private TranslateTransform _colorShadeSelectorTransform = new();
-    private Boolean _updateSpectrumSliderValue = true;
-    private Canvas _colorShadingCanvas;
-    private Canvas _colorShadeSelector;
-    private ColorSpectrumSlider _spectrumSlider;
-    private TextBox _hexadecimalText;
-    private Slider _rSlider;
-    private Slider _gSlider;
-    private Slider _bSlider;
-    private Slider _aSlider;
-    private Button _btnOk;
-    private Point? _currentColorPosition;
+    private readonly TranslateTransform m_ColorShadeSelectorTransform = new();
+    private readonly Boolean m_UpdateSpectrumSliderValue = true;
+    private Boolean m_ContentLoaded = false;
+    private Boolean m_AllowAlpha = true;
+    private Canvas m_ColorShadingCanvas;
+    private Canvas m_ColorShadeSelector;
+    private ColorSpectrumSlider m_SpectrumSlider;
+    private TextBox m_HexadecimalText;
+    private Slider m_RSlider;
+    private Slider m_GSlider;
+    private Slider m_BSlider;
+    private Slider m_ASlider;
+    private Button m_BtnOk;
+    private Point? m_CurrentColorPosition;
 }

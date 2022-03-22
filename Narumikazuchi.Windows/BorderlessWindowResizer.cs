@@ -15,7 +15,7 @@ public sealed partial class BorderlessWindowResizer
     /// </summary>
     /// <exception cref="ArgumentNullException"/>
     public static void AttachTo([DisallowNull] Window window) =>
-        _attached.Add(window,
+        s_Attached.Add(window,
                       new(window));
 
 #pragma warning restore
@@ -33,11 +33,11 @@ public sealed partial class BorderlessWindowResizer
         {
             throw new ArgumentNullException(nameof(window));
         }
-        if (!_attached.ContainsKey(window))
+        if (!s_Attached.ContainsKey(window))
         {
             return null;
         }
-        return _attached[window];
+        return s_Attached[window];
     }
 
     /// <summary>
@@ -56,23 +56,23 @@ partial class BorderlessWindowResizer
             throw new ArgumentNullException(nameof(window));
         }
 
-        this._window = window;
+        m_Window = window;
 
         this.GetTransfrom();
 
-        this._window.SourceInitialized += this.Window_SourceInitialized;
-        this._window.SizeChanged += this.Window_SizeChanged;
+        m_Window.SourceInitialized += this.Window_SourceInitialized;
+        m_Window.SizeChanged += this.Window_SizeChanged;
     }
 
     private void GetTransfrom()
     {
-        PresentationSource source = PresentationSource.FromVisual(this._window);
+        PresentationSource source = PresentationSource.FromVisual(m_Window);
         if (source is null)
         {
             return;
         }
 
-        this._transform = source.CompositionTarget.TransformToDevice;
+        m_Transform = source.CompositionTarget.TransformToDevice;
     }
 
     private IntPtr WindowProc(IntPtr hwnd,
@@ -106,12 +106,12 @@ partial class BorderlessWindowResizer
 
         IntPtr lpCurrentScreen = MonitorFromPoint(lpMouseLocation,
                                                   __MonitorOptions.MONITOR_DEFAULTTONEAREST);
-        if (lpCurrentScreen != this._lastScreen ||
-            this._transform == default)
+        if (lpCurrentScreen != m_LastScreen ||
+            m_Transform == default)
         {
             this.GetTransfrom();
         }
-        this._lastScreen = lpCurrentScreen;
+        m_LastScreen = lpCurrentScreen;
 
         __MinMaxInfo info = (__MinMaxInfo)Marshal.PtrToStructure(lParam,
                                                                  typeof(__MinMaxInfo));
@@ -130,12 +130,12 @@ partial class BorderlessWindowResizer
             info.ptMaxSize.Y = primaryScreenInfo.rcMonitor.Bottom - primaryScreenInfo.rcMonitor.Top;
         }
 
-        Point minSize = this._transform.Transform(new Point(this._window.MinWidth,
-                                                            this._window.MinHeight));
+        Point minSize = m_Transform.Transform(new Point(m_Window.MinWidth,
+                                                            m_Window.MinHeight));
         info.ptMinTrackSize.X = (Int32)minSize.X;
         info.ptMinTrackSize.Y = (Int32)minSize.Y;
 
-        this._screenSize = new Rect(info.ptMaxPosition.X,
+        m_ScreenSize = new Rect(info.ptMaxPosition.X,
                                     info.ptMaxPosition.Y,
                                     info.ptMaxSize.X,
                                     info.ptMaxSize.Y);
@@ -148,7 +148,7 @@ partial class BorderlessWindowResizer
     private void Window_SourceInitialized(Object? sender,
                                           EventArgs e)
     {
-        IntPtr handle = new WindowInteropHelper(this._window).Handle;
+        IntPtr handle = new WindowInteropHelper(m_Window).Handle;
         HwndSource source = HwndSource.FromHwnd(handle);
         if (source is null)
         {
@@ -161,27 +161,27 @@ partial class BorderlessWindowResizer
     private void Window_SizeChanged(Object? sender,
                                     SizeChangedEventArgs e)
     {
-        if (this._transform == default)
+        if (m_Transform == default)
         {
             return;
         }
 
         Size size = e.NewSize;
 
-        Double left = this._window.Left;
-        Double top = this._window.Top;
-        Double right = left + this._window.Width;
-        Double bottom = top + this._window.Height;
+        Double left = m_Window.Left;
+        Double top = m_Window.Top;
+        Double right = left + m_Window.Width;
+        Double bottom = top + m_Window.Height;
 
-        Point topLeft = this._transform.Transform(new Point(left,
+        Point topLeft = m_Transform.Transform(new Point(left,
                                                             top));
-        Point bottomRight = this._transform.Transform(new Point(right,
+        Point bottomRight = m_Transform.Transform(new Point(right,
                                                                 bottom));
 
-        Boolean edgedLeft = topLeft.X <= this._screenSize.Left + EDGETOLERANCE;
-        Boolean edgedTop = topLeft.Y <= this._screenSize.Top + EDGETOLERANCE;
-        Boolean edgedRight = bottomRight.X >= this._screenSize.Right - EDGETOLERANCE;
-        Boolean edgedBottom = bottomRight.Y >= this._screenSize.Bottom - EDGETOLERANCE;
+        Boolean edgedLeft = topLeft.X <= m_ScreenSize.Left + EDGETOLERANCE;
+        Boolean edgedTop = topLeft.Y <= m_ScreenSize.Top + EDGETOLERANCE;
+        Boolean edgedRight = bottomRight.X >= m_ScreenSize.Right - EDGETOLERANCE;
+        Boolean edgedBottom = bottomRight.Y >= m_ScreenSize.Bottom - EDGETOLERANCE;
 
         WindowDockPosition dock = WindowDockPosition.Undocked;
         if (edgedTop &&
@@ -197,11 +197,11 @@ partial class BorderlessWindowResizer
             dock = WindowDockPosition.Right;
         }
 
-        if (dock != this._lastDock)
+        if (dock != m_LastDock)
         {
             this.WindowDockChanged?.Invoke(this,
                                            new(dock));
-            this._lastDock = dock;
+            m_LastDock = dock;
         }
     }
 
@@ -218,12 +218,12 @@ partial class BorderlessWindowResizer
     private static extern IntPtr MonitorFromPoint(__Point pt,
                                                   __MonitorOptions dwFlags);
 
-    private static Dictionary<Window, BorderlessWindowResizer> _attached = new();
-    private readonly Window _window;
-    private WindowDockPosition _lastDock = WindowDockPosition.Undocked;
-    private IntPtr _lastScreen = IntPtr.Zero;
-    private Rect _screenSize = new();
-    private Matrix _transform = default;
+    private static readonly Dictionary<Window, BorderlessWindowResizer> s_Attached = new();
+    private readonly Window m_Window;
+    private WindowDockPosition m_LastDock = WindowDockPosition.Undocked;
+    private IntPtr m_LastScreen = IntPtr.Zero;
+    private Rect m_ScreenSize = new();
+    private Matrix m_Transform = default;
 
     private const Int32 EDGETOLERANCE = 2;
 }
