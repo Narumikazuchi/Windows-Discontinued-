@@ -170,6 +170,25 @@ partial class BorderlessWindowResizer
     private void Window_SizeChanged(Object? sender,
                                     SizeChangedEventArgs e)
     {
+        if (m_Window.WindowState != m_LastState)
+        {
+            if (m_LastState is WindowState.Normal &&
+                m_Window.WindowState is WindowState.Maximized)
+            {
+                this.WindowMaximized?
+                    .Invoke(sender: m_Window,
+                            eventArgs: null);
+            }
+            else if (m_LastState is WindowState.Maximized &&
+                     m_Window.WindowState is WindowState.Normal)
+            {
+                this.WindowNormalized?
+                    .Invoke(sender: m_Window,
+                            eventArgs: null);
+            }
+            m_LastState = m_Window.WindowState;
+        }
+
         if (m_Transform == default)
         {
             return;
@@ -211,25 +230,6 @@ partial class BorderlessWindowResizer
             this.WindowDockChanged?.Invoke(this,
                                            new(dock));
             m_LastDock = dock;
-        }
-
-        if (m_Window.WindowState != m_LastState)
-        {
-            if (m_LastState is WindowState.Normal &&
-                m_Window.WindowState is WindowState.Maximized)
-            {
-                this.WindowMaximized?
-                    .Invoke(sender: m_Window,
-                            eventArgs: null);
-            }
-            else if (m_LastState is WindowState.Maximized &&
-                     m_Window.WindowState is WindowState.Normal)
-            {
-                this.WindowNormalized?
-                    .Invoke(sender: m_Window,
-                            eventArgs: null);
-            }
-            m_LastState = m_Window.WindowState;
         }
     }
 
