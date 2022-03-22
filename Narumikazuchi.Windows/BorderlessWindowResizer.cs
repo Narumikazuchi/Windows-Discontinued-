@@ -16,7 +16,7 @@ public sealed partial class BorderlessWindowResizer
     /// <exception cref="ArgumentNullException"/>
     public static void AttachTo([DisallowNull] Window window) =>
         s_Attached.Add(window,
-                      new(window));
+                       new(window));
 
 #pragma warning restore
 
@@ -44,6 +44,14 @@ public sealed partial class BorderlessWindowResizer
     /// Occurs when the dock of the <see cref="Window"/> changed.
     /// </summary>
     public event EventHandler<BorderlessWindowResizer, WindowDockEventArgs>? WindowDockChanged;
+    /// <summary>
+    /// Occurs when the <see cref="Window"/> has been normalized.
+    /// </summary>
+    public event EventHandler<Window>? WindowNormalized;
+    /// <summary>
+    /// Occurs when the <see cref="Window"/> has been maximized.
+    /// </summary>
+    public event EventHandler<Window>? WindowMaximized;
 }
 
 // Non-Public
@@ -57,6 +65,7 @@ partial class BorderlessWindowResizer
         }
 
         m_Window = window;
+        m_LastState = window.WindowState;
 
         this.GetTransfrom();
 
@@ -131,14 +140,14 @@ partial class BorderlessWindowResizer
         }
 
         Point minSize = m_Transform.Transform(new Point(m_Window.MinWidth,
-                                                            m_Window.MinHeight));
+                                                        m_Window.MinHeight));
         info.ptMinTrackSize.X = (Int32)minSize.X;
         info.ptMinTrackSize.Y = (Int32)minSize.Y;
 
         m_ScreenSize = new Rect(info.ptMaxPosition.X,
-                                    info.ptMaxPosition.Y,
-                                    info.ptMaxSize.X,
-                                    info.ptMaxSize.Y);
+                                info.ptMaxPosition.Y,
+                                info.ptMaxSize.X,
+                                info.ptMaxSize.Y);
         Marshal.StructureToPtr(info,
                                lParam,
                                true);
@@ -174,9 +183,9 @@ partial class BorderlessWindowResizer
         Double bottom = top + m_Window.Height;
 
         Point topLeft = m_Transform.Transform(new Point(left,
-                                                            top));
+                                                        top));
         Point bottomRight = m_Transform.Transform(new Point(right,
-                                                                bottom));
+                                                            bottom));
 
         Boolean edgedLeft = topLeft.X <= m_ScreenSize.Left + EDGETOLERANCE;
         Boolean edgedTop = topLeft.Y <= m_ScreenSize.Top + EDGETOLERANCE;
@@ -203,6 +212,25 @@ partial class BorderlessWindowResizer
                                            new(dock));
             m_LastDock = dock;
         }
+
+        if (m_Window.WindowState != m_LastState)
+        {
+            if (m_LastState is WindowState.Normal &&
+                m_Window.WindowState is WindowState.Maximized)
+            {
+                this.WindowMaximized?
+                    .Invoke(sender: m_Window,
+                            eventArgs: null);
+            }
+            else if (m_LastState is WindowState.Maximized &&
+                     m_Window.WindowState is WindowState.Normal)
+            {
+                this.WindowNormalized?
+                    .Invoke(sender: m_Window,
+                            eventArgs: null);
+            }
+            m_LastState = m_Window.WindowState;
+        }
     }
 
     [DllImport("user32.dll")]
@@ -221,6 +249,7 @@ partial class BorderlessWindowResizer
     private static readonly Dictionary<Window, BorderlessWindowResizer> s_Attached = new();
     private readonly Window m_Window;
     private WindowDockPosition m_LastDock = WindowDockPosition.Undocked;
+    private WindowState m_LastState = WindowState.Normal;
     private IntPtr m_LastScreen = IntPtr.Zero;
     private Rect m_ScreenSize = new();
     private Matrix m_Transform = default;
