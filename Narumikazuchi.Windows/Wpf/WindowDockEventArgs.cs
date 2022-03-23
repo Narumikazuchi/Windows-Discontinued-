@@ -1,4 +1,4 @@
-﻿namespace Narumikazuchi.Windows;
+﻿namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// Contains the new <see cref="WindowDockPosition"/> of the associated window.

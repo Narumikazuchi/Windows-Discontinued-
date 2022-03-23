@@ -2,8 +2,9 @@
 using FontFamily = System.Windows.Media.FontFamily;
 using FontStyle = System.Windows.FontStyle;
 
-namespace Narumikazuchi.Windows;
+namespace Narumikazuchi.Windows.Wpf;
 
+#pragma warning disable CS0282
 /// <summary>
 /// Represents a font.
 /// </summary>
@@ -29,12 +30,12 @@ public readonly partial struct Font
             throw new ArgumentNullException(nameof(family));
         }
 
-        this._family = family;
+        this.m_Family = family;
         Typeface typeface = new(family,
                                 style,
                                 weight,
                                 stretch);
-        this._typeface = typeface;
+        this.m_Typeface = typeface;
         this.Size = size;
     }
 
@@ -58,8 +59,8 @@ public readonly partial struct Font
             throw new ArgumentNullException(nameof(typeface));
         }
 
-        this._family = family;
-        this._typeface = typeface;
+        this.m_Family = family;
+        this.m_Typeface = typeface;
         this.Size = size;
     }
 
@@ -115,16 +116,16 @@ public readonly partial struct Font
     [NotNull]
     public FontFamily Family
     {
-        get => this._family is null
-                    ? throw new ArgumentNullException(nameof(this._family))
-                    : this._family;
+        get => this.m_Family is null
+                    ? throw new ArgumentNullException(nameof(this.m_Family))
+                    : this.m_Family;
         init
         {
             if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            this._family = value;
+            this.m_Family = value;
         }
     }
 
@@ -142,16 +143,16 @@ public readonly partial struct Font
     [NotNull]
     public Typeface Typeface
     {
-        get => this._typeface is null
-                    ? throw new ArgumentNullException(nameof(this._typeface))
-                    : this._typeface;
+        get => this.m_Typeface is null
+                    ? throw new ArgumentNullException(nameof(this.m_Typeface))
+                    : this.m_Typeface;
         init
         {
             if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            this._typeface = value;
+            this.m_Typeface = value;
         }
     }
 
@@ -177,8 +178,8 @@ public readonly partial struct Font
 // Non-Public
 partial struct Font
 {
-    private readonly FontFamily _family;
-    private readonly Typeface _typeface;
+    private readonly FontFamily m_Family;
+    private readonly Typeface m_Typeface;
 }
 
 // IEquatable<Font>

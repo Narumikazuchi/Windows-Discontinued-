@@ -1,6 +1,6 @@
 ﻿using Color = System.Windows.Media.Color;
 
-namespace Narumikazuchi.Windows;
+namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// Converts between <see cref="Color"/> and <see cref="SolidColorBrush"/>.

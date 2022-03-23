@@ -1,6 +1,7 @@
 ﻿global using Narumikazuchi.Windows.Win32;
 global using System;
 global using System.Collections.Generic;
+global using System.ComponentModel;
 global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Diagnostics.Contracts;
@@ -17,6 +18,5 @@ global using System.Windows.Input;
 global using System.Windows.Interop;
 global using System.Windows.Markup;
 global using System.Windows.Media;
-global using System.Windows.Shapes;
 global using DColor = System.Drawing.Color;
 global using MColor = System.Windows.Media.Color;

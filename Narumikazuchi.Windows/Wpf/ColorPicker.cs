@@ -6,7 +6,7 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Point = System.Windows.Point;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace Narumikazuchi.Windows;
+namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// Represents a window which can select a <see cref="Color"/>.

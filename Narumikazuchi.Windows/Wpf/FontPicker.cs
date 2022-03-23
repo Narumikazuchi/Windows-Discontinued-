@@ -3,7 +3,7 @@ using FontFamily = System.Windows.Media.FontFamily;
 using ListBox = System.Windows.Controls.ListBox;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace Narumikazuchi.Windows;
+namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// Represents a window which can select a <see cref="Font"/>.
@@ -133,43 +133,43 @@ public sealed partial class FontPicker : Window
     {
         base.OnApplyTemplate();
 
-        if (this._lstFamily is not null)
+        if (this.m_LstFamily is not null)
         {
-            this._lstFamily.SelectionChanged -= this.Family_SelectionChanged;
+            this.m_LstFamily.SelectionChanged -= this.Family_SelectionChanged;
         }
-        this._lstFamily = this.GetTemplateChild<ListBox>(nameof(this._lstFamily));
-        this._lstFamily.SelectionChanged += this.Family_SelectionChanged;
+        this.m_LstFamily = this.GetTemplateChild<ListBox>(nameof(this.m_LstFamily));
+        this.m_LstFamily.SelectionChanged += this.Family_SelectionChanged;
 
-        if (this._lstTypefaces is not null)
+        if (this.m_LstTypefaces is not null)
         {
-            this._lstTypefaces.SelectionChanged -= this.Typefaces_SelectionChanged;
+            this.m_LstTypefaces.SelectionChanged -= this.Typefaces_SelectionChanged;
         }
-        this._lstTypefaces = this.GetTemplateChild<ListBox>(nameof(this._lstTypefaces));
-        this._lstTypefaces.SelectionChanged += this.Typefaces_SelectionChanged;
+        this.m_LstTypefaces = this.GetTemplateChild<ListBox>(nameof(this.m_LstTypefaces));
+        this.m_LstTypefaces.SelectionChanged += this.Typefaces_SelectionChanged;
 
-        this._sampleText = this.GetTemplateChild<TextBox>(nameof(this._sampleText));
+        this.m_SampleText = this.GetTemplateChild<TextBox>(nameof(this.m_SampleText));
 
-        if (this._fontSizeSlider is not null)
+        if (this.m_FontSizeSlider is not null)
         {
-            this._fontSizeSlider.ValueChanged -= this.SizeSlider_ValueChanged;
+            this.m_FontSizeSlider.ValueChanged -= this.SizeSlider_ValueChanged;
         }
-        this._fontSizeSlider = this.GetTemplateChild<Slider>(nameof(this._fontSizeSlider));
-        this._fontSizeSlider.ValueChanged += this.SizeSlider_ValueChanged;
+        this.m_FontSizeSlider = this.GetTemplateChild<Slider>(nameof(this.m_FontSizeSlider));
+        this.m_FontSizeSlider.ValueChanged += this.SizeSlider_ValueChanged;
 
-        if (this._btnOk is not null)
+        if (this.m_BtnOk is not null)
         {
-            this._btnOk.Click -= this.Ok_Click;
+            this.m_BtnOk.Click -= this.Ok_Click;
         }
-        this._btnOk = this.GetTemplateChild<Button>(nameof(this._btnOk));
-        this._btnOk.Click += this.Ok_Click;
+        this.m_BtnOk = this.GetTemplateChild<Button>(nameof(this.m_BtnOk));
+        this.m_BtnOk.Click += this.Ok_Click;
 
-        this._lstFamily.ItemsSource = Fonts.SystemFontFamilies;
-        this._lstTypefaces.ItemsSource = this.SelectedFont.Family.GetTypefaces();
-        this._lstFamily.SelectedItem = this.SelectedFont.Family;
-        this._lstFamily.ScrollIntoView(this._lstFamily.SelectedItem);
-        this._lstTypefaces.SelectedItem = this.SelectedFont.Typeface;
-        this._fontSizeSlider.Value = this.SelectedFont.Size;
-        this._sampleText.DataContext = this.SelectedFont;
+        this.m_LstFamily.ItemsSource = Fonts.SystemFontFamilies;
+        this.m_LstTypefaces.ItemsSource = this.SelectedFont.Family.GetTypefaces();
+        this.m_LstFamily.SelectedItem = this.SelectedFont.Family;
+        this.m_LstFamily.ScrollIntoView(this.m_LstFamily.SelectedItem);
+        this.m_LstTypefaces.SelectedItem = this.SelectedFont.Typeface;
+        this.m_FontSizeSlider.Value = this.SelectedFont.Size;
+        this.m_SampleText.DataContext = this.SelectedFont;
     }
 
     /// <summary>
@@ -214,12 +214,12 @@ partial class FontPicker
 
     private void InitializeComponent()
     {
-        if (this._contentLoaded)
+        if (this.m_ContentLoaded)
         {
             return;
         }
 
-        this._contentLoaded = true;
+        this.m_ContentLoaded = true;
         this.Width = 592;
         this.Height = 380;
         this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -250,7 +250,7 @@ partial class FontPicker
                                 "<ColumnDefinition Width=\"*\"/>" +
                             "</Grid.ColumnDefinitions>" +
                             "<TextBlock Grid.Column=\"0\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Font Family\"/>" +
-                            "<ListBox x:Name=\"" + nameof(this._lstFamily) + "\" Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
+                            "<ListBox x:Name=\"" + nameof(this.m_LstFamily) + "\" Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
                                 "<ListBox.ItemTemplate>" +
                                     "<DataTemplate>" +
                                         "<TextBlock Text=\"{Binding Source}\" />" +
@@ -258,7 +258,7 @@ partial class FontPicker
                                 "</ListBox.ItemTemplate>" +
                             "</ListBox>" +
                             "<TextBlock Grid.Column=\"1\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Typeface\"/>" +
-                            "<ListBox x:Name=\"" + nameof(this._lstTypefaces) + "\" Grid.Column=\"1\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
+                            "<ListBox x:Name=\"" + nameof(this.m_LstTypefaces) + "\" Grid.Column=\"1\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
                                 "<ListBox.ItemTemplate>" +
                                     "<DataTemplate>" +
                                         "<WrapPanel>" +
@@ -277,12 +277,12 @@ partial class FontPicker
                                     "<RowDefinition Height=\"*\"/>" +
                                     "<RowDefinition Height=\"Auto\"/>" +
                                 "</Grid.RowDefinitions>" +
-                                "<TextBox x:Name=\"" + nameof(this._sampleText) + "\" Grid.Row=\"0\" Background=\"{TemplateBinding Background}\" Foreground=\"{TemplateBinding Foreground}\" IsReadOnly=\"True\" Text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit\" TextAlignment=\"Center\" TextWrapping=\"Wrap\" FontSize=\"{Binding Size}\" FontFamily=\"{Binding Family}\" FontStretch=\"{Binding Stretch}\" FontStyle=\"{Binding Style}\" FontWeight=\"{Binding Weight}\"/>" +
-                                "<Slider x:Name=\"" + nameof(this._fontSizeSlider) + "\" Grid.Row=\"1\" Minimum=\"8\" Maximum=\"24\" Value=\"12\" SmallChange=\"0.5\" LargeChange=\"2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\"/>" +
+                                "<TextBox x:Name=\"" + nameof(this.m_SampleText) + "\" Grid.Row=\"0\" Background=\"{TemplateBinding Background}\" Foreground=\"{TemplateBinding Foreground}\" IsReadOnly=\"True\" Text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit\" TextAlignment=\"Center\" TextWrapping=\"Wrap\" FontSize=\"{Binding Size}\" FontFamily=\"{Binding Family}\" FontStretch=\"{Binding Stretch}\" FontStyle=\"{Binding Style}\" FontWeight=\"{Binding Weight}\"/>" +
+                                "<Slider x:Name=\"" + nameof(this.m_FontSizeSlider) + "\" Grid.Row=\"1\" Minimum=\"8\" Maximum=\"24\" Value=\"12\" SmallChange=\"0.5\" LargeChange=\"2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\"/>" +
                             "</Grid>" +
                         "</Grid>" +
                         "<StackPanel Grid.Row=\"1\" HorizontalAlignment=\"Right\" Orientation=\"Horizontal\">" +
-                            "<Button x:Name=\"" + nameof(this._btnOk) + "\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
+                            "<Button x:Name=\"" + nameof(this.m_BtnOk) + "\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
                             "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
                         "</StackPanel>" +
                     "</Grid>" +
@@ -297,29 +297,29 @@ partial class FontPicker
     private void Family_SelectionChanged(Object sender,
                                          SelectionChangedEventArgs e)
     {
-        FontFamily family = (FontFamily)this._lstFamily.SelectedItem;
+        FontFamily family = (FontFamily)this.m_LstFamily.SelectedItem;
         if (family == this.SelectedFont.Family ||
             family is null)
         {
             return;
         }
         ICollection<Typeface> typefaces = family.GetTypefaces();
-        this._lstTypefaces.ItemsSource = typefaces;
+        this.m_LstTypefaces.ItemsSource = typefaces;
         Font font = new(family,
                         this.SelectedFont.Size.Clamp(8,
                                                      24),
                         typefaces.First());
         this.SelectedFont = font;
-        this._lstTypefaces.SelectedItem = font.Typeface;
-        this._fontSizeSlider.Value = font.Size.Clamp(8,
+        this.m_LstTypefaces.SelectedItem = font.Typeface;
+        this.m_FontSizeSlider.Value = font.Size.Clamp(8,
                                                      24);
-        this._sampleText.DataContext = font;
+        this.m_SampleText.DataContext = font;
     }
 
     private void Typefaces_SelectionChanged(Object sender,
                                             SelectionChangedEventArgs e)
     {
-        Typeface typeface = (Typeface)this._lstTypefaces.SelectedItem;
+        Typeface typeface = (Typeface)this.m_LstTypefaces.SelectedItem;
         if (typeface == this.SelectedFont.Typeface ||
             typeface is null)
         {
@@ -330,10 +330,10 @@ partial class FontPicker
                                                      24),
                         typeface);
         this.SelectedFont = font;
-        this._lstFamily.SelectedItem = font.Family;
-        this._fontSizeSlider.Value = font.Size.Clamp(8,
+        this.m_LstFamily.SelectedItem = font.Family;
+        this.m_FontSizeSlider.Value = font.Size.Clamp(8,
                                                      24);
-        this._sampleText.DataContext = font;
+        this.m_SampleText.DataContext = font;
     }
 
     private void SizeSlider_ValueChanged(Object sender,
@@ -347,9 +347,9 @@ partial class FontPicker
                         e.NewValue,
                         this.SelectedFont.Typeface);
         this.SelectedFont = font;
-        this._lstFamily.SelectedItem = font.Family;
-        this._lstTypefaces.SelectedItem = font.Typeface;
-        this._sampleText.DataContext = font;
+        this.m_LstFamily.SelectedItem = font.Family;
+        this.m_LstTypefaces.SelectedItem = font.Typeface;
+        this.m_SampleText.DataContext = font;
     }
 
     private void Ok_Click(Object sender,
@@ -362,10 +362,10 @@ partial class FontPicker
                 ? result
                 : throw new InvalidCastException();
 
-    private ListBox _lstFamily;
-    private ListBox _lstTypefaces;
-    private TextBox _sampleText;
-    private Slider _fontSizeSlider;
-    private Button _btnOk;
-    private Boolean _contentLoaded = false;
+    private ListBox m_LstFamily;
+    private ListBox m_LstTypefaces;
+    private TextBox m_SampleText;
+    private Slider m_FontSizeSlider;
+    private Button m_BtnOk;
+    private Boolean m_ContentLoaded = false;
 }

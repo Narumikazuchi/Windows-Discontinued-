@@ -3,12 +3,12 @@ using Color = System.Windows.Media.Color;
 using Orientation = System.Windows.Controls.Orientation;
 using Rectangle = System.Windows.Shapes.Rectangle;
 
-namespace Narumikazuchi.Windows;
+namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// Represents the spectrum slider next to the color canvas on a <see cref="ColorPicker"/> object.
 /// </summary>
-[TemplatePart(Name = PART_SpectrumDisplay, Type = typeof(Rectangle))]
+[TemplatePart(Name = PART_SPECTRUMDISPLAY, Type = typeof(Rectangle))]
 public sealed partial class ColorSpectrumSlider : Slider
 {
     /// <summary>
@@ -22,7 +22,7 @@ public sealed partial class ColorSpectrumSlider : Slider
     {
         base.OnApplyTemplate();
 
-        this._spectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SpectrumDisplay);
+        this.m_SpectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SPECTRUMDISPLAY);
         this.CreateSpectrum();
         this.OnValueChanged(Double.NaN,
                             this.Value);
@@ -69,11 +69,11 @@ partial class ColorSpectrumSlider
 
     private void InitializeComponent()
     {
-        if (this._contentLoaded)
+        if (this.m_ContentLoaded)
         {
             return;
         }
-        this._contentLoaded = true;
+        this.m_ContentLoaded = true;
 
         this.BorderBrush = Brushes.DarkGray;
         this.BorderThickness = new(1);
@@ -99,7 +99,7 @@ partial class ColorSpectrumSlider
                 "<Grid>" +
                     "<Border BorderBrush=\"{TemplateBinding BorderBrush}\" BorderThickness=\"{TemplateBinding BorderThickness}\" Margin=\"0 8 0 0\">" +
                         "<Border x:Name=\"PART_TrackBackground\" Width=\"15\">" +
-                            "<Rectangle x:Name=\"" + PART_SpectrumDisplay + "\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
+                            "<Rectangle x:Name=\"" + PART_SPECTRUMDISPLAY + "\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
                         "</Border>" +
                     "</Border>" +
                     "<Track x:Name=\"PART_Track\">" +
@@ -171,7 +171,7 @@ partial class ColorSpectrumSlider
 
     private void CreateSpectrum()
     {
-        this._pickerBrush = new()
+        this.m_PickerBrush = new()
         {
             StartPoint = new(0.5,
                              0),
@@ -185,14 +185,14 @@ partial class ColorSpectrumSlider
         Int32 i;
         for (i = 0; i < HsvSpectrum.Count; i++)
         {
-            this._pickerBrush.GradientStops.Add(new(HsvSpectrum[i],
+            this.m_PickerBrush.GradientStops.Add(new(HsvSpectrum[i],
                                                     i * increment));
         }
-        this._pickerBrush.GradientStops[i - 1].Offset = 1.0;
+        this.m_PickerBrush.GradientStops[i - 1].Offset = 1.0;
 
-        if (this._spectrumDisplay is not null)
+        if (this.m_SpectrumDisplay is not null)
         {
-            this._spectrumDisplay.Fill = this._pickerBrush;
+            this.m_SpectrumDisplay.Fill = this.m_PickerBrush;
         }
     }
 
@@ -230,9 +230,9 @@ partial class ColorSpectrumSlider
                                     1)
         };
 
-    private Boolean _contentLoaded = false;
-    private Rectangle? _spectrumDisplay;
-    private LinearGradientBrush? _pickerBrush;
+    private Boolean m_ContentLoaded = false;
+    private Rectangle? m_SpectrumDisplay;
+    private LinearGradientBrush? m_PickerBrush;
 
-    private const String PART_SpectrumDisplay = "PART_SpectrumDisplay";
+    private const String PART_SPECTRUMDISPLAY = "PART_SpectrumDisplay";
 }

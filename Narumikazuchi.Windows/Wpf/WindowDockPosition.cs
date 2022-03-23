@@ -1,4 +1,4 @@
-﻿namespace Narumikazuchi.Windows;
+﻿namespace Narumikazuchi.Windows.Wpf;
 
 /// <summary>
 /// The dock position of the window.
