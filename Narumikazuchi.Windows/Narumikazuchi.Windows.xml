@@ -27,6 +27,16 @@
             Occurs when the dock of the <see cref="T:System.Windows.Window"/> changed.
             </summary>
         </member>
+        <member name="E:Narumikazuchi.Windows.BorderlessWindowResizer.WindowNormalized">
+            <summary>
+            Occurs when the <see cref="T:System.Windows.Window"/> has been normalized.
+            </summary>
+        </member>
+        <member name="E:Narumikazuchi.Windows.BorderlessWindowResizer.WindowMaximized">
+            <summary>
+            Occurs when the <see cref="T:System.Windows.Window"/> has been maximized.
+            </summary>
+        </member>
         <member name="T:Narumikazuchi.Windows.ColorPicker">
             <summary>
             Represents a window which can select a <see cref="T:System.Windows.Media.Color"/>.
