@@ -4,298 +4,6 @@
         <name>Narumikazuchi.Windows</name>
     </assembly>
     <members>
-        <member name="T:Narumikazuchi.Windows.BorderlessWindowResizer">
-            <summary>
-            Fixes the maximize issue with <see cref="F:System.Windows.WindowStyle.None"/> covering the taskbar.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.BorderlessWindowResizer.AttachTo(System.Windows.Window)">
-            <summary>
-            Attaches a new instance of <see cref="T:Narumikazuchi.Windows.BorderlessWindowResizer"/> to the <see cref="T:System.Windows.Window"/>.
-            </summary>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.BorderlessWindowResizer.GetResizerForWindow(System.Windows.Window)">
-            <summary>
-            Gets the <see cref="T:Narumikazuchi.Windows.BorderlessWindowResizer"/> attached to the specified <see cref="T:System.Windows.Window"/>.
-            </summary>
-            <param name="window">The <see cref="T:System.Windows.Window"/> to look up.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
-        </member>
-        <member name="E:Narumikazuchi.Windows.BorderlessWindowResizer.WindowDockChanged">
-            <summary>
-            Occurs when the dock of the <see cref="T:System.Windows.Window"/> changed.
-            </summary>
-        </member>
-        <member name="E:Narumikazuchi.Windows.BorderlessWindowResizer.WindowNormalized">
-            <summary>
-            Occurs when the <see cref="T:System.Windows.Window"/> has been normalized.
-            </summary>
-        </member>
-        <member name="E:Narumikazuchi.Windows.BorderlessWindowResizer.WindowMaximized">
-            <summary>
-            Occurs when the <see cref="T:System.Windows.Window"/> has been maximized.
-            </summary>
-        </member>
-        <member name="T:Narumikazuchi.Windows.ColorPicker">
-            <summary>
-            Represents a window which can select a <see cref="T:System.Windows.Media.Color"/>.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window,System.Boolean@)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window,System.Boolean@,System.Windows.Style)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@,System.Windows.Style)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
-            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.ColorPicker"/>.</param>
-            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.OnApplyTemplate">
-            <inheritdoc/>
-        </member>
-        <member name="F:Narumikazuchi.Windows.ColorPicker.SelectedColorProperty">
-            <summary>
-            Identifies the <see cref="P:Narumikazuchi.Windows.ColorPicker.SelectedColor"/> property.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.ColorPicker.SelectedColor">
-            <summary>
-            Gets or sets the <see cref="T:System.Windows.Media.Color"/> that this picker has currently selected.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.ColorPicker.AllowAlpha">
-            <summary>
-            Gets or sets if the <see cref="P:System.Windows.Media.Color.A"/> alpha values should be editable.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorPicker.OnKeyDown(System.Windows.Input.KeyEventArgs)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Narumikazuchi.Windows.ColorSpectrumSlider">
-            <summary>
-            Represents the spectrum slider next to the color canvas on a <see cref="T:Narumikazuchi.Windows.ColorPicker"/> object.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorSpectrumSlider.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.ColorSpectrumSlider"/> class.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorSpectrumSlider.OnApplyTemplate">
-            <inheritdoc/>
-        </member>
-        <member name="F:Narumikazuchi.Windows.ColorSpectrumSlider.SelectedColorProperty">
-            <summary>
-            Identifies the <see cref="P:Narumikazuchi.Windows.ColorSpectrumSlider.SelectedColor"/> property.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.ColorSpectrumSlider.SelectedColor">
-            <summary>
-            Gets or sets the currently selected <see cref="T:System.Windows.Media.Color"/>.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorSpectrumSlider.OnValueChanged(System.Double,System.Double)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Narumikazuchi.Windows.ColorToSolidColorBrushConverter">
-            <summary>
-            Converts between <see cref="T:System.Windows.Media.Color"/> and <see cref="T:System.Windows.Media.SolidColorBrush"/>.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorToSolidColorBrushConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.ColorToSolidColorBrushConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Narumikazuchi.Windows.Font">
-            <summary>
-            Represents a font.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.FontStretch@,System.Windows.FontStyle@,System.Windows.FontWeight@)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Font"/> struct.
-            </summary>
-            <param name="family">The font family.</param>
-            <param name="size">The font size.</param>
-            <param name="stretch">The stretch of the font.</param>
-            <param name="style">The font style.</param>
-            <param name="weight">The font weight.</param>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.Media.Typeface)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Font"/> struct.
-            </summary>
-            <param name="family">The font family.</param>
-            <param name="size">The font size.</param>
-            <param name="typeface">The typeface information for the font.</param>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.ApplyTo(System.Windows.Controls.Control)">
-            <summary>
-            Applies this font to the specified <see cref="T:System.Windows.Controls.Control"/>.
-            </summary>
-            <param name="control">The control to apply the font to.</param>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.FromControl(System.Windows.Controls.Control)">
-            <summary>
-            Gets the currently used <see cref="T:Narumikazuchi.Windows.Font"/> from the <see cref="T:System.Windows.Controls.Control"/>.
-            </summary>
-            <param name="control">The control to get the font from.</param>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Default">
-            <summary>
-            Gets the default <see cref="T:Narumikazuchi.Windows.Font"/> object (since default(Font) will result in Exceptions).
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Family">
-            <summary>
-            Gets the font family.
-            </summary>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Size">
-            <summary>
-            Gets the font size.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Typeface">
-            <summary>
-            Gets the typeface of the font.
-            </summary>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Stretch">
-            <summary>
-            Gets the font stretch.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Style">
-            <summary>
-            Gets the font style.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.Font.Weight">
-            <summary>
-            Gets the font weight.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.Equals(Narumikazuchi.Windows.Font)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.Equals(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.Font.GetHashCode">
-            <inheritdoc/>
-        </member>
-        <member name="T:Narumikazuchi.Windows.FontPicker">
-            <summary>
-            Represents a window which can select a <see cref="T:Narumikazuchi.Windows.Font"/>.
-            </summary>
-        </member>
-        <member name="M:Narumikazuchi.Windows.FontPicker.Show(System.Windows.Window)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Font"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Font@)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Font"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <param name="initial">The initally selected <see cref="T:Narumikazuchi.Windows.Font"/>.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.FontPicker.Show(System.Windows.Window,System.Windows.Style)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Font"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Font@,System.Windows.Style)">
-            <summary>
-            Shows the <see cref="T:Narumikazuchi.Windows.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Font"/> the user selected.
-            </summary>
-            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <param name="initial">The initally selected <see cref="T:Narumikazuchi.Windows.Font"/>.</param>
-            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.FontPicker"/>.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
-        <member name="M:Narumikazuchi.Windows.FontPicker.OnApplyTemplate">
-            <inheritdoc/>
-        </member>
-        <member name="F:Narumikazuchi.Windows.FontPicker.SelectedFontProperty">
-            <summary>
-            Identifies the <see cref="P:Narumikazuchi.Windows.FontPicker.SelectedFont"/> property.
-            </summary>
-        </member>
-        <member name="P:Narumikazuchi.Windows.FontPicker.SelectedFont">
-            <summary>
-            Gets or sets the <see cref="T:Narumikazuchi.Windows.Font"/> that this picker has currently selected.
-            </summary>
-        </member>
         <member name="T:Narumikazuchi.Windows.HslColor">
             <summary>
             Represents a color on the HSL color space.
@@ -447,40 +155,442 @@
             Gets if the current version of windows is Windows 8 or newer.
             </summary>
         </member>
-        <member name="T:Narumikazuchi.Windows.WindowDockEventArgs">
+        <member name="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer">
             <summary>
-            Contains the new <see cref="T:Narumikazuchi.Windows.WindowDockPosition"/> of the associated window.
+            Fixes the maximize issue with <see cref="F:System.Windows.WindowStyle.None"/> covering the taskbar.
             </summary>
         </member>
-        <member name="M:Narumikazuchi.Windows.WindowDockEventArgs.#ctor(Narumikazuchi.Windows.WindowDockPosition@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.AttachTo(System.Windows.Window)">
             <summary>
-            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.WindowDockEventArgs"/> class.
+            Attaches a new instance of <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> to the <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.GetResizerForWindow(System.Windows.Window)">
+            <summary>
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> attached to the specified <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <param name="window">The <see cref="T:System.Windows.Window"/> to look up.</param>
+            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.WindowDockChanged">
+            <summary>
+            Occurs when the dock of the <see cref="T:System.Windows.Window"/> changed.
             </summary>
         </member>
-        <member name="P:Narumikazuchi.Windows.WindowDockEventArgs.DockPosition">
+        <member name="E:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.WindowNormalized">
             <summary>
-            Gets the <see cref="T:Narumikazuchi.Windows.WindowDockPosition"/> of the associated window.
+            Occurs when the <see cref="T:System.Windows.Window"/> has been normalized.
             </summary>
         </member>
-        <member name="T:Narumikazuchi.Windows.WindowDockPosition">
+        <member name="E:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.WindowMaximized">
+            <summary>
+            Occurs when the <see cref="T:System.Windows.Window"/> has been maximized.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.ColorPicker">
+            <summary>
+            Represents a window which can select a <see cref="T:System.Windows.Media.Color"/>.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean@)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean@,System.Windows.Style)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@,System.Windows.Style)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="allowAlhpaChannel">Should the alpha channel be included in the selection.</param>
+            <param name="initial">The initial <see cref="T:System.Windows.Media.Color"/> selected by the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/>.</param>
+            <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.OnApplyTemplate">
+            <inheritdoc/>
+        </member>
+        <member name="F:Narumikazuchi.Windows.Wpf.ColorPicker.SelectedColorProperty">
+            <summary>
+            Identifies the <see cref="P:Narumikazuchi.Windows.Wpf.ColorPicker.SelectedColor"/> property.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.ColorPicker.SelectedColor">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.Media.Color"/> that this picker has currently selected.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.ColorPicker.AllowAlpha">
+            <summary>
+            Gets or sets if the <see cref="P:System.Windows.Media.Color.A"/> alpha values should be editable.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.OnKeyDown(System.Windows.Input.KeyEventArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider">
+            <summary>
+            Represents the spectrum slider next to the color canvas on a <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> object.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider"/> class.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.OnApplyTemplate">
+            <inheritdoc/>
+        </member>
+        <member name="F:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.SelectedColorProperty">
+            <summary>
+            Identifies the <see cref="P:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.SelectedColor"/> property.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.SelectedColor">
+            <summary>
+            Gets or sets the currently selected <see cref="T:System.Windows.Media.Color"/>.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorSpectrumSlider.OnValueChanged(System.Double,System.Double)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.ColorToSolidColorBrushConverter">
+            <summary>
+            Converts between <see cref="T:System.Windows.Media.Color"/> and <see cref="T:System.Windows.Media.SolidColorBrush"/>.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorToSolidColorBrushConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorToSolidColorBrushConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.Font">
+            <summary>
+            Represents a font.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.FontStretch@,System.Windows.FontStyle@,System.Windows.FontWeight@)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> struct.
+            </summary>
+            <param name="family">The font family.</param>
+            <param name="size">The font size.</param>
+            <param name="stretch">The stretch of the font.</param>
+            <param name="style">The font style.</param>
+            <param name="weight">The font weight.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.Media.Typeface)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> struct.
+            </summary>
+            <param name="family">The font family.</param>
+            <param name="size">The font size.</param>
+            <param name="typeface">The typeface information for the font.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.ApplyTo(System.Windows.Controls.Control)">
+            <summary>
+            Applies this font to the specified <see cref="T:System.Windows.Controls.Control"/>.
+            </summary>
+            <param name="control">The control to apply the font to.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.FromControl(System.Windows.Controls.Control)">
+            <summary>
+            Gets the currently used <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> from the <see cref="T:System.Windows.Controls.Control"/>.
+            </summary>
+            <param name="control">The control to get the font from.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Default">
+            <summary>
+            Gets the default <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> object (since default(Font) will result in Exceptions).
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Family">
+            <summary>
+            Gets the font family.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Size">
+            <summary>
+            Gets the font size.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Typeface">
+            <summary>
+            Gets the typeface of the font.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Stretch">
+            <summary>
+            Gets the font stretch.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Style">
+            <summary>
+            Gets the font style.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.Font.Weight">
+            <summary>
+            Gets the font weight.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.Equals(Narumikazuchi.Windows.Wpf.Font)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.FontPicker">
+            <summary>
+            Represents a window which can select a <see cref="T:Narumikazuchi.Windows.Wpf.Font"/>.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font@)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <param name="initial">The initally selected <see cref="T:Narumikazuchi.Windows.Wpf.Font"/>.</param>
+            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,System.Windows.Style)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font@,System.Windows.Style)">
+            <summary>
+            Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
+            </summary>
+            <param name="owner">The owning window of the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <param name="initial">The initally selected <see cref="T:Narumikazuchi.Windows.Wpf.Font"/>.</param>
+            <param name="withStyle">The style to apply to the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/>.</param>
+            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.OnApplyTemplate">
+            <inheritdoc/>
+        </member>
+        <member name="F:Narumikazuchi.Windows.Wpf.FontPicker.SelectedFontProperty">
+            <summary>
+            Identifies the <see cref="P:Narumikazuchi.Windows.Wpf.FontPicker.SelectedFont"/> property.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.FontPicker.SelectedFont">
+            <summary>
+            Gets or sets the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> that this picker has currently selected.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.NotifyingViewModel">
+            <summary>
+            Represents a view model which implements the <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.NotifyingViewModel.OnPropertyChanged(System.String)">
+            <summary>
+            Raises the <see cref="E:Narumikazuchi.Windows.Wpf.NotifyingViewModel.PropertyChanged"/> event for this view model.
+            </summary>
+            <param name="propertyName">The name of the property that has changed.</param>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Wpf.NotifyingViewModel.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.RelayCommand">
+            <summary>
+            Relays a command to an <see cref="T:System.Action"/> delegate.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.RelayCommand.#ctor(System.Action)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand"/> class.
+            </summary>
+            <param name="onExecute">The <see cref="T:System.Action"/> delegate to be invoked on command execution.</param>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.RelayCommand.#ctor(System.Action,System.Func{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand"/> class.
+            </summary>
+            <param name="onExecute">The <see cref="T:System.Action"/> delegate to be invoked on command execution.</param>
+            <param name="canExecute">The <see cref="T:System.Func`1"/> delegate to be invoked upon checking whether the command can be executed.</param>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Wpf.RelayCommand.CanExecuteChanged">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.RelayCommand`1">
+            <summary>
+            Relays a command to an <see cref="T:System.Action`1"/> delegate.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.RelayCommand`1.#ctor(System.Action{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> class.
+            </summary>
+            <param name="onExecute">The <see cref="T:System.Action`1"/> delegate to be invoked on command execution.</param>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.RelayCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> class.
+            </summary>
+            <param name="onExecute">The <see cref="T:System.Action`1"/> delegate to be invoked on command execution.</param>
+            <param name="canExecute">The <see cref="T:System.Func`2"/> delegate to be invoked upon checking whether the command can be executed.</param>
+        </member>
+        <member name="E:Narumikazuchi.Windows.Wpf.RelayCommand`1.CanExecuteChanged">
+            <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.WindowDockEventArgs">
+            <summary>
+            Contains the new <see cref="T:Narumikazuchi.Windows.Wpf.WindowDockPosition"/> of the associated window.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowDockEventArgs.#ctor(Narumikazuchi.Windows.Wpf.WindowDockPosition@)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.WindowDockEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.WindowDockEventArgs.DockPosition">
+            <summary>
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.WindowDockPosition"/> of the associated window.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.WindowDockPosition">
             <summary>
             The dock position of the window.
             </summary>
         </member>
-        <member name="F:Narumikazuchi.Windows.WindowDockPosition.Undocked">
+        <member name="F:Narumikazuchi.Windows.Wpf.WindowDockPosition.Undocked">
             <summary>
             Not docked.
             </summary>
         </member>
-        <member name="F:Narumikazuchi.Windows.WindowDockPosition.Left">
+        <member name="F:Narumikazuchi.Windows.Wpf.WindowDockPosition.Left">
             <summary>
             Window is docked to the left side of the display.
             </summary>
         </member>
-        <member name="F:Narumikazuchi.Windows.WindowDockPosition.Right">
+        <member name="F:Narumikazuchi.Windows.Wpf.WindowDockPosition.Right">
             <summary>
             Window is docked to the right side of the display.
             </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.Wpf.WindowViewModel">
+            <summary>
+            Represents a view model which implements commands for windows with custom window chrome.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.OpenSystemMenuCommand">
+            <summary>
+            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the opening of the system menu.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.MinimizeWindowCommand">
+            <summary>
+            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the minimizing of the window.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.MaximizeWindowCommand">
+            <summary>
+            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the maximizing of the window.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.CloseWindowCommand">
+            <summary>
+            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the closing of the window.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.#ctor">
+            <summary>
+            Initalizes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.WindowViewModel"/> class.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.OpenSystemMenu(System.Windows.Window)">
+            <summary>
+            Opens the system menu for the <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <param name="window">The <see cref="T:System.Windows.Window"/> in focus.</param>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.MinimizeWindow(System.Windows.Window)">
+            <summary>
+            Minimizes the <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <param name="window">The <see cref="T:System.Windows.Window"/> to minimize.</param>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.MaximizeWindow(System.Windows.Window)">
+            <summary>
+            Maximizes or normalizes the <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <param name="window">The <see cref="T:System.Windows.Window"/> to normalize or maximize.</param>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.CloseWindow(System.Windows.Window)">
+            <summary>
+            Closes the <see cref="T:System.Windows.Window"/>.
+            </summary>
+            <param name="window">The <see cref="T:System.Windows.Window"/> to close.</param>
         </member>
     </members>
 </doc>
