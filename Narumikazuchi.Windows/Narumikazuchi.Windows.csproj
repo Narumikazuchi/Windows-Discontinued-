@@ -46,7 +46,6 @@ For more information about the contained functionality visit https://github.com/
 
   <ItemGroup>
     <ProjectReference Include="..\submodules\Common\Narumikazuchi\Narumikazuchi.csproj" />
-    <ProjectReference Include="..\submodules\Narumikazuchi\Narumikazuchi.csproj" />
   </ItemGroup>
 
 </Project>
