@@ -1,1 +1,1 @@
-Provides some utilities for recurring problems, like the maximizing of borderless WPF windows or the implementation of relay commands. For more information about the contained functionality visit https://github.com/Narumikazuchi/Windows/wiki.
+Provides some utilities for recurring problems, like the maximizing of borderless WPF windows or the implementation of relay commands. For more information about the contained functionality visit the [wiki](https://github.com/Narumikazuchi/Windows/wiki).

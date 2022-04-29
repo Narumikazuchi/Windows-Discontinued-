@@ -624,11 +624,11 @@ partial class ColorPicker
 
         if (m_UpdateSpectrumSliderValue)
         {
-            m_SpectrumSlider.Value = 360 - hsv.H;
+            m_SpectrumSlider.Value = 360 - hsv.Hue;
         }
 
-        Point p = new(hsv.S,
-                      1 - hsv.V);
+        Point p = new(hsv.Saturation,
+                      1 - hsv.Value);
         m_CurrentColorPosition = p;
 
         m_ColorShadeSelectorTransform.X = p.X * m_ColorShadingCanvas.Width - 5;

@@ -9,10 +9,14 @@ public abstract partial class NotifyingViewModel
     /// Raises the <see cref="PropertyChanged"/> event for this view model.
     /// </summary>
     /// <param name="propertyName">The name of the property that has changed.</param>
-    protected void OnPropertyChanged([DisallowNull] String propertyName!!) => 
+    protected void OnPropertyChanged([DisallowNull] String propertyName)
+    {
+        ArgumentNullException.ThrowIfNull(propertyName);
+
         this.PropertyChanged?
             .Invoke(sender: this,
                     e: new(propertyName));
+    }
 }
 
 // INotifyPropertyChanged

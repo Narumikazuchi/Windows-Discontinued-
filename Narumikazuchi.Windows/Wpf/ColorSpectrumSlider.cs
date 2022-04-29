@@ -9,23 +9,25 @@ namespace Narumikazuchi.Windows.Wpf;
 /// Represents the spectrum slider next to the color canvas on a <see cref="ColorPicker"/> object.
 /// </summary>
 [TemplatePart(Name = PART_SPECTRUMDISPLAY, Type = typeof(Rectangle))]
-public sealed partial class ColorSpectrumSlider : Slider
+public sealed partial class ColorSpectrumSlider
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorSpectrumSlider"/> class.
     /// </summary>
-    public ColorSpectrumSlider() =>
+    public ColorSpectrumSlider()
+    {
         this.InitializeComponent();
+    }
 
     /// <inheritdoc/>
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
 
-        this.m_SpectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SPECTRUMDISPLAY);
+        m_SpectrumDisplay = this.GetTemplateChild<Rectangle>(PART_SPECTRUMDISPLAY);
         this.CreateSpectrum();
-        this.OnValueChanged(Double.NaN,
-                            this.Value);
+        this.OnValueChanged(oldValue: Double.NaN,
+                            newValue: this.Value);
     }
 
     /// <summary>
@@ -33,11 +35,10 @@ public sealed partial class ColorSpectrumSlider : Slider
     /// </summary>
     [NotNull]
     public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register(
-            nameof(SelectedColor),
-            typeof(Color),
-            typeof(ColorSpectrumSlider),
-            new FrameworkPropertyMetadata(Colors.White));
+        DependencyProperty.Register(name: nameof(SelectedColor),
+                                    propertyType: typeof(Color),
+                                    ownerType: typeof(ColorSpectrumSlider),
+                                    typeMetadata: new FrameworkPropertyMetadata(Colors.White));
 
     /// <summary>
     /// Gets or sets the currently selected <see cref="Color"/>.
@@ -45,35 +46,35 @@ public sealed partial class ColorSpectrumSlider : Slider
     public Color SelectedColor
     {
         get => (Color)this.GetValue(SelectedColorProperty);
-        set => this.SetValue(SelectedColorProperty,
-                             value);
+        set => this.SetValue(dp: SelectedColorProperty,
+                             value: value);
     }
 }
 
 // Non-Public
-partial class ColorSpectrumSlider
+partial class ColorSpectrumSlider : Slider
 {
     /// <inheritdoc/>
     protected override void OnValueChanged(Double oldValue,
                                            Double newValue)
     {
-        base.OnValueChanged(oldValue,
-                            newValue);
+        base.OnValueChanged(oldValue: oldValue,
+                            newValue: newValue);
 
-        HsvColor hsv = HsvColor.FromHsv(360 - newValue,
-                                        1,
-                                        1);
+        HsvColor hsv = HsvColor.FromHsv(hue: 360 - newValue,
+                                        saturation: 1,
+                                        value: 1);
         Color color = (Color)hsv;
         this.SelectedColor = color;
     }
 
     private void InitializeComponent()
     {
-        if (this.m_ContentLoaded)
+        if (m_ContentLoaded)
         {
             return;
         }
-        this.m_ContentLoaded = true;
+        m_ContentLoaded = true;
 
         this.BorderBrush = Brushes.DarkGray;
         this.BorderThickness = new(1);
@@ -88,12 +89,12 @@ partial class ColorSpectrumSlider
         this.IsMoveToPointEnabled = true;
         this.Value = 0;
         ParserContext context = new();
-        context.XmlnsDictionary.Add("",
-                                    "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-        context.XmlnsDictionary.Add("x",
-                                    "http://schemas.microsoft.com/winfx/2006/xaml");
-        context.XmlnsDictionary.Add("w",
-                                    "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
+        context.XmlnsDictionary.Add(prefix: "",
+                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+        context.XmlnsDictionary.Add(prefix: "x",
+                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml");
+        context.XmlnsDictionary.Add(prefix: "w",
+                                    xmlNamespace: "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
         const String xaml =
             "<ControlTemplate TargetType=\"{x:Type w:ColorSpectrumSlider}\">" +
                 "<Grid>" +
@@ -164,19 +165,17 @@ partial class ColorSpectrumSlider
                 "</Grid>" +
             "</ControlTemplate>";
         using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-        ControlTemplate template = (ControlTemplate)XamlReader.Load(stream,
-                                                                    context);
+        ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
+                                                                    parserContext: context);
         this.Template = template;
     }
 
     private void CreateSpectrum()
     {
-        this.m_PickerBrush = new()
+        m_PickerBrush = new()
         {
-            StartPoint = new(0.5,
-                             0),
-            EndPoint = new(0.5,
-                           1),
+            StartPoint = new(x: 0.5, y: 0),
+            EndPoint = new(x: 0.5, y: 1),
             ColorInterpolationMode = ColorInterpolationMode.SRgbLinearInterpolation
         };
 
@@ -185,49 +184,37 @@ partial class ColorSpectrumSlider
         Int32 i;
         for (i = 0; i < HsvSpectrum.Count; i++)
         {
-            this.m_PickerBrush.GradientStops.Add(new(HsvSpectrum[i],
-                                                    i * increment));
+            m_PickerBrush.GradientStops.Add(new(color: HsvSpectrum[i],
+                                                offset: i * increment));
         }
-        this.m_PickerBrush.GradientStops[i - 1].Offset = 1.0;
+        m_PickerBrush.GradientStops[i - 1].Offset = 1.0;
 
-        if (this.m_SpectrumDisplay is not null)
+        if (m_SpectrumDisplay is not null)
         {
-            this.m_SpectrumDisplay.Fill = this.m_PickerBrush;
+            m_SpectrumDisplay.Fill = m_PickerBrush;
         }
     }
 
     private T GetTemplateChild<T>(String childName)
-        where T : DependencyObject =>
-            this.GetTemplateChild(childName) is T result
-                ? result
-                : throw new InvalidCastException();
+        where T : DependencyObject
+    {
+        if (this.GetTemplateChild(childName) is T result)
+        {
+            return result;
+        }
+        throw new InvalidCastException();
+    }
 
     private static IReadOnlyList<Color> HsvSpectrum { get; } = new List<Color>()
         {
-            (Color)HsvColor.FromHsv(0,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(60,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(120,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(180,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(240,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(300,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(360,
-                                    1,
-                                    1),
-            (Color)HsvColor.FromHsv(0,
-                                    1,
-                                    1)
+            (Color)HsvColor.FromHsv(0, 1, 1),
+            (Color)HsvColor.FromHsv(60, 1, 1),
+            (Color)HsvColor.FromHsv(120, 1, 1),
+            (Color)HsvColor.FromHsv(180, 1, 1),
+            (Color)HsvColor.FromHsv(240, 1, 1),
+            (Color)HsvColor.FromHsv(300, 1, 1),
+            (Color)HsvColor.FromHsv(360, 1, 1),
+            (Color)HsvColor.FromHsv(0, 1, 1)
         };
 
     private Boolean m_ContentLoaded = false;

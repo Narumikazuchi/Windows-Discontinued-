@@ -9,62 +9,62 @@ public readonly partial struct HslColor : IEquatable<HslColor>
     /// <summary>
     /// Creates a new <see cref="HslColor"/> from the specified values.
     /// </summary>
-    /// <param name="h">The hue-component of the color.</param>
-    /// <param name="s">The saturation-component of the color.</param>
-    /// <param name="l">The light-component of the color.</param>
-    public static HslColor FromHsl(in Double h,
-                                   in Double s,
-                                   in Double l) =>
+    /// <param name="hue">The hue-component of the color.</param>
+    /// <param name="saturation">The saturation-component of the color.</param>
+    /// <param name="light">The light-component of the color.</param>
+    public static HslColor FromHsl(in Double hue,
+                                   in Double saturation,
+                                   in Double light) =>
         new()
         {
-            H = h,
-            S = s,
-            L = l
+            Hue = hue,
+            Saturation = saturation,
+            Light = light
         };
 
     /// <summary>
     /// Creates a new <see cref="HslColor"/> from the specified values.
     /// </summary>
-    /// <param name="r">The red-component of the RGB color space.</param>
-    /// <param name="g">The green-component of the RGB color space.</param>
-    /// <param name="b">The blue-component of the RGB color space.</param>
-    public static HslColor FromRgb(in Byte r,
-                                   in Byte g,
-                                   in Byte b)
+    /// <param name="red">The red-component of the RGB color space.</param>
+    /// <param name="green">The green-component of the RGB color space.</param>
+    /// <param name="blue">The blue-component of the RGB color space.</param>
+    public static HslColor FromRgb(in Byte red,
+                                   in Byte green,
+                                   in Byte blue)
     {
-        (Double, Double, Double) hsl = RgbToHsl(r,
-                                                g,
-                                                b);
+        (Double h, Double s, Double l) hsl = RgbToHsl(red: red,
+                                                      green: green,
+                                                      blue: blue);
         return new()
         {
-            H = hsl.Item1,
-            S = hsl.Item2,
-            L = hsl.Item3
+            Hue = hsl.h,
+            Saturation = hsl.s,
+            Light = hsl.l
         };
     }
 
     /// <summary>
     /// Creates a new <see cref="HslColor"/> from the specified values.
     /// </summary>
-    /// <param name="h">The hue-component of the color.</param>
-    /// <param name="s">The saturation-component of the color.</param>
-    /// <param name="v">The value-component of the color.</param>
-    public static HslColor FromHsv(in Double h,
-                                   in Double s,
-                                   in Double v)
+    /// <param name="hue">The hue-component of the color.</param>
+    /// <param name="saturation">The saturation-component of the color.</param>
+    /// <param name="value">The value-component of the color.</param>
+    public static HslColor FromHsv(in Double hue,
+                                   in Double saturation,
+                                   in Double value)
     {
-        HsvColor hsv = HsvColor.FromHsv(h,
-                                        s,
-                                        v);
+        HsvColor hsv = HsvColor.FromHsv(hue: hue,
+                                        saturation: saturation,
+                                        value: value);
         MColor rgb = (MColor)hsv;
-        (Double, Double, Double) hsl = RgbToHsl(rgb.R,
-                                                rgb.G,
-                                                rgb.B);
+        (Double h, Double s, Double l) hsl = RgbToHsl(red: rgb.R,
+                                                      green: rgb.G,
+                                                      blue: rgb.B);
         return new()
         {
-            H = hsl.Item1,
-            S = hsl.Item2,
-            L = hsl.Item3
+            Hue = hsl.h,
+            Saturation = hsl.s,
+            Light = hsl.l
         };
     }
 
@@ -73,38 +73,37 @@ public readonly partial struct HslColor : IEquatable<HslColor>
     [return: MaybeNull]
     public override String? ToString()
     {
-        (Byte r, Byte g, Byte b) rgb = HslToRgb(this.H,
-                                                this.S,
-                                                this.L);
-        MColor color = MColor.FromArgb(255,
-                                       rgb.r,
-                                       rgb.g,
-                                       rgb.b);
+        (Byte r, Byte g, Byte b) rgb = HslToRgb(hue: this.Hue,
+                                                saturation: this.Saturation,
+                                                light: this.Light);
+        MColor color = MColor.FromArgb(a: 255,
+                                       r: rgb.r,
+                                       g: rgb.g,
+                                       b: rgb.b);
         return color.ToString();
     }
 
 #pragma warning disable
-
     public static explicit operator DColor(in HslColor color)
     {
-        (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H,
-                                                color.S,
-                                                color.L);
-        return DColor.FromArgb(255,
-                               rgb.r,
-                               rgb.g,
-                               rgb.b);
+        (Byte r, Byte g, Byte b) rgb = HslToRgb(hue: color.Hue,
+                                                saturation: color.Saturation,
+                                                light: color.Light);
+        return DColor.FromArgb(alpha: 255,
+                               red: rgb.r,
+                               green: rgb.g,
+                               blue: rgb.b);
     }
 
     public static explicit operator MColor(in HslColor color)
     {
-        (Byte r, Byte g, Byte b) rgb = HslToRgb(color.H,
-                                                color.S,
-                                                color.L);
-        return MColor.FromArgb(255,
-                               rgb.r,
-                               rgb.g,
-                               rgb.b);
+        (Byte r, Byte g, Byte b) rgb = HslToRgb(hue: color.Hue,
+                                                saturation: color.Saturation,
+                                                light: color.Light);
+        return MColor.FromArgb(a: 255,
+                               r: rgb.r,
+                               g: rgb.g,
+                               b: rgb.b);
     }
 
     public static explicit operator HsvColor(in HslColor color)
@@ -115,27 +114,27 @@ public readonly partial struct HslColor : IEquatable<HslColor>
 
     public static explicit operator HslColor(in DColor color)
     {
-        (Double h, Double s, Double l) hsl = RgbToHsl(color.R,
-                                                      color.G,
-                                                      color.B);
+        (Double h, Double s, Double l) hsl = RgbToHsl(red: color.R,
+                                                      green: color.G,
+                                                      blue: color.B);
         return new()
         {
-            H = hsl.h,
-            S = hsl.s,
-            L = hsl.l
+            Hue = hsl.h,
+            Saturation = hsl.s,
+            Light = hsl.l
         };
     }
 
     public static explicit operator HslColor(in MColor color)
     {
-        (Double h, Double s, Double l) hsl = RgbToHsl(color.R,
-                                                      color.G,
-                                                      color.B);
+        (Double h, Double s, Double l) hsl = RgbToHsl(red: color.R,
+                                                      green: color.G,
+                                                      blue: color.B);
         return new()
         {
-            H = hsl.h,
-            S = hsl.s,
-            L = hsl.l
+            Hue = hsl.h,
+            Saturation = hsl.s,
+            Light = hsl.l
         };
     }
 
@@ -151,65 +150,67 @@ public readonly partial struct HslColor : IEquatable<HslColor>
     /// Gets or sets the hue-component of this color.
     /// </summary>
     [Pure]
-    public Double H { get; init; }
+    public Double Hue { get; init; }
 
     /// <summary>
     /// Gets or sets the saturation-component of this color.
     /// </summary>
     [Pure]
-    public Double S { get; init; }
+    public Double Saturation { get; init; }
 
     /// <summary>
     /// Gets or sets the light-component of this color.
     /// </summary>
     [Pure]
-    public Double L { get; init; }
+    public Double Light { get; init; }
 }
 
 // Non-Public
 partial struct HslColor
 {
-    private static (Byte r, Byte g, Byte b) HslToRgb(Double h, in Double s, in Double l)
+    private static (Byte r, Byte g, Byte b) HslToRgb(in Double hue,
+                                                     in Double saturation,
+                                                     in Double light)
     {
-        Double c = (1 - Math.Abs(2 * l - 1)) * s;
-        Double x = c * (1 - Math.Abs((h / 60d % 2) - 1));
-        Double m = l - (c / 2);
+        Double c = (1 - Math.Abs(2 * light - 1)) * saturation;
+        Double x = c * (1 - Math.Abs(hue / 60d % 2 - 1));
+        Double m = light - c / 2;
 
         Double r2 = 0d;
         Double g2 = 0d;
         Double b2 = 0d;
-        if (h is >= 0d
-              and < 60d)
+        if (hue is >= 0d
+                and < 60d)
         {
             r2 = c;
             g2 = x;
         }
-        else if (h is >= 60d
-                   and < 120d)
+        else if (hue is >= 60d
+                     and < 120d)
         {
             r2 = x;
             g2 = c;
         }
-        else if (h is >= 120d
-                   and < 180d)
+        else if (hue is >= 120d
+                     and < 180d)
         {
             g2 = c;
             b2 = x;
         }
-        else if (h is >= 180d
-                   and < 240d)
+        else if (hue is >= 180d
+                     and < 240d)
         {
             g2 = x;
             b2 = c;
         }
-        else if (h is >= 240d
-                   and < 300d)
+        else if (hue is >= 240d
+                     and < 300d)
         {
             r2 = x;
             b2 = c;
         }
-        else if (h is >= 300d
-                   and < 360d)
+        else if (hue is >= 300d
+                     and < 360d)
         {
             r2 = c;
             b2 = x;
@@ -222,11 +223,13 @@ partial struct HslColor
         return (r, g, b);
     }
 
-    private static (Double h, Double s, Double l) RgbToHsl(in Byte r, in Byte g, in Byte b)
+    private static (Double h, Double s, Double l) RgbToHsl(in Byte red,
+                                                           in Byte green,
+                                                           in Byte blue)
     {
-        Double r2 = r / 255d;
-        Double g2 = g / 255d;
-        Double b2 = b / 255d;
+        Double r2 = red / 255d;
+        Double g2 = green / 255d;
+        Double b2 = blue / 255d;
         Double min = Math.Min(Math.Min(r2, g2), b2);
         Double max = Math.Max(Math.Max(r2, g2), b2);
         Double c = max - min;
@@ -273,9 +276,9 @@ partial struct HslColor : IEquatable<HslColor>
     /// <inheritdoc/>
     [Pure]
     public Boolean Equals(HslColor other) =>
-        this.H == other.H &&
-        this.S == other.S &&
-        this.L == other.L;
+        this.Hue == other.Hue &&
+        this.Saturation == other.Saturation &&
+        this.Light == other.Light;
 
     /// <inheritdoc/>
     [Pure]
@@ -286,17 +289,19 @@ partial struct HslColor : IEquatable<HslColor>
     /// <inheritdoc/>
     [Pure]
     public override Int32 GetHashCode() =>
-        this.H.GetHashCode() ^
-        this.S.GetHashCode() ^
-        this.L.GetHashCode();
+        this.Hue.GetHashCode() ^
+        this.Saturation.GetHashCode() ^
+        this.Light.GetHashCode();
 
 #pragma warning disable
+    public static Boolean operator ==(in HslColor left, in HslColor right)
+    {
+        return left.Equals(right);
+    }
 
-    public static Boolean operator ==(in HslColor left, in HslColor right) =>
-        left.Equals(right);
-
-    public static Boolean operator !=(in HslColor left, in HslColor right) =>
-        !left.Equals(right);
-
+    public static Boolean operator !=(in HslColor left, in HslColor right)
+    {
+        return !left.Equals(right);
+    }
 #pragma warning restore
 }

@@ -13,40 +13,40 @@
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
-            <param name="h">The hue-component of the color.</param>
-            <param name="s">The saturation-component of the color.</param>
-            <param name="l">The light-component of the color.</param>
+            <param name="hue">The hue-component of the color.</param>
+            <param name="saturation">The saturation-component of the color.</param>
+            <param name="light">The light-component of the color.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HslColor.FromRgb(System.Byte@,System.Byte@,System.Byte@)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
-            <param name="r">The red-component of the RGB color space.</param>
-            <param name="g">The green-component of the RGB color space.</param>
-            <param name="b">The blue-component of the RGB color space.</param>
+            <param name="red">The red-component of the RGB color space.</param>
+            <param name="green">The green-component of the RGB color space.</param>
+            <param name="blue">The blue-component of the RGB color space.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HslColor.FromHsv(System.Double@,System.Double@,System.Double@)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
-            <param name="h">The hue-component of the color.</param>
-            <param name="s">The saturation-component of the color.</param>
-            <param name="v">The value-component of the color.</param>
+            <param name="hue">The hue-component of the color.</param>
+            <param name="saturation">The saturation-component of the color.</param>
+            <param name="value">The value-component of the color.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HslColor.ToString">
             <inheritdoc/>
         </member>
-        <member name="P:Narumikazuchi.Windows.HslColor.H">
+        <member name="P:Narumikazuchi.Windows.HslColor.Hue">
             <summary>
             Gets or sets the hue-component of this color.
             </summary>
         </member>
-        <member name="P:Narumikazuchi.Windows.HslColor.S">
+        <member name="P:Narumikazuchi.Windows.HslColor.Saturation">
             <summary>
             Gets or sets the saturation-component of this color.
             </summary>
         </member>
-        <member name="P:Narumikazuchi.Windows.HslColor.L">
+        <member name="P:Narumikazuchi.Windows.HslColor.Light">
             <summary>
             Gets or sets the light-component of this color.
             </summary>
@@ -69,40 +69,40 @@
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
-            <param name="h">The hue-component of the color.</param>
-            <param name="s">The saturation-component of the color.</param>
-            <param name="v">The value-component of the color.</param>
+            <param name="hue">The hue-component of the color.</param>
+            <param name="saturation">The saturation-component of the color.</param>
+            <param name="value">The value-component of the color.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HsvColor.FromRgb(System.Byte@,System.Byte@,System.Byte@)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
-            <param name="r">The red-component of the RGB color space.</param>
-            <param name="g">The green-component of the RGB color space.</param>
-            <param name="b">The blue-component of the RGB color space.</param>
+            <param name="red">The red-component of the RGB color space.</param>
+            <param name="green">The green-component of the RGB color space.</param>
+            <param name="blue">The blue-component of the RGB color space.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HsvColor.FromHsl(System.Double@,System.Double@,System.Double@)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
-            <param name="h">The hue-component of the color.</param>
-            <param name="s">The saturation-component of the color.</param>
-            <param name="l">The light-component of the color.</param>
+            <param name="hue">The hue-component of the color.</param>
+            <param name="saturation">The saturation-component of the color.</param>
+            <param name="light">The light-component of the color.</param>
         </member>
         <member name="M:Narumikazuchi.Windows.HsvColor.ToString">
             <inheritdoc/>
         </member>
-        <member name="P:Narumikazuchi.Windows.HsvColor.H">
+        <member name="P:Narumikazuchi.Windows.HsvColor.Hue">
             <summary>
             Gets or sets the hue-component of this color.
             </summary>
         </member>
-        <member name="P:Narumikazuchi.Windows.HsvColor.S">
+        <member name="P:Narumikazuchi.Windows.HsvColor.Saturation">
             <summary>
             Gets or sets the saturation-component of this color.
             </summary>
         </member>
-        <member name="P:Narumikazuchi.Windows.HsvColor.V">
+        <member name="P:Narumikazuchi.Windows.HsvColor.Value">
             <summary>
             Gets or sets the value-component of this color.
             </summary>
@@ -166,12 +166,13 @@
             </summary>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.GetResizerForWindow(System.Windows.Window)">
+        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.TryGetResizerForWindow(System.Windows.Window,Narumikazuchi.Windows.Wpf.BorderlessWindowResizer)">
             <summary>
             Gets the <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> attached to the specified <see cref="T:System.Windows.Window"/>.
             </summary>
             <param name="window">The <see cref="T:System.Windows.Window"/> to look up.</param>
-            <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
+            <param name="resizer">The <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> for the specified window or <see langword="null"/> if the window is not associated with a resizer.</param>
+            <returns><see langword="true"/> if a <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> is attached to the specified window; otherwise, <see langword="false"/></returns>
         </member>
         <member name="E:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.WindowDockChanged">
             <summary>
@@ -349,7 +350,7 @@
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.Font.Default">
             <summary>
-            Gets the default <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> object (since default(Font) will result in Exceptions).
+            Gets the default <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> object.
             </summary>
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.Font.Family">

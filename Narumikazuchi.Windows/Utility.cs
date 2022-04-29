@@ -9,7 +9,7 @@ public static partial class Utility
     /// Frees and disposes the <see cref="IDisposable"/> safely.
     /// </summary>
     /// <param name="disposable">The <see cref="IDisposable"/> to dispose.</param>
-    public static void SafeDispose<T>([MaybeNull] ref T? disposable)
+    public static void SafeDispose<T>([AllowNull] ref T? disposable)
         where T : IDisposable
     {
         IDisposable? t = disposable;
@@ -26,7 +26,7 @@ public static partial class Utility
     /// </summary>
     /// <param name="comObject">The COM-Object to release.</param>
     [SecurityCritical]
-    public static void SafeRelease<T>([MaybeNull] ref T? comObject)
+    public static void SafeRelease<T>([AllowNull] ref T? comObject)
         where T : class
     {
         T? t = comObject;
@@ -52,13 +52,13 @@ public static partial class Utility
     public static String? GetExitCodeDescription(in Int32 code)
     {
         IntPtr lpMsgBuffer = IntPtr.Zero;
-        UInt32 dwFlags = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                                       IntPtr.Zero,
-                                       (UInt32)code,
-                                       0,
-                                       ref lpMsgBuffer,
-                                       0,
-                                       IntPtr.Zero);
+        UInt32 dwFlags = FormatMessage(dwFlags: FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+                                       lpSource: IntPtr.Zero,
+                                       dwMessageId: (UInt32)code,
+                                       dwLanguageId: 0,
+                                       lpBuffer: ref lpMsgBuffer,
+                                       nSize: 0,
+                                       pArguments: IntPtr.Zero);
         if (dwFlags == 0)
         {
             LocalFree(lpMsgBuffer);

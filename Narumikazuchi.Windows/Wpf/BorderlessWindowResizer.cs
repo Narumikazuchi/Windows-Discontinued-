@@ -8,36 +8,38 @@ namespace Narumikazuchi.Windows.Wpf;
 /// </summary>
 public sealed partial class BorderlessWindowResizer
 {
-#pragma warning disable
-
     /// <summary>
     /// Attaches a new instance of <see cref="BorderlessWindowResizer"/> to the <see cref="Window"/>.
     /// </summary>
     /// <exception cref="ArgumentNullException"/>
-    public static void AttachTo([DisallowNull] Window window) =>
-        s_Attached.Add(window,
-                       new(window));
+    public static void AttachTo([DisallowNull] Window window)
+    {
+        ArgumentNullException.ThrowIfNull(window);
 
-#pragma warning restore
+        s_Attached.Add(key: window,
+                       value: new(window));
+    }
 
     /// <summary>
     /// Gets the <see cref="BorderlessWindowResizer"/> attached to the specified <see cref="Window"/>.
     /// </summary>
     /// <param name="window">The <see cref="Window"/> to look up.</param>
-    /// <returns>The <see cref="BorderlessWindowResizer"/> attached to the specified window or <see langword="null"/>, if there is none attached</returns>
+    /// <param name="resizer">The <see cref="BorderlessWindowResizer"/> for the specified window or <see langword="null"/> if the window is not associated with a resizer.</param>
+    /// <returns><see langword="true"/> if a <see cref="BorderlessWindowResizer"/> is attached to the specified window; otherwise, <see langword="false"/></returns>
     [Pure]
     [return: MaybeNull]
-    public static BorderlessWindowResizer? GetResizerForWindow([DisallowNull] Window window)
+    public static Boolean TryGetResizerForWindow([DisallowNull] Window window,
+                                                 [NotNullWhen(true)] BorderlessWindowResizer? resizer)
     {
-        if (window is null)
-        {
-            throw new ArgumentNullException(nameof(window));
-        }
+        ArgumentNullException.ThrowIfNull(window);
+
         if (!s_Attached.ContainsKey(window))
         {
-            return null;
+            resizer = default;
+            return false;
         }
-        return s_Attached[window];
+        resizer = s_Attached[window];
+        return true;
     }
 
     /// <summary>
@@ -59,10 +61,7 @@ partial class BorderlessWindowResizer
 {
     private BorderlessWindowResizer(Window window)
     {
-        if (window is null)
-        {
-            throw new ArgumentNullException(nameof(window));
-        }
+        ArgumentNullException.ThrowIfNull(window);
 
         m_Window = window;
         m_LastState = window.WindowState;
@@ -101,10 +100,8 @@ partial class BorderlessWindowResizer
 
     private void WmGetMinMaxInfo(in IntPtr lParam)
     {
-#nullable disable
         GetCursorPos(out __Point lpMouseLocation);
-        IntPtr lpPrimaryScreen = MonitorFromPoint(new __Point(0,
-                                                              0),
+        IntPtr lpPrimaryScreen = MonitorFromPoint(new __Point(0, 0),
                                                   __MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
         __MonitorInfo primaryScreenInfo = new();
         if (!GetMonitorInfo(lpPrimaryScreen,
@@ -123,7 +120,7 @@ partial class BorderlessWindowResizer
         m_LastScreen = lpCurrentScreen;
 
         __MinMaxInfo info = (__MinMaxInfo)Marshal.PtrToStructure(lParam,
-                                                                 typeof(__MinMaxInfo));
+                                                                 typeof(__MinMaxInfo))!;
         if (lpPrimaryScreen == lpCurrentScreen)
         {
             info.ptMaxPosition.X = primaryScreenInfo.rcWork.Left;
@@ -151,7 +148,6 @@ partial class BorderlessWindowResizer
         Marshal.StructureToPtr(info,
                                lParam,
                                true);
-#nullable enable
     }
 
     private void Window_SourceInitialized(Object? sender,

@@ -12,20 +12,42 @@ public sealed class ColorToSolidColorBrushConverter : IValueConverter
     public Object? Convert([AllowNull] Object? value,
                            [DisallowNull] Type targetType,
                            [DisallowNull] Object parameter,
-                           [DisallowNull] CultureInfo culture) =>
-        value is null ||
-        value is not Color color
-            ? null
-            : new SolidColorBrush(color);
+                           [DisallowNull] CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(targetType);
+        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(culture);
+
+        if (value is null ||
+            value is not Color color)
+        {
+            return null;
+        }
+        else
+        {
+            return new SolidColorBrush(color);
+        }
+    }
 
     /// <inheritdoc/>
     [return: MaybeNull]
     public Object? ConvertBack([AllowNull] Object? value,
                                [DisallowNull] Type targetType,
                                [DisallowNull] Object parameter,
-                               [DisallowNull] CultureInfo culture) =>
-        value is null ||
-        value is not SolidColorBrush brush
-            ? null
-            : brush.Color;
+                               [DisallowNull] CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(targetType);
+        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(culture);
+
+        if (value is null ||
+            value is not SolidColorBrush brush)
+        {
+            return null;
+        }
+        else
+        {
+            return brush.Color;
+        }
+    }
 }

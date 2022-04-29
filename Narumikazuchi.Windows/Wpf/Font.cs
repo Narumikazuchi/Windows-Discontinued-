@@ -4,11 +4,10 @@ using FontStyle = System.Windows.FontStyle;
 
 namespace Narumikazuchi.Windows.Wpf;
 
-#pragma warning disable CS0282
 /// <summary>
 /// Represents a font.
 /// </summary>
-public readonly partial struct Font
+public sealed partial class Font
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Font"/> struct.
@@ -25,17 +24,14 @@ public readonly partial struct Font
                 in FontStyle style,
                 in FontWeight weight)
     {
-        if (family is null)
-        {
-            throw new ArgumentNullException(nameof(family));
-        }
+        ArgumentNullException.ThrowIfNull(family);
 
-        this.m_Family = family;
+        m_Family = family;
         Typeface typeface = new(family,
                                 style,
                                 weight,
                                 stretch);
-        this.m_Typeface = typeface;
+        m_Typeface = typeface;
         this.Size = size;
     }
 
@@ -50,17 +46,11 @@ public readonly partial struct Font
                 in Double size,
                 [DisallowNull] Typeface typeface)
     {
-        if (family is null)
-        {
-            throw new ArgumentNullException(nameof(family));
-        }
-        if (typeface is null)
-        {
-            throw new ArgumentNullException(nameof(typeface));
-        }
+        ArgumentNullException.ThrowIfNull(family);
+        ArgumentNullException.ThrowIfNull(typeface);
 
-        this.m_Family = family;
-        this.m_Typeface = typeface;
+        m_Family = family;
+        m_Typeface = typeface;
         this.Size = size;
     }
 
@@ -71,10 +61,7 @@ public readonly partial struct Font
     /// <exception cref="ArgumentNullException"/>
     public void ApplyTo([DisallowNull] Control control)
     {
-        if (control is null)
-        {
-            throw new ArgumentNullException(nameof(control));
-        }
+        ArgumentNullException.ThrowIfNull(control);
 
         control.FontFamily = this.Family;
         control.FontSize = this.Size;
@@ -88,25 +75,27 @@ public readonly partial struct Font
     /// </summary>
     /// <param name="control">The control to get the font from.</param>
     /// <exception cref="ArgumentNullException"/>
-    public static Font FromControl([DisallowNull] Control control) =>
-        control is null
-            ? throw new ArgumentNullException(nameof(control))
-            : new(control.FontFamily,
-                  control.FontSize,
-                  control.FontStretch,
-                  control.FontStyle,
-                  control.FontWeight);
+    public static Font FromControl([DisallowNull] Control control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
+
+        return new(family: control.FontFamily,
+                   size: control.FontSize,
+                   stretch: control.FontStretch,
+                   style: control.FontStyle,
+                   weight: control.FontWeight);
+    }
 
     /// <summary>
-    /// Gets the default <see cref="Font"/> object (since default(Font) will result in Exceptions).
+    /// Gets the default <see cref="Font"/> object.
     /// </summary>
     [Pure]
-    public static Font Default => new(new("Segoe UI"),
-                                      12d,
-                                      new(new("Segoe UI"),
-                                          FontStyles.Normal,
-                                          FontWeights.Normal,
-                                          FontStretches.Normal));
+    public static Font Default { get; } = new(family: new(familyName: "Segoe UI"),
+                                              size: 12d,
+                                              typeface: new(fontFamily: new(familyName: "Segoe UI"),
+                                                            style: FontStyles.Normal,
+                                                            weight: FontWeights.Normal,
+                                                            stretch: FontStretches.Normal));
 
     /// <summary>
     /// Gets the font family.
@@ -116,16 +105,12 @@ public readonly partial struct Font
     [NotNull]
     public FontFamily Family
     {
-        get => this.m_Family is null
-                    ? throw new ArgumentNullException(nameof(this.m_Family))
-                    : this.m_Family;
+        get => m_Family;
         init
         {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            this.m_Family = value;
+            ArgumentNullException.ThrowIfNull(value);
+
+            m_Family = value;
         }
     }
 
@@ -143,16 +128,12 @@ public readonly partial struct Font
     [NotNull]
     public Typeface Typeface
     {
-        get => this.m_Typeface is null
-                    ? throw new ArgumentNullException(nameof(this.m_Typeface))
-                    : this.m_Typeface;
+        get => m_Typeface;
         init
         {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            this.m_Typeface = value;
+            ArgumentNullException.ThrowIfNull(value);
+
+            m_Typeface = value;
         }
     }
 
@@ -160,34 +141,38 @@ public readonly partial struct Font
     /// Gets the font stretch.
     /// </summary>
     [Pure]
-    public FontStretch Stretch => this.Typeface.Stretch;
+    public FontStretch Stretch => 
+        this.Typeface.Stretch;
 
     /// <summary>
     /// Gets the font style.
     /// </summary>
     [Pure]
-    public FontStyle Style => this.Typeface.Style;
+    public FontStyle Style => 
+        this.Typeface.Style;
 
     /// <summary>
     /// Gets the font weight.
     /// </summary>
     [Pure]
-    public FontWeight Weight => this.Typeface.Weight;
+    public FontWeight Weight => 
+        this.Typeface.Weight;
 }
 
 // Non-Public
-partial struct Font
+partial class Font
 {
     private readonly FontFamily m_Family;
     private readonly Typeface m_Typeface;
 }
 
 // IEquatable<Font>
-partial struct Font : IEquatable<Font>
+partial class Font : IEquatable<Font>
 {
     /// <inheritdoc/>
     [Pure]
-    public Boolean Equals(Font other) =>
+    public Boolean Equals([AllowNull] Font? other) =>
+        other is not null &&
         this.Size == other.Size &&
         this.Stretch == other.Stretch &&
         this.Style == other.Style &&
@@ -210,12 +195,28 @@ partial struct Font : IEquatable<Font>
         this.Family.BaseUri.GetHashCode();
 
 #pragma warning disable
+    public static Boolean operator ==(Font? left, Font? right)
+    {
+        if (left is null)
+        {
+            return right is null;
+        }
+        else
+        {
+            return left.Equals(right);
+        }
+    }
 
-    public static Boolean operator ==(Font left, Font right) =>
-        left.Equals(right);
-
-    public static Boolean operator !=(Font left, Font right) =>
-        !left.Equals(right);
-
+    public static Boolean operator !=(Font? left, Font? right)
+    {
+        if (left is null)
+        {
+            return right is not null;
+        }
+        else
+        {
+            return !left.Equals(right);
+        }
+    }
 #pragma warning restore
 }

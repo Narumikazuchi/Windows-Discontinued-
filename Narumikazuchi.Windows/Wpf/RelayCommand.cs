@@ -9,7 +9,7 @@ public partial class RelayCommand
     /// Initializes a new instance of the <see cref="RelayCommand"/> class.
     /// </summary>
     /// <param name="onExecute">The <see cref="Action"/> delegate to be invoked on command execution.</param>
-    public RelayCommand(Action onExecute!!) :
+    public RelayCommand([DisallowNull] Action onExecute) :
         this(onExecute: onExecute,
              canExecute: null)
     { }
@@ -18,9 +18,11 @@ public partial class RelayCommand
     /// </summary>
     /// <param name="onExecute">The <see cref="Action"/> delegate to be invoked on command execution.</param>
     /// <param name="canExecute">The <see cref="Func{TResult}"/> delegate to be invoked upon checking whether the command can be executed.</param>
-    public RelayCommand(Action onExecute!!,
-                        Func<Boolean>? canExecute)
+    public RelayCommand([DisallowNull] Action onExecute,
+                        [AllowNull] Func<Boolean>? canExecute)
     {
+        ArgumentNullException.ThrowIfNull(onExecute);
+
         m_OnExecute = onExecute;
         m_CanExecute = canExecute;
     }

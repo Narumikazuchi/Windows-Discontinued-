@@ -50,55 +50,49 @@ partial class WindowViewModel : NotifyingViewModel
     /// Opens the system menu for the <see cref="Window"/>.
     /// </summary>
     /// <param name="window">The <see cref="Window"/> in focus.</param>
-    protected virtual void OpenSystemMenu([DisallowNull] Window window!!) =>
+    protected virtual void OpenSystemMenu([DisallowNull] Window window) =>
         OpenSystemMenuInternal(window);
 
     /// <summary>
     /// Minimizes the <see cref="Window"/>.
     /// </summary>
     /// <param name="window">The <see cref="Window"/> to minimize.</param>
-    protected virtual void MinimizeWindow(Window window!!) =>
+    protected virtual void MinimizeWindow([DisallowNull] Window window) =>
         MinimizeWindowInternal(window);
 
     /// <summary>
     /// Maximizes or normalizes the <see cref="Window"/>.
     /// </summary>
     /// <param name="window">The <see cref="Window"/> to normalize or maximize.</param>
-    protected virtual void MaximizeWindow(Window window!!) =>
+    protected virtual void MaximizeWindow([DisallowNull] Window window) =>
         MaximizeWindowInternal(window);
 
     /// <summary>
     /// Closes the <see cref="Window"/>.
     /// </summary>
     /// <param name="window">The <see cref="Window"/> to close.</param>
-    protected virtual void CloseWindow(Window window!!) =>
+    protected virtual void CloseWindow([DisallowNull] Window window) =>
         CloseWindowInternal(window);
 
-    private static void OpenSystemMenuInternal(Window window!!)
+    private static void OpenSystemMenuInternal(Window window)
     {
-        if (window is null)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(window);
+
         SystemCommands.ShowSystemMenu(window: window,
                                       screenLocation: GetMouseLocation(window));
     }
 
-    private static void MinimizeWindowInternal(Window window!!)
+    private static void MinimizeWindowInternal(Window window)
     {
-        if (window is null)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(window);
+
         SystemCommands.MinimizeWindow(window);
     }
 
-    private static void MaximizeWindowInternal(Window window!!)
+    private static void MaximizeWindowInternal(Window window)
     {
-        if (window is null)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(window);
+
         if (window.WindowState is WindowState.Normal)
         {
             SystemCommands.MaximizeWindow(window);
@@ -107,17 +101,17 @@ partial class WindowViewModel : NotifyingViewModel
         window.WindowState = WindowState.Normal;
     }
 
-    private static void CloseWindowInternal(Window window!!)
+    private static void CloseWindowInternal(Window window)
     {
-        if (window is null)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(window);
+
         SystemCommands.CloseWindow(window);
     }
 
-    private static Point GetMouseLocation(Window window!!)
+    private static Point GetMouseLocation(Window window)
     {
+        ArgumentNullException.ThrowIfNull(window);
+
         Point temp = Mouse.GetPosition(window);
         return new(x: temp.X + window.Left,
                    y: temp.Y + window.Top);
