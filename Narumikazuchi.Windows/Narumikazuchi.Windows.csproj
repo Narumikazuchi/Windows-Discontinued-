@@ -15,7 +15,7 @@
 		<PackageReadmeFile>README nuget.md</PackageReadmeFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageReleaseNotes></PackageReleaseNotes>
-		<Version>3.2.0</Version>
+		<Version>3.2.1</Version>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/Narumikazuchi/Windows/wiki</PackageProjectUrl>
 		<PackageIcon>logo.png</PackageIcon>

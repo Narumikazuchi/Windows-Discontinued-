@@ -29,7 +29,7 @@ public sealed partial class BorderlessWindowResizer
     [Pure]
     [return: MaybeNull]
     public static Boolean TryGetResizerForWindow([DisallowNull] Window window,
-                                                 [NotNullWhen(true)] BorderlessWindowResizer? resizer)
+                                                 [NotNullWhen(true)] out BorderlessWindowResizer? resizer)
     {
         ArgumentNullException.ThrowIfNull(window);
 
