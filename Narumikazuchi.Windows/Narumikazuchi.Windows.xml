@@ -166,7 +166,7 @@
             </summary>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.TryGetResizerForWindow(System.Windows.Window,Narumikazuchi.Windows.Wpf.BorderlessWindowResizer)">
+        <member name="M:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer.TryGetResizerForWindow(System.Windows.Window,Narumikazuchi.Windows.Wpf.BorderlessWindowResizer@)">
             <summary>
             Gets the <see cref="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer"/> attached to the specified <see cref="T:System.Windows.Window"/>.
             </summary>
@@ -407,7 +407,7 @@
             <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
             </summary>
@@ -425,7 +425,7 @@
             <returns>The <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font@,System.Windows.Style)">
+        <member name="M:Narumikazuchi.Windows.Wpf.FontPicker.Show(System.Windows.Window,Narumikazuchi.Windows.Wpf.Font,System.Windows.Style)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.FontPicker"/> window and returns the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> the user selected.
             </summary>

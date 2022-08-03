@@ -46,9 +46,10 @@ public sealed partial class FontPicker : Window
     /// <exception cref="ArgumentNullException"/>
     [return: MaybeNull]
     public static Font? Show([DisallowNull] Window owner,
-                             in Font initial)
+                             [DisallowNull] Font initial)
     {
         ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(initial);
 
         FontPicker picker = new(owner)
         {
@@ -107,10 +108,11 @@ public sealed partial class FontPicker : Window
     /// <exception cref="ArgumentNullException"/>
     [return: MaybeNull]
     public static Font? Show([DisallowNull] Window owner,
-                             in Font initial,
+                             [DisallowNull] Font initial,
                              [DisallowNull] Style withStyle)
     {
         ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(initial);
         ArgumentNullException.ThrowIfNull(withStyle);
 
         FontPicker picker = new(owner)
@@ -214,80 +216,82 @@ partial class FontPicker
         {
             return;
         }
-
-        m_ContentLoaded = true;
-        this.Width = 592;
-        this.Height = 380;
-        this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        this.ResizeMode = ResizeMode.NoResize;
-        this.WindowStyle = WindowStyle.None;
-        this.ShowInTaskbar = false;
-        ParserContext context = new();
-        context.XmlnsDictionary.Add(prefix: "",
-                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-        context.XmlnsDictionary.Add(prefix: "x",
-                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml");
-        const String xaml =
-            "<ControlTemplate TargetType=\"{x:Type Window}\">" +
-                "<Border BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
-                    "<Grid>" +
-                        "<Grid.RowDefinitions>" +
-                            "<RowDefinition Height=\"*\"/>" +
-                            "<RowDefinition Height=\"40\"/>" +
-                        "</Grid.RowDefinitions>" +
+        else
+        {
+            m_ContentLoaded = true;
+            this.Width = 592;
+            this.Height = 380;
+            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.WindowStyle = WindowStyle.None;
+            this.ShowInTaskbar = false;
+            ParserContext context = new();
+            context.XmlnsDictionary.Add(prefix: "",
+                                        xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add(prefix: "x",
+                                        xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml");
+            const String xaml =
+                "<ControlTemplate TargetType=\"{x:Type Window}\">" +
+                    "<Border BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
                         "<Grid>" +
                             "<Grid.RowDefinitions>" +
-                                "<RowDefinition Height=\"25\"/>" +
                                 "<RowDefinition Height=\"*\"/>" +
+                                "<RowDefinition Height=\"40\"/>" +
                             "</Grid.RowDefinitions>" +
-                            "<Grid.ColumnDefinitions>" +
-                                "<ColumnDefinition Width=\"180\"/>" +
-                                "<ColumnDefinition Width=\"200\"/>" +
-                                "<ColumnDefinition Width=\"*\"/>" +
-                            "</Grid.ColumnDefinitions>" +
-                            "<TextBlock Grid.Column=\"0\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Font Family\"/>" +
-                            "<ListBox x:Name=\"" + nameof(m_LstFamily) + "\" Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
-                                "<ListBox.ItemTemplate>" +
-                                    "<DataTemplate>" +
-                                        "<TextBlock Text=\"{Binding Source}\" />" +
-                                    "</DataTemplate>" +
-                                "</ListBox.ItemTemplate>" +
-                            "</ListBox>" +
-                            "<TextBlock Grid.Column=\"1\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Typeface\"/>" +
-                            "<ListBox x:Name=\"" + nameof(m_LstTypefaces) + "\" Grid.Column=\"1\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
-                                "<ListBox.ItemTemplate>" +
-                                    "<DataTemplate>" +
-                                        "<WrapPanel>" +
-                                            "<TextBlock Text=\"{Binding Style}\" />" +
-                                            "<TextBlock Text=\"-\" />" +
-                                            "<TextBlock Text=\"{Binding Weight}\" />" +
-                                            "<TextBlock Text=\"-\" />" +
-                                            "<TextBlock Text=\"{Binding Stretch}\" />" +
-                                        "</WrapPanel>" +
-                                    "</DataTemplate>" +
-                                "</ListBox.ItemTemplate>" +
-                            "</ListBox>" +
-                            "<TextBlock Grid.Column=\"2\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Font Size\"/>" +
-                            "<Grid Grid.Column=\"2\" Grid.Row=\"1\" Margin=\"5\">" +
+                            "<Grid>" +
                                 "<Grid.RowDefinitions>" +
+                                    "<RowDefinition Height=\"25\"/>" +
                                     "<RowDefinition Height=\"*\"/>" +
-                                    "<RowDefinition Height=\"Auto\"/>" +
                                 "</Grid.RowDefinitions>" +
-                                "<TextBox x:Name=\"" + nameof(m_SampleText) + "\" Grid.Row=\"0\" Background=\"{TemplateBinding Background}\" Foreground=\"{TemplateBinding Foreground}\" IsReadOnly=\"True\" Text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit\" TextAlignment=\"Center\" TextWrapping=\"Wrap\" FontSize=\"{Binding Size}\" FontFamily=\"{Binding Family}\" FontStretch=\"{Binding Stretch}\" FontStyle=\"{Binding Style}\" FontWeight=\"{Binding Weight}\"/>" +
-                                "<Slider x:Name=\"" + nameof(m_FontSizeSlider) + "\" Grid.Row=\"1\" Minimum=\"8\" Maximum=\"24\" Value=\"12\" SmallChange=\"0.5\" LargeChange=\"2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\"/>" +
+                                "<Grid.ColumnDefinitions>" +
+                                    "<ColumnDefinition Width=\"180\"/>" +
+                                    "<ColumnDefinition Width=\"200\"/>" +
+                                    "<ColumnDefinition Width=\"*\"/>" +
+                                "</Grid.ColumnDefinitions>" +
+                                "<TextBlock Grid.Column=\"0\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Font Family\"/>" +
+                                "<ListBox x:Name=\"" + nameof(m_LstFamily) + "\" Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
+                                    "<ListBox.ItemTemplate>" +
+                                        "<DataTemplate>" +
+                                            "<TextBlock Text=\"{Binding Source}\" />" +
+                                        "</DataTemplate>" +
+                                    "</ListBox.ItemTemplate>" +
+                                "</ListBox>" +
+                                "<TextBlock Grid.Column=\"1\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Typeface\"/>" +
+                                "<ListBox x:Name=\"" + nameof(m_LstTypefaces) + "\" Grid.Column=\"1\" Grid.Row=\"1\" Margin=\"5\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
+                                    "<ListBox.ItemTemplate>" +
+                                        "<DataTemplate>" +
+                                            "<WrapPanel>" +
+                                                "<TextBlock Text=\"{Binding Style}\" />" +
+                                                "<TextBlock Text=\"-\" />" +
+                                                "<TextBlock Text=\"{Binding Weight}\" />" +
+                                                "<TextBlock Text=\"-\" />" +
+                                                "<TextBlock Text=\"{Binding Stretch}\" />" +
+                                            "</WrapPanel>" +
+                                        "</DataTemplate>" +
+                                    "</ListBox.ItemTemplate>" +
+                                "</ListBox>" +
+                                "<TextBlock Grid.Column=\"2\" Grid.Row=\"0\" Foreground=\"{TemplateBinding Foreground}\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Bottom\" Padding=\"5\" FontStyle=\"Italic\" Text=\"Font Size\"/>" +
+                                "<Grid Grid.Column=\"2\" Grid.Row=\"1\" Margin=\"5\">" +
+                                    "<Grid.RowDefinitions>" +
+                                        "<RowDefinition Height=\"*\"/>" +
+                                        "<RowDefinition Height=\"Auto\"/>" +
+                                    "</Grid.RowDefinitions>" +
+                                    "<TextBox x:Name=\"" + nameof(m_SampleText) + "\" Grid.Row=\"0\" Background=\"{TemplateBinding Background}\" Foreground=\"{TemplateBinding Foreground}\" IsReadOnly=\"True\" Text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit\" TextAlignment=\"Center\" TextWrapping=\"Wrap\" FontSize=\"{Binding Size}\" FontFamily=\"{Binding Family}\" FontStretch=\"{Binding Stretch}\" FontStyle=\"{Binding Style}\" FontWeight=\"{Binding Weight}\"/>" +
+                                    "<Slider x:Name=\"" + nameof(m_FontSizeSlider) + "\" Grid.Row=\"1\" Minimum=\"8\" Maximum=\"24\" Value=\"12\" SmallChange=\"0.5\" LargeChange=\"2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\"/>" +
+                                "</Grid>" +
                             "</Grid>" +
+                            "<StackPanel Grid.Row=\"1\" HorizontalAlignment=\"Right\" Orientation=\"Horizontal\">" +
+                                "<Button x:Name=\"" + nameof(m_BtnOk) + "\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
+                                "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
+                            "</StackPanel>" +
                         "</Grid>" +
-                        "<StackPanel Grid.Row=\"1\" HorizontalAlignment=\"Right\" Orientation=\"Horizontal\">" +
-                            "<Button x:Name=\"" + nameof(m_BtnOk) + "\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
-                            "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
-                        "</StackPanel>" +
-                    "</Grid>" +
-                "</Border>" +
-            "</ControlTemplate>";
-        using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-        ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
-                                                                    parserContext: context);
-        this.Template = template;
+                    "</Border>" +
+                "</ControlTemplate>";
+            using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
+                                                                        parserContext: context);
+            this.Template = template;
+        }
     }
 
     private void Family_SelectionChanged(Object sender,
@@ -299,15 +303,19 @@ partial class FontPicker
         {
             return;
         }
-        ICollection<Typeface> typefaces = family.GetTypefaces();
-        m_LstTypefaces.ItemsSource = typefaces;
-        Font font = new(family: family,
-                        size: this.SelectedFont.Size.Clamp(8, 24),
-                        typeface: typefaces.First());
-        this.SelectedFont = font;
-        m_LstTypefaces.SelectedItem = font.Typeface;
-        m_FontSizeSlider.Value = font.Size;
-        m_SampleText.DataContext = font;
+        else
+        {
+            Typeface[] typefaces = family.GetTypefaces()
+                                         .ToArray();
+            m_LstTypefaces.ItemsSource = typefaces;
+            Font font = new(family: family,
+                            size: this.SelectedFont.Size.Clamp(8, 24),
+                            typeface: typefaces.First());
+            this.SelectedFont = font;
+            m_LstTypefaces.SelectedItem = font.Typeface;
+            m_FontSizeSlider.Value = font.Size;
+            m_SampleText.DataContext = font;
+        }
     }
 
     private void Typefaces_SelectionChanged(Object sender,
@@ -319,13 +327,16 @@ partial class FontPicker
         {
             return;
         }
-        Font font = new(family: this.SelectedFont.Family,
-                        size: this.SelectedFont.Size.Clamp(8, 24),
-                        typeface: typeface);
-        this.SelectedFont = font;
-        m_LstFamily.SelectedItem = font.Family;
-        m_FontSizeSlider.Value = font.Size;
-        m_SampleText.DataContext = font;
+        else
+        {
+            Font font = new(family: this.SelectedFont.Family,
+                            size: this.SelectedFont.Size.Clamp(8, 24),
+                            typeface: typeface);
+            this.SelectedFont = font;
+            m_LstFamily.SelectedItem = font.Family;
+            m_FontSizeSlider.Value = font.Size;
+            m_SampleText.DataContext = font;
+        }
     }
 
     private void SizeSlider_ValueChanged(Object sender,
@@ -335,13 +346,16 @@ partial class FontPicker
         {
             return;
         }
-        Font font = new(family: this.SelectedFont.Family,
-                        size: eventArgs.NewValue,
-                        typeface: this.SelectedFont.Typeface);
-        this.SelectedFont = font;
-        m_LstFamily.SelectedItem = font.Family;
-        m_LstTypefaces.SelectedItem = font.Typeface;
-        m_SampleText.DataContext = font;
+        else
+        {
+            Font font = new(family: this.SelectedFont.Family,
+                            size: eventArgs.NewValue,
+                            typeface: this.SelectedFont.Typeface);
+            this.SelectedFont = font;
+            m_LstFamily.SelectedItem = font.Family;
+            m_LstTypefaces.SelectedItem = font.Typeface;
+            m_SampleText.DataContext = font;
+        }
     }
 
     private void Ok_Click(Object sender,

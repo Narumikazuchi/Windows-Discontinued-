@@ -35,10 +35,7 @@ public sealed partial class ColorPicker : Window
     public static Color? Show([DisallowNull] Window owner,
                               in Boolean allowAlhpaChannel)
     {
-        if (owner is null)
-        {
-            throw new ArgumentNullException(nameof(owner));
-        }
+        ArgumentNullException.ThrowIfNull(owner);
 
         ColorPicker picker = new(owner)
         {
@@ -49,10 +46,15 @@ public sealed partial class ColorPicker : Window
             AllowAlpha = allowAlhpaChannel
         };
         Boolean? result = picker.ShowDialog();
-        return result.HasValue &&
-               result.Value
-                    ? picker.SelectedColor
-                    : null;
+        if (result.HasValue &&
+            result.Value)
+        {
+            return picker.SelectedColor;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -68,14 +70,8 @@ public sealed partial class ColorPicker : Window
                               in Boolean allowAlhpaChannel,
                               [DisallowNull] Style withStyle)
     {
-        if (owner is null)
-        {
-            throw new ArgumentNullException(nameof(owner));
-        }
-        if (withStyle is null)
-        {
-            throw new ArgumentNullException(nameof(withStyle));
-        }
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(withStyle);
 
         ColorPicker picker = new(owner)
         {
@@ -87,10 +83,15 @@ public sealed partial class ColorPicker : Window
             Style = withStyle
         };
         Boolean? result = picker.ShowDialog();
-        return result.HasValue &&
-               result.Value
-                    ? picker.SelectedColor
-                    : null;
+        if (result.HasValue &&
+            result.Value)
+        {
+            return picker.SelectedColor;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -103,9 +104,9 @@ public sealed partial class ColorPicker : Window
     [return: MaybeNull]
     public static Color? Show([DisallowNull] Window owner,
                               in Color initial) =>
-        Show(owner,
-             initial,
-             true);
+        Show(owner: owner,
+             initial: initial,
+             allowAlhpaChannel: true);
 
     /// <summary>
     /// Shows the <see cref="ColorPicker"/> window and returns the <see cref="Color"/> the user selected.
@@ -120,10 +121,7 @@ public sealed partial class ColorPicker : Window
                               in Color initial,
                               in Boolean allowAlhpaChannel)
     {
-        if (owner is null)
-        {
-            throw new ArgumentNullException(nameof(owner));
-        }
+        ArgumentNullException.ThrowIfNull(owner);
 
         ColorPicker picker = new(owner)
         {
@@ -131,10 +129,15 @@ public sealed partial class ColorPicker : Window
             AllowAlpha = allowAlhpaChannel
         };
         Boolean? result = picker.ShowDialog();
-        return result.HasValue &&
-               result.Value
-                    ? picker.SelectedColor
-                    : null;
+        if (result.HasValue &&
+            result.Value)
+        {
+            return picker.SelectedColor;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -152,14 +155,8 @@ public sealed partial class ColorPicker : Window
                               in Boolean allowAlhpaChannel,
                               [DisallowNull] Style withStyle)
     {
-        if (owner is null)
-        {
-            throw new ArgumentNullException(nameof(owner));
-        }
-        if (withStyle is null)
-        {
-            throw new ArgumentNullException(nameof(withStyle));
-        }
+        ArgumentNullException.ThrowIfNull(owner);
+        ArgumentNullException.ThrowIfNull(withStyle);
 
         ColorPicker picker = new(owner)
         {
@@ -168,10 +165,15 @@ public sealed partial class ColorPicker : Window
             Style = withStyle
         };
         Boolean? result = picker.ShowDialog();
-        return result.HasValue &&
-               result.Value
-                    ? picker.SelectedColor
-                    : null;
+        if (result.HasValue &&
+            result.Value)
+        {
+            return picker.SelectedColor;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <inheritdoc/>
@@ -292,11 +294,10 @@ public sealed partial class ColorPicker : Window
     /// </summary>
     [NotNull]
     public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register(
-            nameof(SelectedColor),
-            typeof(Color),
-            typeof(ColorPicker),
-            new FrameworkPropertyMetadata(default(Color)));
+        DependencyProperty.Register(name: nameof(SelectedColor),
+                                    propertyType: typeof(Color),
+                                    ownerType: typeof(ColorPicker),
+                                    typeMetadata: new FrameworkPropertyMetadata(default(Color)));
 
     /// <summary>
     /// Gets or sets the <see cref="Color"/> that this picker has currently selected.
@@ -314,7 +315,7 @@ public sealed partial class ColorPicker : Window
     {
         get => m_AllowAlpha &&
                m_ASlider is not null &&
-            m_ASlider.Visibility == Visibility.Visible;
+               m_ASlider.Visibility == Visibility.Visible;
         set
         {
             m_AllowAlpha = value;
@@ -322,9 +323,15 @@ public sealed partial class ColorPicker : Window
             {
                 return;
             }
-            m_ASlider.Visibility = value
-                                          ? Visibility.Visible
-                                          : Visibility.Collapsed;
+
+            if (value)
+            {
+                m_ASlider.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m_ASlider.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }
@@ -336,10 +343,7 @@ partial class ColorPicker
 
     private ColorPicker(Window owner)
     {
-        if (owner is null)
-        {
-            throw new ArgumentNullException(nameof(owner));
-        }
+        ArgumentNullException.ThrowIfNull(owner);
 
         this.Owner = owner;
         this.InitializeComponent();
@@ -366,218 +370,220 @@ partial class ColorPicker
         {
             return;
         }
-
-        m_ContentLoaded = true;
-        this.Width = 256;
-        this.Height = 284;
-        this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        this.ResizeMode = ResizeMode.NoResize;
-        this.WindowStyle = WindowStyle.None;
-        this.ShowInTaskbar = false;
-        ParserContext context = new();
-        context.XmlnsDictionary.Add("",
-                                    "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-        context.XmlnsDictionary.Add("x",
-                                    "http://schemas.microsoft.com/winfx/2006/xaml");
-        context.XmlnsDictionary.Add("w",
-                                    "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
-        const String xaml =
-            "<ControlTemplate TargetType=\"{x:Type w:ColorPicker}\">" +
-                "<Border Padding=\"3\" BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
-                "<Border.Resources>" +
-                    "<w:ColorToSolidColorBrushConverter x:Key=\"Converter\"/>" +
-                    "<Style TargetType=\"{x:Type Slider}\" x:Key=\"ColorSliderStyle\">" +
-                        "<Setter Property=\"BorderBrush\" Value=\"DarkGray\"/>" +
-                        "<Setter Property=\"BorderThickness\" Value=\"1\"/>" +
-                        "<Setter Property=\"SmallChange\" Value=\"1\"/>" +
-                        "<Setter Property=\"LargeChange\" Value=\"10\"/>" +
-                        "<Setter Property=\"Orientation\" Value=\"Horizontal\"/>" +
-                        "<Setter Property=\"Minimum\" Value=\"0\"/>" +
-                        "<Setter Property=\"Maximum\" Value=\"255\"/>" +
-                        "<Setter Property=\"TickFrequency\" Value=\"1\"/>" +
-                        "<Setter Property=\"IsSnapToTickEnabled\" Value=\"True\"/>" +
-                        "<Setter Property=\"IsDirectionReversed\" Value=\"False\"/>" +
-                        "<Setter Property=\"IsMoveToPointEnabled\" Value=\"True\"/>" +
-                        "<Setter Property=\"Value\" Value=\"0\"/>" +
-                        "<Setter Property=\"VerticalAlignment\" Value=\"Center\"/>" +
-                        "<Setter Property=\"Template\">" +
-                            "<Setter.Value>" +
-                                "<ControlTemplate TargetType=\"{x:Type Slider}\">" +
-                                    "<Grid>" +
-                                        "<Border BorderBrush=\"{TemplateBinding BorderBrush}\" BorderThickness=\"{TemplateBinding BorderThickness}\" Margin=\"0 8 0 0\">" +
-                                            "<Border x:Name=\"PART_TrackBackground\" Height=\"15\">" +
-                                                "<Rectangle Fill=\"{TemplateBinding Background}\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
+        else
+        {
+            m_ContentLoaded = true;
+            this.Width = 256;
+            this.Height = 284;
+            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.WindowStyle = WindowStyle.None;
+            this.ShowInTaskbar = false;
+            ParserContext context = new();
+            context.XmlnsDictionary.Add("",
+                                        "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add("x",
+                                        "http://schemas.microsoft.com/winfx/2006/xaml");
+            context.XmlnsDictionary.Add("w",
+                                        "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
+            const String xaml =
+                "<ControlTemplate TargetType=\"{x:Type w:ColorPicker}\">" +
+                    "<Border Padding=\"3\" BorderThickness=\"1\" BorderBrush=\"{TemplateBinding BorderBrush}\" Background=\"{TemplateBinding Background}\" TextElement.Foreground=\"{TemplateBinding Foreground}\">" +
+                    "<Border.Resources>" +
+                        "<w:ColorToSolidColorBrushConverter x:Key=\"Converter\"/>" +
+                        "<Style TargetType=\"{x:Type Slider}\" x:Key=\"ColorSliderStyle\">" +
+                            "<Setter Property=\"BorderBrush\" Value=\"DarkGray\"/>" +
+                            "<Setter Property=\"BorderThickness\" Value=\"1\"/>" +
+                            "<Setter Property=\"SmallChange\" Value=\"1\"/>" +
+                            "<Setter Property=\"LargeChange\" Value=\"10\"/>" +
+                            "<Setter Property=\"Orientation\" Value=\"Horizontal\"/>" +
+                            "<Setter Property=\"Minimum\" Value=\"0\"/>" +
+                            "<Setter Property=\"Maximum\" Value=\"255\"/>" +
+                            "<Setter Property=\"TickFrequency\" Value=\"1\"/>" +
+                            "<Setter Property=\"IsSnapToTickEnabled\" Value=\"True\"/>" +
+                            "<Setter Property=\"IsDirectionReversed\" Value=\"False\"/>" +
+                            "<Setter Property=\"IsMoveToPointEnabled\" Value=\"True\"/>" +
+                            "<Setter Property=\"Value\" Value=\"0\"/>" +
+                            "<Setter Property=\"VerticalAlignment\" Value=\"Center\"/>" +
+                            "<Setter Property=\"Template\">" +
+                                "<Setter.Value>" +
+                                    "<ControlTemplate TargetType=\"{x:Type Slider}\">" +
+                                        "<Grid>" +
+                                            "<Border BorderBrush=\"{TemplateBinding BorderBrush}\" BorderThickness=\"{TemplateBinding BorderThickness}\" Margin=\"0 8 0 0\">" +
+                                                "<Border x:Name=\"PART_TrackBackground\" Height=\"15\">" +
+                                                    "<Rectangle Fill=\"{TemplateBinding Background}\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
+                                                "</Border>" +
                                             "</Border>" +
-                                        "</Border>" +
-                                        "<Track x:Name=\"PART_Track\">" +
-                                            "<Track.Resources>" +
-                                                "<Style x:Key=\"SliderRepeatButtonStyle\" TargetType=\"{x:Type RepeatButton}\">" +
-                                                    "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" />" +
-                                                    "<Setter Property=\"IsTabStop\" Value=\"false\" />" +
-                                                    "<Setter Property=\"Focusable\" Value=\"false\" />" +
-                                                    "<Setter Property=\"Background\" Value=\"Transparent\" />" +
-                                                    "<Setter Property=\"Template\">" +
-                                                        "<Setter.Value>" +
-                                                            "<ControlTemplate TargetType=\"{x:Type RepeatButton}\">" +
-                                                                "<Border Background=\"Transparent\" />" +
-                                                            "</ControlTemplate>" +
-                                                        "</Setter.Value>" +
-                                                    "</Setter>" +
-                                                "</Style>" +
-                                            "</Track.Resources>" +
-                                            "<Track.DecreaseRepeatButton>" +
-                                                "<RepeatButton Command=\"Slider.DecreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
-                                            "</Track.DecreaseRepeatButton>" +
-                                            "<Track.IncreaseRepeatButton>" +
-                                                "<RepeatButton Command=\"Slider.IncreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
-                                            "</Track.IncreaseRepeatButton>" +
-                                            "<Track.Thumb>" +
-                                                "<Thumb>" +
-                                                    "<Thumb.Style>" +
-                                                        "<Style TargetType=\"{x:Type Thumb}\">" +
-                                                            "<Setter Property=\"Focusable\" Value=\"false\" />" +
-                                                            "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" /> " +
-                                                            "<Setter Property=\"Height\" Value=\"15\" /> " +
-                                                            "<Setter Property=\"Width\" Value=\"12\" /> " +
-                                                            "<Setter Property=\"Foreground\" Value=\"Gray\" /> " +
-                                                            "<Setter Property=\"Template\"> " +
-                                                                "<Setter.Value>" +
-                                                                    "<ControlTemplate TargetType=\"{x:Type Thumb}\">" +
-                                                                        "<Canvas SnapsToDevicePixels=\"true\" Background=\"Transparent\">" +
-                                                                            "<Path x:Name=\"UpArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"{TemplateBinding Foreground}\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
-                                                                                "<Path.RenderTransform> " +
-                                                                                    "<TransformGroup> " +
-                                                                                        "<RotateTransform Angle=\"90\" />" +
-                                                                                        "<TranslateTransform X=\"6\" /> " +
-                                                                                    "</TransformGroup> " +
-                                                                                "</Path.RenderTransform> " +
-                                                                            "</Path> " +
-                                                                        "</Canvas>" +
-                                                                    "</ControlTemplate>" +
-                                                                "</Setter.Value>" +
-                                                            "</Setter>" +
-                                                        "</Style>" +
-                                                    "</Thumb.Style>" +
-                                                "</Thumb>" +
-                                            "</Track.Thumb>" +
-                                        "</Track>" +
-                                    "</Grid>" +
-                                "</ControlTemplate>" +
-                            "</Setter.Value>" +
-                        "</Setter>" +
-                    "</Style>" +
-                "</Border.Resources>" +
-                    "<Grid>" +
-                        "<Grid.RowDefinitions>" +
-                            "<RowDefinition Height=\"*\"/>" +
-                            "<RowDefinition Height=\"40\"/>" +
-                        "</Grid.RowDefinitions>" +
-                        "<Grid Margin=\"2\">" +
+                                            "<Track x:Name=\"PART_Track\">" +
+                                                "<Track.Resources>" +
+                                                    "<Style x:Key=\"SliderRepeatButtonStyle\" TargetType=\"{x:Type RepeatButton}\">" +
+                                                        "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" />" +
+                                                        "<Setter Property=\"IsTabStop\" Value=\"false\" />" +
+                                                        "<Setter Property=\"Focusable\" Value=\"false\" />" +
+                                                        "<Setter Property=\"Background\" Value=\"Transparent\" />" +
+                                                        "<Setter Property=\"Template\">" +
+                                                            "<Setter.Value>" +
+                                                                "<ControlTemplate TargetType=\"{x:Type RepeatButton}\">" +
+                                                                    "<Border Background=\"Transparent\" />" +
+                                                                "</ControlTemplate>" +
+                                                            "</Setter.Value>" +
+                                                        "</Setter>" +
+                                                    "</Style>" +
+                                                "</Track.Resources>" +
+                                                "<Track.DecreaseRepeatButton>" +
+                                                    "<RepeatButton Command=\"Slider.DecreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
+                                                "</Track.DecreaseRepeatButton>" +
+                                                "<Track.IncreaseRepeatButton>" +
+                                                    "<RepeatButton Command=\"Slider.IncreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
+                                                "</Track.IncreaseRepeatButton>" +
+                                                "<Track.Thumb>" +
+                                                    "<Thumb>" +
+                                                        "<Thumb.Style>" +
+                                                            "<Style TargetType=\"{x:Type Thumb}\">" +
+                                                                "<Setter Property=\"Focusable\" Value=\"false\" />" +
+                                                                "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" /> " +
+                                                                "<Setter Property=\"Height\" Value=\"15\" /> " +
+                                                                "<Setter Property=\"Width\" Value=\"12\" /> " +
+                                                                "<Setter Property=\"Foreground\" Value=\"Gray\" /> " +
+                                                                "<Setter Property=\"Template\"> " +
+                                                                    "<Setter.Value>" +
+                                                                        "<ControlTemplate TargetType=\"{x:Type Thumb}\">" +
+                                                                            "<Canvas SnapsToDevicePixels=\"true\" Background=\"Transparent\">" +
+                                                                                "<Path x:Name=\"UpArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"{TemplateBinding Foreground}\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
+                                                                                    "<Path.RenderTransform> " +
+                                                                                        "<TransformGroup> " +
+                                                                                            "<RotateTransform Angle=\"90\" />" +
+                                                                                            "<TranslateTransform X=\"6\" /> " +
+                                                                                        "</TransformGroup> " +
+                                                                                    "</Path.RenderTransform> " +
+                                                                                "</Path> " +
+                                                                            "</Canvas>" +
+                                                                        "</ControlTemplate>" +
+                                                                    "</Setter.Value>" +
+                                                                "</Setter>" +
+                                                            "</Style>" +
+                                                        "</Thumb.Style>" +
+                                                    "</Thumb>" +
+                                                "</Track.Thumb>" +
+                                            "</Track>" +
+                                        "</Grid>" +
+                                    "</ControlTemplate>" +
+                                "</Setter.Value>" +
+                            "</Setter>" +
+                        "</Style>" +
+                    "</Border.Resources>" +
+                        "<Grid>" +
                             "<Grid.RowDefinitions>" +
-                                "<RowDefinition Height=\"Auto\"/>" +
-                                "<RowDefinition Height=\"Auto\"/>" +
+                                "<RowDefinition Height=\"*\"/>" +
+                                "<RowDefinition Height=\"40\"/>" +
                             "</Grid.RowDefinitions>" +
-                            "<Grid Grid.Row=\"0\">" +
-                                "<Grid.ColumnDefinitions>" +
-                                    "<ColumnDefinition Width=\"200\"/>" +
-                                    "<ColumnDefinition Width=\"Auto\"/>" +
-                                "</Grid.ColumnDefinitions>" +
+                            "<Grid Margin=\"2\">" +
                                 "<Grid.RowDefinitions>" +
                                     "<RowDefinition Height=\"Auto\"/>" +
                                     "<RowDefinition Height=\"Auto\"/>" +
                                 "</Grid.RowDefinitions>" +
-                                "<Border Grid.Row=\"0\" BorderThickness=\"1\" BorderBrush=\"DarkGray\" ClipToBounds=\"True\">" +
-                                    "<Canvas x:Name=\"" + nameof(m_ColorShadingCanvas) + "\" Width=\"200\" Height=\"100\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\">" +
-                                        "<Rectangle Width=\"200\" Height=\"100\" Fill=\"{Binding SelectedColor, ElementName=" + nameof(m_SpectrumSlider) + ", Converter={StaticResource Converter}}\" />" +
-                                        "<Rectangle Width=\"200\" Height=\"100\">" +
-                                            "<Rectangle.Fill>" +
-                                                "<LinearGradientBrush StartPoint=\"0,0\" EndPoint=\"1,0\">" +
-                                                    "<GradientStop Offset=\"0\" Color=\"#FFFFFFFF\"/>" +
-                                                    "<GradientStop Offset=\"1\" Color=\"#00FFFFFF\"/>" +
-                                                "</LinearGradientBrush>" +
-                                            "</Rectangle.Fill>" +
-                                        "</Rectangle>" +
-                                        "<Rectangle Width=\"200\" Height=\"100\">" +
-                                            "<Rectangle.Fill>" +
-                                                "<LinearGradientBrush StartPoint=\"0,1\" EndPoint=\"0,0\">" +
-                                                    "<GradientStop Offset=\"0\" Color=\"#FF000000\"/>" +
-                                                    "<GradientStop Offset=\"1\" Color=\"#00000000\"/>" +
-                                                "</LinearGradientBrush>" +
-                                            "</Rectangle.Fill>" +
-                                        "</Rectangle>" +
-                                        "<Canvas x:Name=\"" + nameof(m_ColorShadeSelector) + "\" Width=\"10\" Height=\"10\" IsHitTestVisible=\"False\">" +
-                                            "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FFFFFFFF\" StrokeThickness=\"3\" IsHitTestVisible=\"False\"/>" +
-                                            "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FF000000\" StrokeThickness=\"1\" IsHitTestVisible=\"False\"/>" +
+                                "<Grid Grid.Row=\"0\">" +
+                                    "<Grid.ColumnDefinitions>" +
+                                        "<ColumnDefinition Width=\"200\"/>" +
+                                        "<ColumnDefinition Width=\"Auto\"/>" +
+                                    "</Grid.ColumnDefinitions>" +
+                                    "<Grid.RowDefinitions>" +
+                                        "<RowDefinition Height=\"Auto\"/>" +
+                                        "<RowDefinition Height=\"Auto\"/>" +
+                                    "</Grid.RowDefinitions>" +
+                                    "<Border Grid.Row=\"0\" BorderThickness=\"1\" BorderBrush=\"DarkGray\" ClipToBounds=\"True\">" +
+                                        "<Canvas x:Name=\"" + nameof(m_ColorShadingCanvas) + "\" Width=\"200\" Height=\"100\" HorizontalAlignment=\"Left\" VerticalAlignment=\"Top\">" +
+                                            "<Rectangle Width=\"200\" Height=\"100\" Fill=\"{Binding SelectedColor, ElementName=" + nameof(m_SpectrumSlider) + ", Converter={StaticResource Converter}}\" />" +
+                                            "<Rectangle Width=\"200\" Height=\"100\">" +
+                                                "<Rectangle.Fill>" +
+                                                    "<LinearGradientBrush StartPoint=\"0,0\" EndPoint=\"1,0\">" +
+                                                        "<GradientStop Offset=\"0\" Color=\"#FFFFFFFF\"/>" +
+                                                        "<GradientStop Offset=\"1\" Color=\"#00FFFFFF\"/>" +
+                                                    "</LinearGradientBrush>" +
+                                                "</Rectangle.Fill>" +
+                                            "</Rectangle>" +
+                                            "<Rectangle Width=\"200\" Height=\"100\">" +
+                                                "<Rectangle.Fill>" +
+                                                    "<LinearGradientBrush StartPoint=\"0,1\" EndPoint=\"0,0\">" +
+                                                        "<GradientStop Offset=\"0\" Color=\"#FF000000\"/>" +
+                                                        "<GradientStop Offset=\"1\" Color=\"#00000000\"/>" +
+                                                    "</LinearGradientBrush>" +
+                                                "</Rectangle.Fill>" +
+                                            "</Rectangle>" +
+                                            "<Canvas x:Name=\"" + nameof(m_ColorShadeSelector) + "\" Width=\"10\" Height=\"10\" IsHitTestVisible=\"False\">" +
+                                                "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FFFFFFFF\" StrokeThickness=\"3\" IsHitTestVisible=\"False\"/>" +
+                                                "<Ellipse Width=\"10\" Height=\"10\" Stroke=\"#FF000000\" StrokeThickness=\"1\" IsHitTestVisible=\"False\"/>" +
+                                            "</Canvas>" +
                                         "</Canvas>" +
-                                    "</Canvas>" +
-                                "</Border>" +
-                                "<Border Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"0 5 0 0\">" +
+                                    "</Border>" +
+                                    "<Border Grid.Column=\"0\" Grid.Row=\"1\" Margin=\"0 5 0 0\">" +
+                                        "<Grid>" +
+                                            "<Grid.ColumnDefinitions>" +
+                                                "<ColumnDefinition Width=\"*\"/>" +
+                                                "<ColumnDefinition Width=\"*\"/>" +
+                                            "</Grid.ColumnDefinitions>" +
+                                            "<Border Grid.Column=\"0\" Height=\"22\" Margin=\"2 0\" BorderThickness=\"1\" BorderBrush=\"#FFC9CACA\">" +
+                                                "<Rectangle Fill=\"{TemplateBinding SelectedColor, Converter={StaticResource Converter}}\"/>" +
+                                            "</Border>" +
+                                            "<TextBox x:Name=\"" + nameof(m_HexadecimalText) + "\" Grid.Column=\"1\" Margin=\"2 0\" Foreground=\"{TemplateBinding Foreground}\" Background=\"Transparent\" BorderBrush=\"{TemplateBinding Foreground}\" VerticalAlignment=\"Center\" />" +
+                                        "</Grid>" +
+                                    "</Border>" +
+                                    "<Border Grid.Column=\"1\" Grid.Row=\"0\" Grid.RowSpan=\"2\" Margin=\"4 -8 0 0\" ClipToBounds=\"False\">" +
+                                        "<w:ColorSpectrumSlider x:Name=\"" + nameof(m_SpectrumSlider) + "\" VerticalAlignment=\"Stretch\"/>" +
+                                    "</Border>" +
+                                "</Grid>" +
+                                "<Border Grid.Column=\"0\" Grid.Row=\"1\" BorderThickness=\"1\" Margin=\"0 10 0 0\" MinWidth=\"180\" ClipToBounds=\"True\">" +
                                     "<Grid>" +
-                                        "<Grid.ColumnDefinitions>" +
-                                            "<ColumnDefinition Width=\"*\"/>" +
-                                            "<ColumnDefinition Width=\"*\"/>" +
-                                        "</Grid.ColumnDefinitions>" +
-                                        "<Border Grid.Column=\"0\" Height=\"22\" Margin=\"2 0\" BorderThickness=\"1\" BorderBrush=\"#FFC9CACA\">" +
-                                            "<Rectangle Fill=\"{TemplateBinding SelectedColor, Converter={StaticResource Converter}}\"/>" +
-                                        "</Border>" +
-                                        "<TextBox x:Name=\"" + nameof(m_HexadecimalText) + "\" Grid.Column=\"1\" Margin=\"2 0\" Foreground=\"{TemplateBinding Foreground}\" Background=\"Transparent\" BorderBrush=\"{TemplateBinding Foreground}\" VerticalAlignment=\"Center\" />" +
+                                        "<Grid.RowDefinitions>" +
+                                            "<RowDefinition Height=\"19\"/>" +
+                                            "<RowDefinition Height=\"19\"/>" +
+                                            "<RowDefinition Height=\"19\"/>" +
+                                            "<RowDefinition Height=\"19\"/>" +
+                                        "</Grid.RowDefinitions>" +
+                                        "<Slider x:Name=\"" + nameof(m_RSlider) + "\" Grid.Row=\"0\" Background=\"#FFFF0000\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                        "<Slider x:Name=\"" + nameof(m_GSlider) + "\" Grid.Row=\"1\" Background=\"#FF00FF00\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                        "<Slider x:Name=\"" + nameof(m_BSlider) + "\" Grid.Row=\"2\" Background=\"#FF0000FF\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
+                                        "<Slider x:Name=\"" + nameof(m_ASlider) + "\" Grid.Row=\"3\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\">" +
+                                            "<Slider.Background>" +
+                                                "<DrawingBrush Viewport=\"0 0 0.05 0.2\" TileMode=\"Tile\">" +
+                                                    "<DrawingBrush.Drawing>" +
+                                                        "<DrawingGroup>" +
+                                                            "<GeometryDrawing Brush=\"LightGray\">" +
+                                                                "<GeometryDrawing.Geometry>" +
+                                                                    "<GeometryGroup>" +
+                                                                        "<RectangleGeometry Rect=\"0 0 10 15\"/>" +
+                                                                    "</GeometryGroup>" +
+                                                                "</GeometryDrawing.Geometry>" +
+                                                            "</GeometryDrawing>" +
+                                                            "<GeometryDrawing Brush=\"DarkGray\">" +
+                                                                "<GeometryDrawing.Geometry>" +
+                                                                    "<GeometryGroup>" +
+                                                                        "<RectangleGeometry Rect=\"0 0 5 5\"/>" +
+                                                                        "<RectangleGeometry Rect=\"5 5 5 5\"/>" +
+                                                                        "<RectangleGeometry Rect=\"0 10 5 5\"/>" +
+                                                                    "</GeometryGroup>" +
+                                                                "</GeometryDrawing.Geometry>" +
+                                                            "</GeometryDrawing>" +
+                                                        "</DrawingGroup>" +
+                                                    "</DrawingBrush.Drawing>" +
+                                                "</DrawingBrush>" +
+                                            "</Slider.Background>" +
+                                        "</Slider>" +
                                     "</Grid>" +
                                 "</Border>" +
-                                "<Border Grid.Column=\"1\" Grid.Row=\"0\" Grid.RowSpan=\"2\" Margin=\"4 -8 0 0\" ClipToBounds=\"False\">" +
-                                    "<w:ColorSpectrumSlider x:Name=\"" + nameof(m_SpectrumSlider) + "\" VerticalAlignment=\"Stretch\"/>" +
-                                "</Border>" +
                             "</Grid>" +
-                            "<Border Grid.Column=\"0\" Grid.Row=\"1\" BorderThickness=\"1\" Margin=\"0 10 0 0\" MinWidth=\"180\" ClipToBounds=\"True\">" +
-                                "<Grid>" +
-                                    "<Grid.RowDefinitions>" +
-                                        "<RowDefinition Height=\"19\"/>" +
-                                        "<RowDefinition Height=\"19\"/>" +
-                                        "<RowDefinition Height=\"19\"/>" +
-                                        "<RowDefinition Height=\"19\"/>" +
-                                    "</Grid.RowDefinitions>" +
-                                    "<Slider x:Name=\"" + nameof(m_RSlider) + "\" Grid.Row=\"0\" Background=\"#FFFF0000\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(m_GSlider) + "\" Grid.Row=\"1\" Background=\"#FF00FF00\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(m_BSlider) + "\" Grid.Row=\"2\" Background=\"#FF0000FF\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\"/>" +
-                                    "<Slider x:Name=\"" + nameof(m_ASlider) + "\" Grid.Row=\"3\" Margin=\"4 2\" TickPlacement=\"BottomRight\" AutoToolTipPlacement=\"TopLeft\" Style=\"{StaticResource ColorSliderStyle}\">" +
-                                        "<Slider.Background>" +
-                                            "<DrawingBrush Viewport=\"0 0 0.05 0.2\" TileMode=\"Tile\">" +
-                                                "<DrawingBrush.Drawing>" +
-                                                    "<DrawingGroup>" +
-                                                        "<GeometryDrawing Brush=\"LightGray\">" +
-                                                            "<GeometryDrawing.Geometry>" +
-                                                                "<GeometryGroup>" +
-                                                                    "<RectangleGeometry Rect=\"0 0 10 15\"/>" +
-                                                                "</GeometryGroup>" +
-                                                            "</GeometryDrawing.Geometry>" +
-                                                        "</GeometryDrawing>" +
-                                                        "<GeometryDrawing Brush=\"DarkGray\">" +
-                                                            "<GeometryDrawing.Geometry>" +
-                                                                "<GeometryGroup>" +
-                                                                    "<RectangleGeometry Rect=\"0 0 5 5\"/>" +
-                                                                    "<RectangleGeometry Rect=\"5 5 5 5\"/>" +
-                                                                    "<RectangleGeometry Rect=\"0 10 5 5\"/>" +
-                                                                "</GeometryGroup>" +
-                                                            "</GeometryDrawing.Geometry>" +
-                                                        "</GeometryDrawing>" +
-                                                    "</DrawingGroup>" +
-                                                "</DrawingBrush.Drawing>" +
-                                            "</DrawingBrush>" +
-                                        "</Slider.Background>" +
-                                    "</Slider>" +
-                                "</Grid>" +
-                            "</Border>" +
+                            "<StackPanel Grid.Row=\"1\" HorizontalAlignment=\"Right\" Orientation=\"Horizontal\">" +
+                                "<Button x:Name=\"_btnOk\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
+                                "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
+                            "</StackPanel>" +
                         "</Grid>" +
-                        "<StackPanel Grid.Row=\"1\" HorizontalAlignment=\"Right\" Orientation=\"Horizontal\">" +
-                            "<Button x:Name=\"_btnOk\" Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsDefault=\"True\" Content=\"OK\"/>" +
-                            "<Button Margin=\"4 8\" MinWidth=\"32\" MinHeight=\"24\" IsCancel=\"True\" Content=\"Cancel\"/>" +
-                        "</StackPanel>" +
-                    "</Grid>" +
-                "</Border>" +
-            "</ControlTemplate>";
-        using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-        ControlTemplate template = (ControlTemplate)XamlReader.Load(stream,
-                                                                    context);
-        this.Template = template;
+                    "</Border>" +
+                "</ControlTemplate>";
+            using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
+                                                                        parserContext: context);
+            this.Template = template;
+        }
     }
 
     private void UpdateColorShadeSelectorPosition(Point p,
@@ -589,10 +595,8 @@ partial class ColorPicker
             return;
         }
 
-        p.X = p.X.Clamp(0,
-                        m_ColorShadingCanvas.ActualWidth);
-        p.Y = p.Y.Clamp(0,
-                        m_ColorShadingCanvas.ActualHeight);
+        p.X = p.X.Clamp(0, m_ColorShadingCanvas.ActualWidth);
+        p.Y = p.Y.Clamp(0, m_ColorShadingCanvas.ActualHeight);
 
         m_ColorShadeSelectorTransform.X = p.X - m_ColorShadeSelector.Width / 2;
         m_ColorShadeSelectorTransform.Y = p.Y - m_ColorShadeSelector.Height / 2;

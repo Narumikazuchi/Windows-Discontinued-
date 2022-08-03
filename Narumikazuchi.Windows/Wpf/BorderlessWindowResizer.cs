@@ -38,8 +38,11 @@ public sealed partial class BorderlessWindowResizer
             resizer = default;
             return false;
         }
-        resizer = s_Attached[window];
-        return true;
+        else
+        {
+            resizer = s_Attached[window];
+            return true;
+        }
     }
 
     /// <summary>
@@ -79,8 +82,10 @@ partial class BorderlessWindowResizer
         {
             return;
         }
-
-        m_Transform = source.CompositionTarget.TransformToDevice;
+        else
+        {
+            m_Transform = source.CompositionTarget.TransformToDevice;
+        }
     }
 
     private IntPtr WindowProc(IntPtr hwnd,

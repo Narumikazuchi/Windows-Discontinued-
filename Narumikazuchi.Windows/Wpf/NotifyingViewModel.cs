@@ -13,9 +13,8 @@ public abstract partial class NotifyingViewModel
     {
         ArgumentNullException.ThrowIfNull(propertyName);
 
-        this.PropertyChanged?
-            .Invoke(sender: this,
-                    e: new(propertyName));
+        this.PropertyChanged?.Invoke(sender: this,
+                                     e: new(propertyName));
     }
 }
 

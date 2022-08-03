@@ -74,100 +74,103 @@ partial class ColorSpectrumSlider : Slider
         {
             return;
         }
-        m_ContentLoaded = true;
+        else
+        {
+            m_ContentLoaded = true;
 
-        this.BorderBrush = Brushes.DarkGray;
-        this.BorderThickness = new(1);
-        this.SmallChange = 10;
-        this.Orientation = Orientation.Vertical;
-        this.Background = Brushes.Transparent;
-        this.Minimum = 0;
-        this.Maximum = 360;
-        this.TickFrequency = 0.001d;
-        this.IsSnapToTickEnabled = true;
-        this.IsDirectionReversed = false;
-        this.IsMoveToPointEnabled = true;
-        this.Value = 0;
-        ParserContext context = new();
-        context.XmlnsDictionary.Add(prefix: "",
-                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-        context.XmlnsDictionary.Add(prefix: "x",
-                                    xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml");
-        context.XmlnsDictionary.Add(prefix: "w",
-                                    xmlNamespace: "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
-        const String xaml =
-            "<ControlTemplate TargetType=\"{x:Type w:ColorSpectrumSlider}\">" +
-                "<Grid>" +
-                    "<Border BorderBrush=\"{TemplateBinding BorderBrush}\" BorderThickness=\"{TemplateBinding BorderThickness}\" Margin=\"0 8 0 0\">" +
-                        "<Border x:Name=\"PART_TrackBackground\" Width=\"15\">" +
-                            "<Rectangle x:Name=\"" + PART_SPECTRUMDISPLAY + "\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
+            this.BorderBrush = Brushes.DarkGray;
+            this.BorderThickness = new(1);
+            this.SmallChange = 10;
+            this.Orientation = Orientation.Vertical;
+            this.Background = Brushes.Transparent;
+            this.Minimum = 0;
+            this.Maximum = 360;
+            this.TickFrequency = 0.001d;
+            this.IsSnapToTickEnabled = true;
+            this.IsDirectionReversed = false;
+            this.IsMoveToPointEnabled = true;
+            this.Value = 0;
+            ParserContext context = new();
+            context.XmlnsDictionary.Add(prefix: "",
+                                        xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+            context.XmlnsDictionary.Add(prefix: "x",
+                                        xmlNamespace: "http://schemas.microsoft.com/winfx/2006/xaml");
+            context.XmlnsDictionary.Add(prefix: "w",
+                                        xmlNamespace: "clr-namespace:Narumikazuchi.Windows;assembly=Narumikazuchi.Windows");
+            const String xaml =
+                "<ControlTemplate TargetType=\"{x:Type w:ColorSpectrumSlider}\">" +
+                    "<Grid>" +
+                        "<Border BorderBrush=\"{TemplateBinding BorderBrush}\" BorderThickness=\"{TemplateBinding BorderThickness}\" Margin=\"0 8 0 0\">" +
+                            "<Border x:Name=\"PART_TrackBackground\" Width=\"15\">" +
+                                "<Rectangle x:Name=\"" + PART_SPECTRUMDISPLAY + "\" Stretch=\"Fill\" VerticalAlignment=\"Stretch\"/>" +
+                            "</Border>" +
                         "</Border>" +
-                    "</Border>" +
-                    "<Track x:Name=\"PART_Track\">" +
-                        "<Track.Resources>" +
-                            "<Style x:Key=\"SliderRepeatButtonStyle\" TargetType=\"{x:Type RepeatButton}\">" +
-                                "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" />" +
-                                "<Setter Property=\"IsTabStop\" Value=\"false\" />" +
-                                "<Setter Property=\"Focusable\" Value=\"false\" />" +
-                                "<Setter Property=\"Background\" Value=\"Transparent\" />" +
-                                "<Setter Property=\"Template\">" +
-                                    "<Setter.Value>" +
-                                        "<ControlTemplate TargetType=\"{x:Type RepeatButton}\">" +
-                                            "<Border Background=\"{TemplateBinding Background}\" />" +
-                                        "</ControlTemplate>" +
-                                    "</Setter.Value>" +
-                                "</Setter>" +
-                            "</Style>" +
-                        "</Track.Resources>" +
-                        "<Track.DecreaseRepeatButton>" +
-                            "<RepeatButton Command=\"Slider.DecreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
-                        "</Track.DecreaseRepeatButton>" +
-                        "<Track.IncreaseRepeatButton>" +
-                            "<RepeatButton Command=\"Slider.IncreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
-                        "</Track.IncreaseRepeatButton>" +
-                        "<Track.Thumb>" +
-                            "<Thumb>" +
-                                "<Thumb.Style>" +
-                                    "<Style TargetType=\"{x:Type Thumb}\">" +
-                                        "<Setter Property=\"Focusable\" Value=\"false\" />" +
-                                        "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" /> " +
-                                        "<Setter Property=\"Height\" Value=\"12\" /> " +
-                                        "<Setter Property=\"Width\" Value=\"15\" /> " +
-                                        "<Setter Property=\"Foreground\" Value=\"Gray\" /> " +
-                                        "<Setter Property=\"Template\"> " +
-                                            "<Setter.Value>" +
-                                                "<ControlTemplate TargetType=\"{x:Type Thumb}\">" +
-                                                    "<Canvas SnapsToDevicePixels=\"true\" Background=\"Transparent\">" +
-                                                        "<Path x:Name=\"LeftArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"#FF000000\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
-                                                            "<Path.RenderTransform> " +
-                                                                "<TransformGroup> " +
-                                                                    "<TranslateTransform Y=\"6\" /> " +
-                                                                "</TransformGroup> " +
-                                                            "</Path.RenderTransform> " +
-                                                        "</Path> " +
-                                                        "<Path x:Name=\"RightArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"#FF000000\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
-                                                            "<Path.RenderTransform> " +
-                                                                "<TransformGroup> " +
-                                                                    "<RotateTransform Angle=\"-180\" />" +
-                                                                    "<TranslateTransform Y=\"6\" X=\"9\" />" +
-                                                                "</TransformGroup>" +
-                                                            "</Path.RenderTransform>" +
-                                                        "</Path>" +
-                                                    "</Canvas>" +
-                                                "</ControlTemplate>" +
-                                            "</Setter.Value>" +
-                                        "</Setter>" +
-                                    "</Style>" +
-                                "</Thumb.Style>" +
-                            "</Thumb>" +
-                        "</Track.Thumb>" +
-                    "</Track>" +
-                "</Grid>" +
-            "</ControlTemplate>";
-        using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
-        ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
-                                                                    parserContext: context);
-        this.Template = template;
+                        "<Track x:Name=\"PART_Track\">" +
+                            "<Track.Resources>" +
+                                "<Style x:Key=\"SliderRepeatButtonStyle\" TargetType=\"{x:Type RepeatButton}\">" +
+                                    "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" />" +
+                                    "<Setter Property=\"IsTabStop\" Value=\"false\" />" +
+                                    "<Setter Property=\"Focusable\" Value=\"false\" />" +
+                                    "<Setter Property=\"Background\" Value=\"Transparent\" />" +
+                                    "<Setter Property=\"Template\">" +
+                                        "<Setter.Value>" +
+                                            "<ControlTemplate TargetType=\"{x:Type RepeatButton}\">" +
+                                                "<Border Background=\"{TemplateBinding Background}\" />" +
+                                            "</ControlTemplate>" +
+                                        "</Setter.Value>" +
+                                    "</Setter>" +
+                                "</Style>" +
+                            "</Track.Resources>" +
+                            "<Track.DecreaseRepeatButton>" +
+                                "<RepeatButton Command=\"Slider.DecreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
+                            "</Track.DecreaseRepeatButton>" +
+                            "<Track.IncreaseRepeatButton>" +
+                                "<RepeatButton Command=\"Slider.IncreaseLarge\" Style=\"{StaticResource SliderRepeatButtonStyle}\"/>" +
+                            "</Track.IncreaseRepeatButton>" +
+                            "<Track.Thumb>" +
+                                "<Thumb>" +
+                                    "<Thumb.Style>" +
+                                        "<Style TargetType=\"{x:Type Thumb}\">" +
+                                            "<Setter Property=\"Focusable\" Value=\"false\" />" +
+                                            "<Setter Property=\"OverridesDefaultStyle\" Value=\"true\" /> " +
+                                            "<Setter Property=\"Height\" Value=\"12\" /> " +
+                                            "<Setter Property=\"Width\" Value=\"15\" /> " +
+                                            "<Setter Property=\"Foreground\" Value=\"Gray\" /> " +
+                                            "<Setter Property=\"Template\"> " +
+                                                "<Setter.Value>" +
+                                                    "<ControlTemplate TargetType=\"{x:Type Thumb}\">" +
+                                                        "<Canvas SnapsToDevicePixels=\"true\" Background=\"Transparent\">" +
+                                                            "<Path x:Name=\"LeftArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"#FF000000\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
+                                                                "<Path.RenderTransform> " +
+                                                                    "<TransformGroup> " +
+                                                                        "<TranslateTransform Y=\"6\" /> " +
+                                                                    "</TransformGroup> " +
+                                                                "</Path.RenderTransform> " +
+                                                            "</Path> " +
+                                                            "<Path x:Name=\"RightArrow\" Stretch=\"Fill\" StrokeLineJoin=\"Round\" Stroke=\"#FF000000\" Fill=\"#FF000000\" Data=\"F1 M 276.761, 316L 262.619, 307.835L 262.619, 324.165L 276.761, 316 Z\" RenderTransformOrigin=\"0.5, 0.5\" Width=\"6\" Height=\"8\"> " +
+                                                                "<Path.RenderTransform> " +
+                                                                    "<TransformGroup> " +
+                                                                        "<RotateTransform Angle=\"-180\" />" +
+                                                                        "<TranslateTransform Y=\"6\" X=\"9\" />" +
+                                                                    "</TransformGroup>" +
+                                                                "</Path.RenderTransform>" +
+                                                            "</Path>" +
+                                                        "</Canvas>" +
+                                                    "</ControlTemplate>" +
+                                                "</Setter.Value>" +
+                                            "</Setter>" +
+                                        "</Style>" +
+                                    "</Thumb.Style>" +
+                                "</Thumb>" +
+                            "</Track.Thumb>" +
+                        "</Track>" +
+                    "</Grid>" +
+                "</ControlTemplate>";
+            using MemoryStream stream = new(Encoding.UTF8.GetBytes(xaml));
+            ControlTemplate template = (ControlTemplate)XamlReader.Load(stream: stream,
+                                                                        parserContext: context);
+            this.Template = template;
+        }
     }
 
     private void CreateSpectrum()
@@ -202,10 +205,13 @@ partial class ColorSpectrumSlider : Slider
         {
             return result;
         }
-        throw new InvalidCastException();
+        else
+        {
+            throw new InvalidCastException();
+        }
     }
 
-    private static IReadOnlyList<Color> HsvSpectrum { get; } = new List<Color>()
+    private static List<Color> HsvSpectrum { get; } = new List<Color>()
         {
             (Color)HsvColor.FromHsv(0, 1, 1),
             (Color)HsvColor.FromHsv(60, 1, 1),
