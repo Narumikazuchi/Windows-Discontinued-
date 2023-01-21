@@ -509,7 +509,7 @@
             Contains the new <see cref="T:Narumikazuchi.Windows.Wpf.WindowDockPosition"/> of the associated window.
             </summary>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.WindowDockEventArgs.#ctor(Narumikazuchi.Windows.Wpf.WindowDockPosition@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.WindowDockEventArgs.#ctor(Narumikazuchi.Windows.Wpf.WindowDockPosition)">
             <summary>
             Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.WindowDockEventArgs"/> class.
             </summary>
@@ -546,22 +546,22 @@
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.OpenSystemMenuCommand">
             <summary>
-            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the opening of the system menu.
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> which handles the opening of the system menu.
             </summary>
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.MinimizeWindowCommand">
             <summary>
-            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the minimizing of the window.
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> which handles the minimizing of the window.
             </summary>
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.MaximizeWindowCommand">
             <summary>
-            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the maximizing of the window.
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> which handles the maximizing of the window.
             </summary>
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.WindowViewModel.CloseWindowCommand">
             <summary>
-            Gets the <see cref="T:System.Windows.Input.ICommand"/> which handles the closing of the window.
+            Gets the <see cref="T:Narumikazuchi.Windows.Wpf.RelayCommand`1"/> which handles the closing of the window.
             </summary>
         </member>
         <member name="M:Narumikazuchi.Windows.Wpf.WindowViewModel.#ctor">

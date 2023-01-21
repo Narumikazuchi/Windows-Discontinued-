@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a view model which implements the <see cref="INotifyPropertyChanged"/> interface.
 /// </summary>
-public abstract partial class NotifyingViewModel
+public abstract partial class NotifyingViewModel : INotifyPropertyChanged
 {
     /// <summary>
     /// Raises the <see cref="PropertyChanged"/> event for this view model.
@@ -16,11 +16,7 @@ public abstract partial class NotifyingViewModel
         this.PropertyChanged?.Invoke(sender: this,
                                      e: new(propertyName));
     }
-}
 
-// INotifyPropertyChanged
-partial class NotifyingViewModel : INotifyPropertyChanged
-{
     /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
 }

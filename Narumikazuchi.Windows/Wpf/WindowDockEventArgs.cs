@@ -8,7 +8,7 @@ public sealed class WindowDockEventArgs : EventArgs
     /// <summary>
     /// Initializes a new instance of the <see cref="WindowDockEventArgs"/> class.
     /// </summary>
-    public WindowDockEventArgs(in WindowDockPosition dockPosition)
+    public WindowDockEventArgs(WindowDockPosition dockPosition)
     {
         this.DockPosition = dockPosition;
     }

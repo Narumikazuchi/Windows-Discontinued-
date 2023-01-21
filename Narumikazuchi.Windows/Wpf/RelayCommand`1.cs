@@ -26,48 +26,7 @@ public partial class RelayCommand<T>
         m_OnExecute = onExecute;
         m_CanExecute = canExecute;
     }
-}
 
-// Non-Public
-partial class RelayCommand<T>
-{
     private readonly Action<T> m_OnExecute;
     private readonly Func<T, Boolean>? m_CanExecute;
-}
-
-// ICommand
-partial class RelayCommand<T> : ICommand
-{
-    Boolean ICommand.CanExecute(Object? parameter)
-    {
-        if (m_CanExecute is null)
-        {
-            return true;
-        }
-        if (parameter is not T myParameter)
-        {
-            return false;
-        }
-        if (m_CanExecute.Invoke(myParameter))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    void ICommand.Execute(Object? parameter)
-    {
-        if (parameter is not T myParameter)
-        {
-            return;
-        }
-        m_OnExecute.Invoke(myParameter);
-    }
-
-    /// <inheritdoc/>
-    public event EventHandler? CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
-    }
 }

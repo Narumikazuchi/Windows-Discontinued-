@@ -19,10 +19,10 @@ public sealed partial class Font
     /// <param name="weight">The font weight.</param>
     /// <exception cref="ArgumentNullException"/>
     public Font([DisallowNull] FontFamily family,
-                in Double size,
-                in FontStretch stretch,
-                in FontStyle style,
-                in FontWeight weight)
+                Double size,
+                FontStretch stretch,
+                FontStyle style,
+                FontWeight weight)
     {
         ArgumentNullException.ThrowIfNull(family);
 
@@ -43,7 +43,7 @@ public sealed partial class Font
     /// <param name="typeface">The typeface information for the font.</param>
     /// <exception cref="ArgumentNullException"/>
     public Font([DisallowNull] FontFamily family,
-                in Double size,
+                Double size,
                 [DisallowNull] Typeface typeface)
     {
         ArgumentNullException.ThrowIfNull(family);
@@ -52,6 +52,22 @@ public sealed partial class Font
         m_Family = family;
         m_Typeface = typeface;
         this.Size = size;
+    }
+
+    /// <summary>
+    /// Gets the currently used <see cref="Font"/> from the <see cref="Control"/>.
+    /// </summary>
+    /// <param name="control">The control to get the font from.</param>
+    /// <exception cref="ArgumentNullException"/>
+    static public Font FromControl([DisallowNull] Control control)
+    {
+        ArgumentNullException.ThrowIfNull(control);
+
+        return new(family: control.FontFamily,
+                   size: control.FontSize,
+                   stretch: control.FontStretch,
+                   style: control.FontStyle,
+                   weight: control.FontWeight);
     }
 
     /// <summary>
@@ -68,22 +84,6 @@ public sealed partial class Font
         control.FontStyle = this.Style;
         control.FontStretch = this.Stretch;
         control.FontWeight = this.Weight;
-    }
-
-    /// <summary>
-    /// Gets the currently used <see cref="Font"/> from the <see cref="Control"/>.
-    /// </summary>
-    /// <param name="control">The control to get the font from.</param>
-    /// <exception cref="ArgumentNullException"/>
-    public static Font FromControl([DisallowNull] Control control)
-    {
-        ArgumentNullException.ThrowIfNull(control);
-
-        return new(family: control.FontFamily,
-                   size: control.FontSize,
-                   stretch: control.FontStretch,
-                   style: control.FontStyle,
-                   weight: control.FontWeight);
     }
 
     /// <summary>
@@ -105,7 +105,10 @@ public sealed partial class Font
     [NotNull]
     public FontFamily Family
     {
-        get => m_Family;
+        get
+        {
+            return m_Family;
+        }
         init
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -118,7 +121,11 @@ public sealed partial class Font
     /// Gets the font size.
     /// </summary>
     [Pure]
-    public Double Size { get; init; }
+    public Double Size
+    {
+        get;
+        init;
+    }
 
     /// <summary>
     /// Gets the typeface of the font.
@@ -128,7 +135,10 @@ public sealed partial class Font
     [NotNull]
     public Typeface Typeface
     {
-        get => m_Typeface;
+        get
+        {
+            return m_Typeface;
+        }
         init
         {
             ArgumentNullException.ThrowIfNull(value);
@@ -141,82 +151,38 @@ public sealed partial class Font
     /// Gets the font stretch.
     /// </summary>
     [Pure]
-    public FontStretch Stretch => 
-        this.Typeface.Stretch;
+    public FontStretch Stretch
+    {
+        get
+        {
+            return this.Typeface.Stretch;
+        }
+    }
 
     /// <summary>
     /// Gets the font style.
     /// </summary>
     [Pure]
-    public FontStyle Style => 
-        this.Typeface.Style;
+    public FontStyle Style
+    {
+        get
+        {
+            return this.Typeface.Style;
+        }
+    }
 
     /// <summary>
     /// Gets the font weight.
     /// </summary>
     [Pure]
-    public FontWeight Weight => 
-        this.Typeface.Weight;
-}
+    public FontWeight Weight
+    {
+        get
+        {
+            return this.Typeface.Weight;
+        }
+    }
 
-// Non-Public
-partial class Font
-{
     private readonly FontFamily m_Family;
     private readonly Typeface m_Typeface;
-}
-
-// IEquatable<Font>
-partial class Font : IEquatable<Font>
-{
-    /// <inheritdoc/>
-    [Pure]
-    public Boolean Equals([AllowNull] Font? other) =>
-        other is not null &&
-        this.Size == other.Size &&
-        this.Stretch == other.Stretch &&
-        this.Style == other.Style &&
-        this.Weight == other.Weight &&
-        this.Family.BaseUri == other.Family.BaseUri;
-
-    /// <inheritdoc/>
-    [Pure]
-    public override Boolean Equals([AllowNull] Object? obj) =>
-        obj is Font other &&
-        this.Equals(other);
-
-    /// <inheritdoc/>
-    [Pure]
-    public override Int32 GetHashCode() =>
-        this.Size.GetHashCode() ^
-        this.Stretch.GetHashCode() ^
-        this.Style.GetHashCode() ^
-        this.Weight.GetHashCode() ^
-        this.Family.BaseUri.GetHashCode();
-
-#pragma warning disable
-    public static Boolean operator ==(Font? left, Font? right)
-    {
-        if (left is null)
-        {
-            return right is null;
-        }
-        else
-        {
-            return left.Equals(right);
-        }
-    }
-
-    public static Boolean operator !=(Font? left, Font? right)
-    {
-        if (left is null)
-        {
-            return right is not null;
-        }
-        else
-        {
-            return !left.Equals(right);
-        }
-    }
-#pragma warning restore
 }

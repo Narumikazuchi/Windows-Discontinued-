@@ -3,13 +3,13 @@
 /// <summary>
 /// Contains helpers for the windows platform.
 /// </summary>
-public static partial class Utility
+static public partial class Utility
 {
     /// <summary>
     /// Frees and disposes the <see cref="IDisposable"/> safely.
     /// </summary>
     /// <param name="disposable">The <see cref="IDisposable"/> to dispose.</param>
-    public static void SafeDispose<T>([AllowNull] ref T? disposable)
+    static public void SafeDispose<T>([AllowNull] ref T? disposable)
         where T : IDisposable
     {
         IDisposable? t = disposable;
@@ -26,7 +26,7 @@ public static partial class Utility
     /// </summary>
     /// <param name="comObject">The COM-Object to release.</param>
     [SecurityCritical]
-    public static void SafeRelease<T>([AllowNull] ref T? comObject)
+    static public void SafeRelease<T>([AllowNull] ref T? comObject)
         where T : class
     {
         T? t = comObject;
@@ -49,7 +49,7 @@ public static partial class Utility
     /// <returns>The description for the provided exit code or <see langword="null"/>, if there is no description for the exit code</returns>
     [Pure]
     [return: MaybeNull]
-    public static String? GetExitCodeDescription(in Int32 code)
+    static public Option<String> GetExitCodeDescription(in Int32 code)
     {
         IntPtr lpMsgBuffer = IntPtr.Zero;
         UInt32 dwFlags = FormatMessage(dwFlags: FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
@@ -76,40 +76,35 @@ public static partial class Utility
     /// Gets if the current version of windows is Windows Vista or newer.
     /// </summary>
     [Pure]
-    public static Boolean IsOSVistaOrNewer =>
-        Environment.OSVersion.Version >= new Version(6, 0);
+    static public Boolean IsOSVistaOrNewer
+    {
+        get
+        {
+            return Environment.OSVersion.Version >= new Version(6, 0);
+        }
+    }
 
     /// <summary>
     /// Gets if the current version of windows is Windows 7 or newer.
     /// </summary>
     [Pure]
-    public static Boolean IsOSWindows7OrNewer =>
-        Environment.OSVersion.Version >= new Version(6, 1);
+    static public Boolean IsOSWindows7OrNewer
+    {
+        get
+        {
+            return Environment.OSVersion.Version >= new Version(6, 1);
+        }
+    }
 
     /// <summary>
     /// Gets if the current version of windows is Windows 8 or newer.
     /// </summary>
     [Pure]
-    public static Boolean IsOSWindows8OrNewer =>
-        Environment.OSVersion.Version >= new Version(6, 2);
-}
-
-// Non-Public
-partial class Utility
-{
-    [DllImport("Kernel32.dll", SetLastError = true)]
-    private static extern UInt32 FormatMessage(UInt32 dwFlags,
-                                               IntPtr lpSource,
-                                               UInt32 dwMessageId,
-                                               UInt32 dwLanguageId,
-                                               ref IntPtr lpBuffer,
-                                               UInt32 nSize,
-                                               IntPtr pArguments);
-
-    [DllImport("Kernel32.dll", SetLastError = true)]
-    private static extern IntPtr LocalFree(IntPtr Name);
-
-    private const UInt32 FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
-    private const UInt32 FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
-    private const UInt32 FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
+    static public Boolean IsOSWindows8OrNewer
+    {
+        get
+        {
+            return Environment.OSVersion.Version >= new Version(6, 2);
+        }
+    }
 }
