@@ -66,8 +66,10 @@
 		<Using Include="System.Globalization" />
 		<Using Include="System.IO" />
 		<Using Include="System.Linq" />
+		<Using Include="System.Management" />
 		<Using Include="System.Runtime.InteropServices" />
 		<Using Include="System.Security" />
+		<Using Include="System.Security.Principal" />
 		<Using Include="System.Text" />
 		<Using Include="System.Windows" />
 		<Using Include="System.Windows.Controls" />
@@ -80,6 +82,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Narumikazuchi.Services" Version="0.1.1-beta" />
+		<PackageReference Include="System.Management" Version="6.0.2-mauipre.1.22102.15" />
 	</ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@
             Represents a color on the HSL color space.
             </summary>
         </member>
-        <member name="M:Narumikazuchi.Windows.HslColor.FromHsl(System.Double@,System.Double@,System.Double@)">
+        <member name="M:Narumikazuchi.Windows.HslColor.FromHsl(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
@@ -17,7 +17,7 @@
             <param name="saturation">The saturation-component of the color.</param>
             <param name="light">The light-component of the color.</param>
         </member>
-        <member name="M:Narumikazuchi.Windows.HslColor.FromRgb(System.Byte@,System.Byte@,System.Byte@)">
+        <member name="M:Narumikazuchi.Windows.HslColor.FromRgb(System.Byte,System.Byte,System.Byte)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
@@ -25,7 +25,7 @@
             <param name="green">The green-component of the RGB color space.</param>
             <param name="blue">The blue-component of the RGB color space.</param>
         </member>
-        <member name="M:Narumikazuchi.Windows.HslColor.FromHsv(System.Double@,System.Double@,System.Double@)">
+        <member name="M:Narumikazuchi.Windows.HslColor.FromHsv(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HslColor"/> from the specified values.
             </summary>
@@ -65,7 +65,7 @@
             Represents a color on the HSV color space.
             </summary>
         </member>
-        <member name="M:Narumikazuchi.Windows.HsvColor.FromHsv(System.Double@,System.Double@,System.Double@)">
+        <member name="M:Narumikazuchi.Windows.HsvColor.FromHsv(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
@@ -73,7 +73,7 @@
             <param name="saturation">The saturation-component of the color.</param>
             <param name="value">The value-component of the color.</param>
         </member>
-        <member name="M:Narumikazuchi.Windows.HsvColor.FromRgb(System.Byte@,System.Byte@,System.Byte@)">
+        <member name="M:Narumikazuchi.Windows.HsvColor.FromRgb(System.Byte,System.Byte,System.Byte)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
@@ -81,7 +81,7 @@
             <param name="green">The green-component of the RGB color space.</param>
             <param name="blue">The blue-component of the RGB color space.</param>
         </member>
-        <member name="M:Narumikazuchi.Windows.HsvColor.FromHsl(System.Double@,System.Double@,System.Double@)">
+        <member name="M:Narumikazuchi.Windows.HsvColor.FromHsl(System.Double,System.Double,System.Double)">
             <summary>
             Creates a new <see cref="T:Narumikazuchi.Windows.HsvColor"/> from the specified values.
             </summary>
@@ -115,6 +115,22 @@
         </member>
         <member name="M:Narumikazuchi.Windows.HsvColor.GetHashCode">
             <inheritdoc/>
+        </member>
+        <member name="T:Narumikazuchi.Windows.ThemeChangedEventArgs">
+            <summary>
+            Represents event data for the event where the windows theme gets changed.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.ThemeChangedEventArgs.#ctor(Narumikazuchi.Windows.WindowsTheme)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.ThemeChangedEventArgs"/> class.
+            </summary>
+            <param name="theme">The new windows theme.</param>
+        </member>
+        <member name="P:Narumikazuchi.Windows.ThemeChangedEventArgs.Theme">
+            <summary>
+            Gets the windows theme that has been switched to.
+            </summary>
         </member>
         <member name="T:Narumikazuchi.Windows.Utility">
             <summary>
@@ -153,6 +169,87 @@
         <member name="P:Narumikazuchi.Windows.Utility.IsOSWindows8OrNewer">
             <summary>
             Gets if the current version of windows is Windows 8 or newer.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.WindowsTheme">
+            <summary>
+            Represents the different windows themes.
+            </summary>
+        </member>
+        <member name="F:Narumikazuchi.Windows.WindowsTheme.Default">
+            <summary>
+            The default theme.
+            </summary>
+        </member>
+        <member name="F:Narumikazuchi.Windows.WindowsTheme.Light">
+            <summary>
+            The light theme.
+            </summary>
+        </member>
+        <member name="F:Narumikazuchi.Windows.WindowsTheme.Dark">
+            <summary>
+            The dark theme.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.WindowsThemeWatcher">
+            <summary>
+            Watches for a change in the current windows theme.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.WindowsThemeWatcher.#ctor(Narumikazuchi.Windows.WindowsThemeWatcherConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.WindowsThemeWatcher"/> class.
+            </summary>
+            <param name="configuration">The configuration for the themes.</param>
+        </member>
+        <member name="E:Narumikazuchi.Windows.WindowsThemeWatcher.WindowsThemeChanged">
+            <summary>
+            Occurs when the windows theme has been changed.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.WindowsThemeWatcher.WindowsTheme">
+            <summary>
+            Gets the currently selected windows theme.
+            </summary>
+        </member>
+        <member name="T:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration">
+            <summary>
+            Contains the configuration for a <see cref="T:Narumikazuchi.Windows.WindowsThemeWatcher"/>.
+            </summary>
+        </member>
+        <member name="M:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.#ctor(System.Windows.ResourceDictionary,System.Uri,System.Uri,System.Uri)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration"/> class.
+            </summary>
+            <param name="resourceDictionary">The <see cref="T:System.Windows.ResourceDictionary"/> that contains the current theme.</param>
+            <param name="defaultThemeUri">The uri path to the default theme.</param>
+            <param name="lightThemeUri">The uri path to the light theme.</param>
+            <param name="darkThemeUri">The uri path to the dark theme.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.ResourceDictionary">
+            <summary>
+            Gets the <see cref="T:System.Windows.ResourceDictionary"/> that contains the current theme.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.DefaultThemeUri">
+            <summary>
+            Gets the uri path to the default theme.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.LightThemeUri">
+            <summary>
+            Gets the uri path to the light theme.
+            </summary>
+        </member>
+        <member name="P:Narumikazuchi.Windows.WindowsThemeWatcherConfiguration.DarkThemeUri">
+            <summary>
+            Gets the uri path to the dark theme.
             </summary>
         </member>
         <member name="T:Narumikazuchi.Windows.Wpf.BorderlessWindowResizer">
@@ -202,7 +299,7 @@
             <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
             </summary>
@@ -211,7 +308,7 @@
             <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean@,System.Windows.Style)">
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Boolean,System.Windows.Style)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
             </summary>
@@ -221,7 +318,7 @@
             <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
             </summary>
@@ -230,7 +327,7 @@
             <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color,System.Boolean)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
             </summary>
@@ -240,7 +337,7 @@
             <returns>The <see cref="T:System.Windows.Media.Color"/> the user selected or <see langword="null"/>, if the selection was cancelled.</returns>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color@,System.Boolean@,System.Windows.Style)">
+        <member name="M:Narumikazuchi.Windows.Wpf.ColorPicker.Show(System.Windows.Window,System.Windows.Media.Color,System.Boolean,System.Windows.Style)">
             <summary>
             Shows the <see cref="T:Narumikazuchi.Windows.Wpf.ColorPicker"/> window and returns the <see cref="T:System.Windows.Media.Color"/> the user selected.
             </summary>
@@ -314,7 +411,7 @@
             Represents a font.
             </summary>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.FontStretch@,System.Windows.FontStyle@,System.Windows.FontWeight@)">
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double,System.Windows.FontStretch,System.Windows.FontStyle,System.Windows.FontWeight)">
             <summary>
             Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> struct.
             </summary>
@@ -325,7 +422,7 @@
             <param name="weight">The font weight.</param>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double@,System.Windows.Media.Typeface)">
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.#ctor(System.Windows.Media.FontFamily,System.Double,System.Windows.Media.Typeface)">
             <summary>
             Initializes a new instance of the <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> struct.
             </summary>
@@ -334,18 +431,18 @@
             <param name="typeface">The typeface information for the font.</param>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
-        <member name="M:Narumikazuchi.Windows.Wpf.Font.ApplyTo(System.Windows.Controls.Control)">
-            <summary>
-            Applies this font to the specified <see cref="T:System.Windows.Controls.Control"/>.
-            </summary>
-            <param name="control">The control to apply the font to.</param>
-            <exception cref="T:System.ArgumentNullException"/>
-        </member>
         <member name="M:Narumikazuchi.Windows.Wpf.Font.FromControl(System.Windows.Controls.Control)">
             <summary>
             Gets the currently used <see cref="T:Narumikazuchi.Windows.Wpf.Font"/> from the <see cref="T:System.Windows.Controls.Control"/>.
             </summary>
             <param name="control">The control to get the font from.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="M:Narumikazuchi.Windows.Wpf.Font.ApplyTo(System.Windows.Controls.Control)">
+            <summary>
+            Applies this font to the specified <see cref="T:System.Windows.Controls.Control"/>.
+            </summary>
+            <param name="control">The control to apply the font to.</param>
             <exception cref="T:System.ArgumentNullException"/>
         </member>
         <member name="P:Narumikazuchi.Windows.Wpf.Font.Default">
